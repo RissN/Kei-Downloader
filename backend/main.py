@@ -9,7 +9,9 @@ from typing import Dict
 from urllib.parse import quote
 from uuid import uuid4
 
+# pyrefly: ignore [missing-import]
 from fastapi import FastAPI, HTTPException, Query
+# pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 

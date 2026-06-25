@@ -77,16 +77,42 @@ SUPPORTED_HEIGHTS = {
 AUDIO_BITRATES = [320, 192, 128]
 
 
-def _snap_height(height: int) -> int | None:
-    """Snap height ke resolusi terdekat jika selisih ≤ 50px."""
-    best = None
-    best_diff = 999
-    for h in SUPPORTED_HEIGHTS:
-        diff = abs(h - height)
-        if diff < best_diff:
-            best_diff = diff
-            best = h
-    return best if best_diff <= 50 else None
+def _get_resolution_key(f: dict) -> int | None:
+    """Menentukan resolusi vertikal (p) dari format_note, width, atau height dengan cerdas."""
+    
+    # 1. Baca dari format_note jika ada (contoh: "1080p", "2160p60")
+    note = str(f.get("format_note", "")).lower()
+    if "2160p" in note: return 2160
+    if "1440p" in note: return 1440
+    if "1080p" in note: return 1080
+    if "720p" in note: return 720
+    if "480p" in note: return 480
+    if "360p" in note: return 360
+
+    # 2. Tebak dari width (jika video ultra-wide, height-nya aneh)
+    width = f.get("width")
+    if width:
+        if width >= 3800: return 2160
+        if width >= 2500: return 1440
+        if width >= 1900: return 1080
+        if width >= 1200: return 720
+        if width >= 800: return 480
+        if width >= 600: return 360
+
+    # 3. Fallback ke height dengan toleransi ekstra (150px)
+    height = f.get("height")
+    if height:
+        best = None
+        best_diff = 999
+        for h in SUPPORTED_HEIGHTS:
+            diff = abs(h - height)
+            if diff < best_diff:
+                best_diff = diff
+                best = h
+        if best_diff <= 150:
+            return best
+            
+    return None
 
 
 class YTDownloader:
@@ -189,23 +215,29 @@ class YTDownloader:
         for f in raw_formats:
             height = f.get("height")
             vcodec = f.get("vcodec", "none")
-            filesize = f.get("filesize") or f.get("filesize_approx")
 
-            # Skip: no height, audio-only, or no filesize info
-            if not height or vcodec in ("none", None) or not filesize:
+            # Skip: no height, or audio-only
+            if not height or vcodec in ("none", None):
                 continue
 
-            snapped = _snap_height(height)
+            snapped = _get_resolution_key(f)
             if snapped is None:
                 continue
+            
+            filesize = f.get("filesize") or f.get("filesize_approx") or 0
+            tbr = f.get("tbr") or 0
+            
+            # Jika tidak ada filesize (sering terjadi di 1080p+ DASH), gunakan tbr sebagai acuan skor
+            score = filesize if filesize > 0 else (tbr * 1024)
 
-            # Keep the best (largest filesize) per resolution
+            # Keep the best per resolution
             current = resolution_best.get(snapped)
-            if current is None or filesize > (current.get("filesize") or 0):
+            if current is None or score >= (current.get("score") or 0):
                 resolution_best[snapped] = {
                     **f,
                     "snapped_height": snapped,
-                    "filesize": filesize,
+                    "filesize": filesize if filesize > 0 else None,
+                    "score": score,
                 }
 
         formats: List[Format] = []

@@ -187,11 +187,21 @@ body {
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.modal-enter-active .glass-strong,
+.modal-leave-active .glass-strong {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
+}
+
+.modal-enter-from .glass-strong,
+.modal-leave-to .glass-strong {
   transform: scale(0.95);
 }
 

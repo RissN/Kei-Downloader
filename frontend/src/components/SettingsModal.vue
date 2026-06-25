@@ -4,7 +4,7 @@
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="$emit('close')"></div>
 
     <!-- Modal Content -->
-    <div class="relative w-full max-w-md glass-strong rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+    <div class="relative w-full max-w-md glass-strong rounded-2xl p-6 sm:p-8 space-y-6">
       <div class="flex items-center justify-between">
         <h2 class="text-xl font-bold text-text jp-label">Pengaturan</h2>
         <button @click="$emit('close')" class="text-muted hover:text-text cursor-pointer">
