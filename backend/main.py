@@ -3,7 +3,6 @@
 import asyncio
 import json
 import os
-import shutil
 import traceback
 from pathlib import Path
 from typing import Dict
@@ -39,11 +38,13 @@ DOWNLOAD_DIR.mkdir(exist_ok=True)
 # --- Startup check ---
 @app.on_event("startup")
 async def startup_check() -> None:
-    if shutil.which("ffmpeg"):
-        print("✅ ffmpeg ditemukan.")
+    from downloader import FFMPEG_LOCATION
+
+    if FFMPEG_LOCATION:
+        print(f"✅ ffmpeg ditemukan: {FFMPEG_LOCATION}")
     else:
         print(
-            "⚠️  WARNING: ffmpeg tidak ditemukan di PATH. "
+            "⚠️  WARNING: ffmpeg tidak ditemukan di PATH maupun lokasi umum. "
             "Konversi audio dan merge video akan gagal."
         )
 

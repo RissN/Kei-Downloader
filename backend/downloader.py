@@ -1,9 +1,11 @@
 """YouTube downloader using yt-dlp."""
 
 import asyncio
+import glob
 import os
+import shutil
 from pathlib import Path
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 import yt_dlp
 
@@ -11,6 +13,56 @@ from schemas import Format, InfoResponse
 
 DOWNLOAD_DIR = Path(__file__).parent.parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
+
+
+def find_ffmpeg() -> Optional[str]:
+    """Cari ffmpeg di PATH, lalu di lokasi umum Windows. Return directory path atau None."""
+    # 1. Cek PATH dulu
+    path_result = shutil.which("ffmpeg")
+    if path_result:
+        return str(Path(path_result).parent)
+
+    # 2. Scan lokasi umum di Windows
+    candidates: list[str] = []
+
+    # WinGet — Links shortcut folder
+    candidates.append(os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WinGet\Links"))
+
+    # WinGet — Packages (deep nested: Gyan.FFmpeg_.../ffmpeg-.../bin/)
+    winget_packages = os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WinGet\Packages")
+    if os.path.isdir(winget_packages):
+        for p in glob.glob(os.path.join(winget_packages, "**", "ffmpeg.exe"), recursive=True):
+            candidates.append(str(Path(p).parent))
+
+    # Scoop, Chocolatey
+    candidates.append(os.path.expandvars(r"%USERPROFILE%\scoop\shims"))
+    candidates.append(os.path.expandvars(r"%ProgramData%\chocolatey\bin"))
+
+    # Program Files (rekursif: */bin/, */ffmpeg.exe)
+    for prog_dir in [
+        os.environ.get("ProgramFiles", r"C:\Program Files"),
+        os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+        os.path.expandvars(r"%LOCALAPPDATA%\Programs"),
+    ]:
+        if os.path.isdir(prog_dir):
+            for pattern in [
+                os.path.join(prog_dir, "*", "bin", "ffmpeg.exe"),
+                os.path.join(prog_dir, "*", "ffmpeg.exe"),
+                os.path.join(prog_dir, "ffmpeg", "**", "ffmpeg.exe"),
+            ]:
+                candidates.extend(
+                    str(Path(p).parent) for p in glob.glob(pattern, recursive=True)
+                )
+
+    for candidate_dir in candidates:
+        if os.path.isfile(os.path.join(candidate_dir, "ffmpeg.exe")):
+            return candidate_dir
+
+    return None
+
+
+# Deteksi ffmpeg saat module load
+FFMPEG_LOCATION: Optional[str] = find_ffmpeg()
 
 # Resolusi yang di-support, urut dari tertinggi
 SUPPORTED_HEIGHTS = {
@@ -186,6 +238,9 @@ class YTDownloader:
             "outtmpl": str(DOWNLOAD_DIR / f"{task_id}_%(title).80s.%(ext)s"),
             "progress_hooks": [progress_hook],
         }
+
+        if FFMPEG_LOCATION:
+            opts["ffmpeg_location"] = FFMPEG_LOCATION
 
         if is_audio:
             bitrate = format_id.split("-")[1]
