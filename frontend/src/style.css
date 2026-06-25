@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Inter", "Noto Sans JP", sans-serif;
+  --font-jp: "Noto Sans JP", sans-serif;
 
-  --color-base: #0f0f0f;
-  --color-surface: #1a1a1a;
-  --color-surface-hover: #222222;
-  --color-edge: #2a2a2a;
-  --color-edge-light: #3a3a3a;
-  --color-accent: #ff0000;
-  --color-accent-hover: #ff4444;
-  --color-muted: #a0a0a0;
-  --color-success: #22c55e;
-  --color-danger: #ef4444;
+  --color-accent: #E03C3C;
+  --color-accent-hover: #C62828;
+  --color-accent-soft: #FEE2E2;
+  --color-text: #1a1a2e;
+  --color-muted: #64748b;
+  --color-success: #16a34a;
+  --color-success-soft: #DCFCE7;
+  --color-danger: #dc2626;
+  --color-danger-soft: #FEE2E2;
+  --color-sakura: #FFB7C5;
 }
 
 /* ---- Global ---- */
@@ -27,21 +28,79 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans);
-  background-color: var(--color-base);
-  color: #ffffff;
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
-/* Scrollbar styling */
+/* ---- Glass Utilities ---- */
+
+.glass {
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.glass-strong {
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.glass-subtle {
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.glass-card {
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+}
+
+.glass-input {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(224, 60, 60, 0.12);
+}
+
+/* ---- Scrollbar ---- */
+
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-base);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-edge-light);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 3px;
 }
 
@@ -50,10 +109,10 @@ body {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 8px rgba(224, 60, 60, 0.3);
   }
   50% {
-    box-shadow: 0 0 24px rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 28px rgba(224, 60, 60, 0.6);
   }
 }
 
@@ -69,11 +128,23 @@ body {
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes float-kanji {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.18;
+  }
+  50% {
+    transform: translateY(-30px) rotate(3deg);
+    opacity: 0.28;
   }
 }
 
@@ -84,14 +155,36 @@ body {
 .animate-shimmer {
   background: linear-gradient(
     90deg,
-    var(--color-surface) 25%,
-    var(--color-edge) 50%,
-    var(--color-surface) 75%
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.2) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+  border-radius: 12px;
 }
 
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out both;
+  animation: fade-in 0.4s ease-out both;
+}
+
+/* ---- Floating Kanji ---- */
+
+.kanji-float {
+  position: absolute;
+  font-family: "Noto Sans JP", sans-serif;
+  color: rgba(255, 255, 255, 0.25);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+  animation: float-kanji 10s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* ---- Japanese Label ---- */
+
+.jp-label {
+  font-family: "Noto Sans JP", sans-serif;
+  letter-spacing: 0.05em;
 }

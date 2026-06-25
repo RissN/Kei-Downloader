@@ -1,7 +1,7 @@
 <template>
-  <div class="animate-fade-in space-y-6">
+  <div class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video preview -->
-    <div class="bg-surface border border-edge rounded-2xl overflow-hidden">
+    <div class="rounded-xl overflow-hidden glass-card">
       <div class="relative">
         <img
           v-if="videoInfo?.thumbnail"
@@ -12,20 +12,20 @@
         <!-- Duration badge -->
         <span
           v-if="videoInfo?.duration"
-          class="absolute bottom-2 right-2 bg-black/80 text-white text-xs font-medium px-2 py-0.5 rounded"
+          class="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-medium px-2 py-0.5 rounded backdrop-blur-sm"
         >
           {{ formatDuration(videoInfo.duration) }}
         </span>
       </div>
       <div class="p-4">
-        <h3 class="text-white font-bold text-base leading-snug line-clamp-2">
+        <h3 class="text-text font-bold text-base leading-snug line-clamp-2">
           {{ videoInfo?.title }}
         </h3>
       </div>
     </div>
 
     <!-- Tab switcher -->
-    <div class="flex bg-surface border border-edge rounded-xl p-1 gap-1">
+    <div class="flex glass-subtle rounded-xl p-1 gap-1">
       <button
         v-for="tab in tabs"
         :key="tab.value"
@@ -34,11 +34,12 @@
         :class="[
           selectedType === tab.value
             ? 'bg-accent text-white shadow-lg shadow-accent/20'
-            : 'text-muted hover:text-white hover:bg-surface-hover',
+            : 'text-muted hover:text-text hover:bg-white/30',
         ]"
         @click="$emit('selectType', tab.value)"
       >
-        {{ tab.icon }} {{ tab.label }}
+        {{ tab.icon }}
+        <span class="jp-label">{{ tab.label }}</span>
       </button>
     </div>
 
@@ -54,29 +55,29 @@
         v-for="(fmt, idx) in filteredFormats"
         :key="fmt.format_id"
         :id="`format-${fmt.format_id}`"
-        class="relative p-4 rounded-xl border text-left transition-all duration-200 cursor-pointer"
+        class="relative p-4 rounded-xl text-left transition-all duration-200 cursor-pointer"
         :class="[
           selectedFormat?.format_id === fmt.format_id
-            ? 'border-accent bg-accent/10 ring-1 ring-accent/30'
-            : 'border-edge bg-surface hover:border-edge-light hover:bg-surface-hover',
+            ? 'bg-accent/10 border-2 border-accent/50 shadow-md shadow-accent/10'
+            : 'glass-card',
         ]"
         @click="$emit('selectFormat', fmt)"
       >
-        <!-- Badge terbaik -->
+        <!-- Best badge -->
         <span
           v-if="idx === 0"
-          class="absolute -top-2 right-3 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+          class="absolute -top-2 right-3 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm jp-label uppercase"
         >
           Terbaik
         </span>
 
         <div class="space-y-1.5">
-          <span class="text-white font-bold text-base">
+          <span class="text-text font-bold text-base">
             {{ fmt.quality_label }}
           </span>
           <div class="flex items-center gap-2 text-xs text-muted">
             <span
-              class="px-1.5 py-0.5 bg-edge rounded text-[10px] font-semibold uppercase"
+              class="px-1.5 py-0.5 bg-black/5 rounded text-[10px] font-semibold uppercase"
             >
               .{{ fmt.ext }}
             </span>
@@ -93,20 +94,20 @@
       <button
         id="btn-change-url"
         type="button"
-        class="flex-1 py-3 rounded-xl border border-edge text-muted hover:text-white hover:border-edge-light font-medium text-sm transition-all duration-200 cursor-pointer"
+        class="flex-1 py-3 rounded-xl glass-subtle text-muted hover:text-text font-medium text-sm transition-all duration-200 cursor-pointer"
         @click="$emit('reset')"
       >
-        ← Ganti URL
+        ← <span class="jp-label">Ubah URL</span>
       </button>
       <button
         id="btn-start-download"
         type="button"
         :disabled="!selectedFormat"
-        class="flex-[2] py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="flex-[2] py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         :class="[
           selectedFormat
-            ? 'bg-accent hover:bg-accent-hover active:scale-[0.98] cursor-pointer'
-            : 'bg-edge',
+            ? 'bg-accent hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20'
+            : 'bg-muted/30',
         ]"
         @click="$emit('startDownload')"
       >
@@ -122,7 +123,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        Mulai Download
+        <span class="jp-label">Mulai Download</span>
       </button>
     </div>
   </div>
@@ -140,8 +141,8 @@ const props = defineProps({
 defineEmits(["selectType", "selectFormat", "startDownload", "reset"]);
 
 const tabs = [
-  { value: "video", label: "Video", icon: "🎬" },
-  { value: "audio", label: "Audio", icon: "🎵" },
+  { value: "video", label: "Video", icon: "🎬 " },
+  { value: "audio", label: "Audio", icon: "🎵 " },
 ];
 
 const filteredFormats = computed(() => {

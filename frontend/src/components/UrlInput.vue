@@ -1,14 +1,17 @@
 <template>
-  <div class="animate-fade-in space-y-6">
+  <div class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Heading -->
     <div class="text-center space-y-2">
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+      <p class="text-accent text-xs font-bold tracking-widest jp-label uppercase">
+        Tempel Tautan
+      </p>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-text">
         Download YouTube Video
       </h2>
       <p class="text-muted text-sm">Paste link YouTube di bawah ini</p>
     </div>
 
-    <!-- Input -->
+    <!-- Input form -->
     <form @submit.prevent="onSubmit" class="space-y-4">
       <div class="relative">
         <input
@@ -17,11 +20,11 @@
           v-model="url"
           type="url"
           placeholder="https://www.youtube.com/watch?v=..."
-          class="w-full px-4 py-3.5 pr-10 bg-surface border rounded-xl text-white placeholder-muted/50 text-sm outline-none transition-all duration-200 focus:ring-2 focus:ring-accent/50"
+          class="w-full px-4 py-3.5 pr-10 rounded-xl text-text placeholder-muted/40 text-sm outline-none glass-input"
           :class="[
             validationError
-              ? 'border-danger focus:border-danger'
-              : 'border-edge focus:border-accent',
+              ? '!border-danger focus:!border-danger !shadow-danger/10'
+              : '',
           ]"
           @paste="onPaste"
           @input="onInput"
@@ -30,7 +33,7 @@
         <button
           v-if="url"
           type="button"
-          class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-white transition-colors"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-muted/60 hover:text-accent transition-colors cursor-pointer"
           @click="clearInput"
         >
           <svg
@@ -49,10 +52,13 @@
       </div>
 
       <!-- Validation error -->
-      <p v-if="validationError" class="text-danger text-xs flex items-center gap-1">
+      <p
+        v-if="validationError"
+        class="text-danger text-xs flex items-center gap-1.5"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-3.5 h-3.5"
+          class="w-3.5 h-3.5 shrink-0"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -68,7 +74,7 @@
       <!-- API error -->
       <div
         v-if="errorMessage"
-        class="p-3 bg-danger/10 border border-danger/30 rounded-xl text-danger text-sm flex items-start gap-2"
+        class="p-3 bg-danger/8 border border-danger/20 rounded-xl text-danger text-sm flex items-start gap-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -90,11 +96,11 @@
         id="btn-fetch-info"
         type="submit"
         :disabled="!url || !!validationError || isLoading"
-        class="w-full py-3.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="w-full py-3.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         :class="[
           !url || !!validationError || isLoading
-            ? 'bg-edge'
-            : 'bg-accent hover:bg-accent-hover active:scale-[0.98] cursor-pointer',
+            ? 'bg-muted/30'
+            : 'bg-accent hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20',
         ]"
       >
         <!-- Loading spinner -->
@@ -119,7 +125,9 @@
             d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           ></path>
         </svg>
-        {{ isLoading ? "Mengambil info..." : "Ambil Info" }}
+        <span class="jp-label">
+          {{ isLoading ? "Mengambil Info..." : "Ambil Info" }}
+        </span>
       </button>
     </form>
   </div>
@@ -139,7 +147,8 @@ const isLoading = computed(() => status.value === "loading");
 const validationError = ref("");
 
 /** Pola URL YouTube yang valid */
-const YT_REGEX = /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)/;
+const YT_REGEX =
+  /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)/;
 
 /** Validasi URL secara real-time. */
 function validate(value) {
@@ -160,7 +169,6 @@ function onInput() {
 }
 
 function onPaste() {
-  // Defer agar v-model ter-update dulu
   setTimeout(() => {
     validate(url.value);
     if (!validationError.value && url.value) {
@@ -182,7 +190,6 @@ function clearInput() {
   inputRef.value?.focus();
 }
 
-// Reset validation saat status berubah ke idle
 watch(status, (s) => {
   if (s === "idle") validationError.value = "";
 });

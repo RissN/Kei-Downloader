@@ -1,14 +1,21 @@
 <template>
-  <div v-if="history.length" class="animate-fade-in space-y-4">
+  <div
+    v-if="history.length"
+    class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-4"
+  >
     <!-- Section header -->
     <div class="flex items-center justify-between">
-      <h3 class="text-white font-bold text-base">Riwayat Download</h3>
+      <div>
+        <p class="text-accent text-[10px] font-bold tracking-widest jp-label uppercase">
+          Riwayat Download
+        </p>
+      </div>
       <button
         id="btn-clear-history"
-        class="text-xs text-muted hover:text-danger transition-colors cursor-pointer"
+        class="text-xs text-muted hover:text-danger transition-colors cursor-pointer jp-label"
         @click="clearHistory"
       >
-        Hapus riwayat
+        Hapus Riwayat
       </button>
     </div>
 
@@ -17,35 +24,35 @@
       <div
         v-for="(item, idx) in history"
         :key="idx"
-        class="flex items-center gap-3 p-3 bg-surface border border-edge rounded-xl"
+        class="flex items-center gap-3 p-3 glass-card rounded-xl"
       >
         <!-- Thumbnail -->
         <img
           v-if="item.thumbnail"
           :src="item.thumbnail"
           :alt="item.title"
-          class="w-[52px] h-[36px] object-cover rounded-md shrink-0 bg-edge"
+          class="w-[52px] h-[36px] object-cover rounded-md shrink-0"
         />
         <div
           v-else
-          class="w-[52px] h-[36px] bg-edge rounded-md shrink-0 flex items-center justify-center text-muted text-xs"
+          class="w-[52px] h-[36px] bg-black/5 rounded-md shrink-0 flex items-center justify-center text-muted text-xs"
         >
           ▶
         </div>
 
         <!-- Info -->
         <div class="flex-1 min-w-0">
-          <p class="text-white text-sm font-medium truncate">{{ item.title }}</p>
+          <p class="text-text text-sm font-medium truncate">{{ item.title }}</p>
           <div class="flex items-center gap-2 mt-0.5">
             <span
               class="text-[10px] font-bold px-1.5 py-0.5 rounded"
               :class="[
                 item.type === 'video'
-                  ? 'bg-accent/20 text-accent'
-                  : 'bg-blue-500/20 text-blue-400',
+                  ? 'bg-accent/12 text-accent'
+                  : 'bg-blue-500/12 text-blue-600',
               ]"
             >
-              {{ item.type === "video" ? "VIDEO" : "AUDIO" }}
+              {{ item.type === "video" ? "Video" : "Audio" }}
             </span>
             <span class="text-muted text-xs">{{ item.quality }}</span>
           </div>
