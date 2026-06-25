@@ -1,153 +1,94 @@
-# YT Downloader
+# ⛩️ KEI Downloader
 
-Aplikasi web untuk download video dan audio dari YouTube. Pilih kualitas video hingga 1080p atau konversi ke MP3 dengan bitrate pilihan.
+Aplikasi web modern untuk mengunduh video dan audio dari YouTube. Dirancang dengan **Tema Japanese Glassmorphism (Sky Blue Edition)** yang cerah dan estetis, memberikan pengalaman mengunduh yang cepat, mulus, dan indah dipandang.
 
-**Stack:** Vue 3 + Tailwind CSS v4 (frontend) · FastAPI + yt-dlp (backend)
+**Stack Utama:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
 
 ---
 
-## Prerequisites
+## ✨ Fitur Unggulan
+
+- 🎨 **Sky Blue Glassmorphism UI:** Antarmuka tembus pandang yang menyesuaikan dengan latar belakang Anda, dilengkapi dengan animasi transisi yang halus.
+- 🎬 **Resolusi hingga 4K Ultrawide:** Sistem deteksi otomatis yang cerdas untuk mengunduh format video terbaik hingga *2160p*, termasuk format *DASH* & *Ultrawide*.
+- 🗂️ **Dukungan Playlist Batch:** Paste URL Playlist dan pilih video mana saja yang ingin diunduh. Sistem akan mengantre dan mengunduhnya satu per satu secara berurutan.
+- 📝 **Embed Subtitle Otomatis:** Fitur pengaturan untuk secara otomatis mengunduh dan menanamkan (embed) subtitle (ID/EN) ke dalam format mp4 menggunakan `ffmpeg`.
+- ⚙️ **Pengaturan Tersimpan:** Atur preferensi Anda (Audio/Video default, Subtitle) dan sistem akan mengingatnya di browser Anda.
+
+---
+
+## ⚙️ Persyaratan Sistem (Prerequisites)
 
 - **Python 3.11+**
 - **Node.js 18+**
-- **ffmpeg** — wajib terinstall dan tersedia di PATH  
+- **ffmpeg** — **wajib** terinstall dan tersedia di system PATH.  
   Download: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 
-Cek apakah ffmpeg sudah terinstall:
-
+Cek apakah ffmpeg sudah terinstall melalui terminal:
 ```bash
 ffmpeg -version
 ```
+*(Catatan: Aplikasi ini juga otomatis memindai lokasi umum instalasi ffmpeg via WinGet/Scoop di Windows).*
 
 ---
 
-## Instalasi
+## 🚀 Instalasi & Menjalankan Aplikasi
 
-### 1. Clone & masuk ke folder project
-
-```bash
-cd yt-downloader
-```
-
-### 2. Setup Backend
+### 1. Clone & Setup Backend
 
 ```bash
-cd backend
+git clone https://github.com/RissN/Kei-Downloader.git
+cd Kei-Downloader/backend
 
-# Buat virtual environment
+# Buat & aktifkan virtual environment
 python -m venv .venv
+.venv\Scripts\activate      # Untuk Windows
+# source .venv/bin/activate # Untuk macOS/Linux
 
-# Aktifkan virtual environment
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
-
-# Install dependencies
+# Install dependencies backend
 pip install -r requirements.txt
-```
 
-### 3. Setup Frontend
-
-```bash
-cd frontend
-npm install
-```
-
----
-
-## Menjalankan Aplikasi
-
-Buka **2 terminal** terpisah:
-
-### Terminal 1 — Backend
-
-```bash
-cd backend
+# Jalankan server API (Port 8000)
 uvicorn main:app --reload --port 8000
 ```
 
-### Terminal 2 — Frontend
+### 2. Setup Frontend
+
+Buka **terminal baru** (biarkan backend tetap berjalan):
 
 ```bash
-cd frontend
+cd Kei-Downloader/frontend
+npm install
+
+# Jalankan development server
 npm run dev
 ```
 
-### Akses Aplikasi
-
-Buka browser dan pergi ke: **http://localhost:5173**
-
----
-
-## Cara Penggunaan
-
-1. Paste URL YouTube ke kolom input
-2. Klik "Ambil Info" atau tekan Enter (auto-submit saat paste)
-3. Pilih tab **Video** atau **Audio**
-4. Pilih kualitas yang diinginkan
-5. Klik "Mulai Download"
-6. Tunggu progress bar selesai — file otomatis tersimpan di folder download browser
+### 3. Akses Aplikasi
+Buka browser dan kunjungi: **http://localhost:5173**
 
 ---
 
-## Troubleshooting
+## 📝 Cara Penggunaan
 
-### ffmpeg tidak ditemukan
-
-```
-⚠️ WARNING: ffmpeg tidak ditemukan di PATH
-```
-
-Pastikan ffmpeg sudah terinstall dan ditambahkan ke system PATH. Restart terminal setelah mengubah PATH.
-
-### CORS Error
-
-Pastikan backend berjalan di port `8000` dan frontend di port `5173`. Jika menggunakan port berbeda, sesuaikan konfigurasi CORS di `backend/main.py`.
-
-### Video tidak bisa diunduh
-
-- Pastikan URL YouTube valid dan video tidak bersifat privat
-- Update yt-dlp ke versi terbaru: `pip install -U yt-dlp`
-- Beberapa video mungkin dibatasi berdasarkan region
-
-### Port sudah digunakan
-
-```bash
-# Cari proses yang menggunakan port
-# Windows:
-netstat -ano | findstr :8000
-# Linux/macOS:
-lsof -i :8000
-```
+1. **Pengaturan Awal:** Klik ikon ⚙️ (Gear) di pojok kanan atas untuk mengatur tipe *default* (Video/Audio) dan menyalakan fitur *Embed Subtitle*.
+2. **Download Single Video:** 
+   - Paste URL YouTube (termasuk resolusi tinggi 4K).
+   - Klik "Ambil Info" dan pilih resolusi yang muncul.
+   - Klik "Mulai Download".
+3. **Download Playlist:**
+   - Paste URL Playlist YouTube.
+   - Layar akan menampilkan daftar video dalam mode *batch selection*.
+   - Centang video yang ingin diunduh, lalu tekan "Mulai Download (N)". Aplikasi akan mengunduh secara berurutan.
 
 ---
 
-## Struktur Project
+## 🛠️ Troubleshooting
 
-```
-yt-downloader/
-├── backend/
-│   ├── main.py              # FastAPI app & endpoints
-│   ├── downloader.py         # yt-dlp wrapper
-│   ├── schemas.py            # Pydantic models
-│   ├── requirements.txt
-│   └── .env.example
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/       # Vue components
-│   │   ├── composables/      # Vue composables
-│   │   ├── services/         # API helper
-│   │   ├── stores/           # Pinia store
-│   │   ├── App.vue
-│   │   ├── main.js
-│   │   └── style.css
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-│
-├── downloads/                 # Output folder (auto-created)
-├── .gitignore
-└── README.md
-```
+- **`⚠️ WARNING: ffmpeg tidak ditemukan di PATH`**  
+  Pastikan ffmpeg sudah terinstall. Jika menggunakan Windows, coba install via `winget install ffmpeg` dan *restart terminal*.
+- **Pilihan Resolusi 1080p/4K Tidak Muncul?**  
+  Terkadang video dari YouTube diproses perlahan. Namun, sistem kita sudah mendeteksi otomatis *format_note* dan *lebar video* untuk memastikan 4K selalu muncul jika tersedia dari YouTube. Pastikan Anda me-*refresh* URL jika habis menekan batal.
+
+---
+
+*Made with ❤️ using FastAPI & Vue 3*

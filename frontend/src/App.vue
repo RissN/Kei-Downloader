@@ -4,7 +4,7 @@
     <div
       class="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
       :style="{
-        backgroundImage: `url('/bg/bg.webp'), url('/bg/bg.jpg'), url('/bg/bg.png'), linear-gradient(160deg, #7EC8E3 0%, #A8D8EA 25%, #D4E7F1 50%, #F2E6E9 75%, #FFF5F5 100%)`,
+        backgroundImage: `url('/bg/bg.jpg'), linear-gradient(180deg, #7dd3fc 0%, #e0f2fe 50%, #f8fafc 100%)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }"
@@ -35,10 +35,9 @@
             </svg>
           </div>
           <!-- Header Text -->
-          <div class="flex-1">
-            <h1 class="text-text font-extrabold text-lg tracking-tight">
-              KEI
-              <span class="text-accent jp-label">DOWNLOADER</span>
+          <div class="flex flex-col">
+            <h1 class="text-xl font-black text-text tracking-tight jp-label uppercase">
+              KEI <span class="text-accent font-bold">Downloader</span>
             </h1>
             <p class="text-muted text-[10px] tracking-wider jp-label">
               Download Video dan Audio
