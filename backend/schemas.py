@@ -18,11 +18,19 @@ class Format(BaseModel):
     type: Literal["video", "audio"]
 
 
+class PlaylistItem(BaseModel):
+    title: str
+    url: str
+    duration: Optional[int] = None
+    thumbnail: Optional[str] = None
+
 class InfoResponse(BaseModel):
     title: str
-    thumbnail: str
-    duration: int
-    formats: List[Format]
+    thumbnail: Optional[str] = ""
+    duration: Optional[int] = 0
+    formats: List[Format] = []
+    is_playlist: bool = False
+    playlist_items: List[PlaylistItem] = []
 
 
 class DownloadRequest(BaseModel):

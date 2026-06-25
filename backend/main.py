@@ -6,6 +6,7 @@ import os
 import traceback
 from pathlib import Path
 from typing import Dict
+from urllib.parse import quote
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Query
@@ -81,6 +82,7 @@ async def download_file(
     url: str = Query(...),
     format_id: str = Query(...),
     task_id: str = Query(default=""),
+    include_subtitles: bool = Query(default=False),
 ) -> StreamingResponse:
     if not task_id:
         task_id = str(uuid4())
@@ -99,7 +101,9 @@ async def download_file(
             )
 
         # Download file
-        filepath = await downloader.download(url, format_id, task_id, update_progress)
+        filepath = await downloader.download(
+            url, format_id, task_id, update_progress, include_subtitles
+        )
 
         if not filepath or not os.path.exists(filepath):
             task_progress[task_id] = DownloadStatus(
@@ -140,10 +144,11 @@ async def download_file(
                 except OSError:
                     pass
 
+        encoded_name = quote(clean_name)
         return StreamingResponse(
             file_streamer(),
             media_type=content_type,
-            headers={"Content-Disposition": f'attachment; filename="{clean_name}"'},
+            headers={"Content-Disposition": f"attachment; filename*=utf-8''{encoded_name}"},
         )
 
     except HTTPException:

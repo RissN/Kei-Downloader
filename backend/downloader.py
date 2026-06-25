@@ -93,11 +93,11 @@ class YTDownloader:
     """Wrapper yt-dlp untuk extract info dan download."""
 
     async def get_info(self, url: str) -> InfoResponse:
-        """Extract video info dan return format yang tersedia."""
+        """Extract video info dan return format yang tersedia. Handle playlist jika ada."""
         ydl_opts = {
             "quiet": True,
             "no_warnings": True,
-            "extract_flat": False,
+            "extract_flat": "in_playlist",
         }
 
         loop = asyncio.get_event_loop()
@@ -109,6 +109,36 @@ class YTDownloader:
         info = await loop.run_in_executor(None, _extract)
 
         title: str = info.get("title", "Unknown")
+
+        # Jika url adalah playlist, kembalikan daftar video
+        if "entries" in info:
+            items = []
+            for entry in info["entries"]:
+                if not entry:
+                    continue
+                # yt-dlp flat extract might put url or id
+                entry_url = entry.get("url") or (f"https://www.youtube.com/watch?v={entry.get('id')}" if entry.get("id") else "")
+                
+                # thumbnail fallback
+                thumb = entry.get("thumbnail")
+                if not thumb and entry.get("thumbnails"):
+                    thumb = entry["thumbnails"][0].get("url")
+
+                items.append(
+                    {
+                        "title": entry.get("title", "Unknown"),
+                        "url": entry_url,
+                        "duration": entry.get("duration"),
+                        "thumbnail": thumb,
+                    }
+                )
+            
+            return InfoResponse(
+                title=title,
+                is_playlist=True,
+                playlist_items=items
+            )
+
         thumbnail: str = info.get("thumbnail", "")
         duration: int = info.get("duration", 0) or 0
 
@@ -128,9 +158,10 @@ class YTDownloader:
         format_id: str,
         task_id: str,
         progress_callback: Callable[[float], None],
+        include_subtitles: bool = False,
     ) -> str:
         """Download video/audio dan return filepath."""
-        opts = self._build_ydl_opts(format_id, task_id, progress_callback)
+        opts = self._build_ydl_opts(format_id, task_id, progress_callback, include_subtitles)
 
         loop = asyncio.get_event_loop()
         result: dict[str, str] = {"filepath": ""}
@@ -218,6 +249,7 @@ class YTDownloader:
         format_id: str,
         task_id: str,
         progress_callback: Callable[[float], None],
+        include_subtitles: bool = False,
     ) -> dict:
         """Build yt-dlp options dict."""
         is_audio = format_id.startswith("bestaudio-")
@@ -255,5 +287,17 @@ class YTDownloader:
         else:
             opts["format"] = f"{format_id}+bestaudio/best"
             opts["merge_output_format"] = "mp4"
+
+            if include_subtitles:
+                opts["writesubtitles"] = True
+                opts["subtitleslangs"] = ["id", "en"]
+                opts["embedsubtitles"] = True
+                opts["compat_opts"] = set() # Avoid subtitle format issues
+                opts["postprocessors"] = opts.get("postprocessors", []) + [
+                    {
+                        "key": "FFmpegEmbedSubtitle",
+                        "already_have_subtitle": False,
+                    }
+                ]
 
         return opts
