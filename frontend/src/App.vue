@@ -1,33 +1,19 @@
 <template>
   <div class="relative min-h-screen">
-    <!-- Background: user image + gradient fallback -->
-    <div
-      class="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
-      :style="{
-        backgroundImage: `url('/bg/bg.jpg'), linear-gradient(180deg, #7dd3fc 0%, #e0f2fe 50%, #f8fafc 100%)`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }"
-    ></div>
-
-    <!-- Soft overlay for text readability -->
-    <div class="fixed inset-0 -z-10 bg-gradient-to-b from-white/5 via-transparent to-white/20"></div>
-
-    <!-- Floating decorations (kanji removed as requested) -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-    </div>
+    <!-- Background: kawaii dot pattern is on body via CSS -->
 
     <!-- Header -->
     <header class="sticky top-0 z-20">
-      <div class="glass-strong">
-        <div class="max-w-[720px] mx-auto px-4 sm:px-6 py-4 flex items-center gap-3">
-          <!-- Torii-red play icon -->
+      <div class="card-kawaii" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
+        <div class="max-w-[680px] mx-auto px-4 sm:px-6 py-5 flex items-center gap-4">
+          <!-- Kawaii play icon -->
           <div
-            class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-accent/25"
+            class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, #1fb89a, #38a3d6); box-shadow: 0 4px 16px rgba(31, 184, 154, 0.4);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-white"
+              class="w-6 h-6 text-white"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -35,19 +21,23 @@
             </svg>
           </div>
           <!-- Header Text -->
-          <div class="flex flex-col">
-            <h1 class="text-xl font-black text-text tracking-tight jp-label uppercase">
-              KEI <span class="text-accent font-bold">Downloader</span>
+          <div class="flex flex-col flex-1">
+            <h1 class="text-2xl sm:text-[1.7rem] font-extrabold tracking-tight leading-tight">
+              <span class="text-gradient">KEI</span>
+              <span class="jp-display text-gradient"> ダウンローダー</span>
             </h1>
-            <p class="text-muted text-[10px] tracking-wider jp-label">
-              Download Video dan Audio
+            <p class="text-xs jp-label mt-0.5" style="color: var(--color-muted);">
+              動画・音楽ダウンロード · Download Video & Audio
             </p>
           </div>
           <!-- Settings Button -->
           <button
-            class="w-10 h-10 flex items-center justify-center text-muted hover:text-text hover:bg-white/30 rounded-xl transition-all cursor-pointer"
+            class="w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer"
+            style="color: var(--color-muted);"
             @click="showSettings = true"
-            title="Pengaturan"
+            @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
+            @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
+            title="設定 · Pengaturan"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -59,15 +49,15 @@
     </header>
 
     <!-- Main content -->
-    <main class="relative z-10 max-w-[720px] mx-auto px-4 sm:px-6 py-8 space-y-6">
+    <main class="relative z-10 max-w-[680px] mx-auto px-4 sm:px-6 py-10 space-y-6">
       <Transition name="slide-fade" mode="out-in">
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
 
-        <!-- State: loading (glass skeleton) -->
+        <!-- State: loading (kawaii skeleton) -->
         <div
           v-else-if="status === 'loading'"
-          class="glass rounded-2xl p-6 space-y-4"
+          class="card-kawaii p-6 space-y-4"
         >
           <div class="animate-shimmer h-[200px] rounded-xl"></div>
           <div class="animate-shimmer h-12 rounded-xl"></div>
@@ -108,17 +98,19 @@
         <!-- State: done -->
         <div
           v-else-if="status === 'done'"
-          class="glass rounded-2xl p-8 text-center space-y-6"
+          class="card-kawaii p-8 text-center space-y-6 animate-bounce-in"
         >
           <div
-            class="w-20 h-20 mx-auto bg-success/15 rounded-full flex items-center justify-center"
+            class="w-20 h-20 mx-auto rounded-full flex items-center justify-center"
+            style="background: rgba(134, 239, 172, 0.2);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-10 w-10 text-success"
+              class="h-10 w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              style="color: var(--color-success);"
             >
               <path
                 stroke-linecap="round"
@@ -129,17 +121,17 @@
             </svg>
           </div>
           <div class="space-y-2">
-            <h2 class="text-text text-2xl font-bold jp-label">Selesai!</h2>
-            <p class="text-muted text-sm">
-              Download berhasil! File tersimpan di folder download browser.
+            <h2 class="text-2xl font-extrabold text-gradient">完了！ · Selesai!</h2>
+            <p class="text-sm jp-display" style="color: var(--color-muted);">
+              (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ Download berhasil! File tersimpan di folder download browser.
             </p>
           </div>
           <button
             id="btn-download-again"
-            class="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-semibold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] cursor-pointer shadow-lg shadow-accent/20 jp-label"
+            class="btn-primary"
             @click="handleReset"
           >
-            Download Ulang
+            ✦ <span class="jp-label">もう一度 · Download Lagi</span>
           </button>
         </div>
       </Transition>
@@ -150,9 +142,9 @@
 
     <!-- Footer -->
     <footer class="relative z-10 pb-6 px-4 sm:px-6">
-      <div class="glass-subtle rounded-xl max-w-[720px] mx-auto px-4 py-3">
-        <p class="text-center text-muted/80 text-xs">
-          <span class="jp-label">Dibuat dengan</span> Vue 3 + FastAPI + yt-dlp
+      <div class="max-w-[680px] mx-auto px-4 py-3" style="border-top: 1px solid var(--color-border);">
+        <p class="text-center text-xs" style="color: var(--color-text-muted);">
+          <span class="jp-label">作られた</span> Vue 3 + FastAPI + yt-dlp
         </p>
       </div>
     </footer>

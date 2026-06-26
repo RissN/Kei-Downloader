@@ -1,14 +1,17 @@
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="$emit('close')"></div>
+    <div class="absolute inset-0 backdrop-blur-sm" style="background: rgba(26, 54, 54, 0.3);" @click="$emit('close')"></div>
 
     <!-- Modal Content -->
-    <div class="relative w-full max-w-md glass-strong rounded-2xl p-6 sm:p-8 space-y-6">
+    <div class="modal-card relative w-full max-w-md card-kawaii p-6 sm:p-8 space-y-6">
       <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-text jp-label">Pengaturan</h2>
-        <button @click="$emit('close')" class="text-muted hover:text-text cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <h2 class="text-xl font-extrabold text-gradient jp-display">設定 · Pengaturan</h2>
+        <button @click="$emit('close')" class="cursor-pointer rounded-full w-8 h-8 flex items-center justify-center transition-all" style="color: var(--color-muted);"
+          @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
+          @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -17,33 +20,34 @@
       <div class="space-y-5">
         <!-- Default Tab -->
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-text jp-label block">Tipe Default</label>
-          <div class="flex glass-subtle rounded-xl p-1 gap-1">
+          <label class="text-sm font-bold jp-label block" style="color: var(--color-text);">タイプ · Tipe Default</label>
+          <div class="tab-kawaii">
             <button
               v-for="type in ['video', 'audio']"
               :key="type"
-              class="flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer capitalize"
               :class="[
-                settings.defaultType === type
-                  ? 'bg-accent text-white shadow-md'
-                  : 'text-muted hover:text-text hover:bg-white/30',
+                settings.defaultType === type ? 'tab-active' : '',
               ]"
               @click="settings.defaultType = type"
             >
-              {{ type }}
+              {{ type === 'video' ? '動画 · Video' : '音楽 · Audio' }}
             </button>
           </div>
         </div>
 
         <!-- Subtitles -->
-        <div class="flex items-center justify-between glass-card p-4 rounded-xl">
+        <div class="flex items-center justify-between p-4 rounded-2xl" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
           <div>
-            <p class="text-sm font-semibold text-text jp-label">Embed Subtitle</p>
-            <p class="text-xs text-muted mt-0.5">Otomatis download dan tanamkan subtitle (ID/EN) jika tersedia.</p>
+            <p class="text-sm font-bold jp-label" style="color: var(--color-text);">字幕 · Embed Subtitle</p>
+            <p class="text-xs mt-0.5" style="color: var(--color-muted);">Otomatis download dan tanamkan subtitle (ID/EN) jika tersedia.</p>
           </div>
           <button
             class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors cursor-pointer"
-            :class="settings.includeSubtitles ? 'bg-accent' : 'bg-muted/30'"
+            :style="{
+              background: settings.includeSubtitles
+                ? 'linear-gradient(135deg, var(--color-accent), var(--color-purple))'
+                : 'var(--color-border)',
+            }"
             @click="settings.includeSubtitles = !settings.includeSubtitles"
           >
             <span
@@ -55,10 +59,10 @@
       </div>
 
       <button
-        class="w-full py-3 bg-text text-white rounded-xl font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] cursor-pointer jp-label"
+        class="w-full btn-primary"
         @click="$emit('close')"
       >
-        Tutup
+        <span class="jp-label">閉じる · Tutup</span>
       </button>
     </div>
   </div>

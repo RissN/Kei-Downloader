@@ -1,25 +1,28 @@
 <template>
-  <div class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Header -->
     <div class="text-center space-y-2">
-      <p class="text-accent text-xs font-bold tracking-widest jp-label uppercase">
-        PLAYLIST DITEMUKAN
-      </p>
-      <h2 class="text-xl sm:text-2xl font-bold text-text truncate">
-        {{ videoInfo?.title }}
+      <h2 class="text-xl sm:text-2xl font-extrabold text-gradient jp-display">
+        プレイリスト発見！
       </h2>
-      <p class="text-muted text-sm">{{ items.length }} Video Tersedia</p>
+      <h3 class="text-base font-bold truncate" style="color: var(--color-text);">
+        {{ videoInfo?.title }}
+      </h3>
+      <p class="text-sm" style="color: var(--color-muted);">{{ items.length }} 動画 · Video Tersedia</p>
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center justify-between glass-subtle p-2 rounded-xl">
+    <div class="flex items-center justify-between p-3 rounded-full" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
       <button
-        class="text-sm font-semibold text-text px-4 py-2 hover:bg-white/30 rounded-lg transition-colors cursor-pointer"
+        class="text-sm font-bold px-4 py-2 rounded-full transition-all cursor-pointer"
+        style="color: var(--color-text);"
+        @mouseenter="$event.target.style.background = 'var(--color-accent-soft)'"
+        @mouseleave="$event.target.style.background = 'transparent'"
         @click="toggleAll"
       >
-        {{ allSelected ? "Batal Pilih Semua" : "Pilih Semua" }}
+        {{ allSelected ? "全解除 · Batal Pilih" : "全選択 · Pilih Semua" }}
       </button>
-      <div class="text-sm text-muted font-medium px-4">
+      <div class="text-sm font-bold px-4" style="color: var(--color-accent);">
         {{ selectedCount }} Terpilih
       </div>
     </div>
@@ -29,13 +32,16 @@
       <label
         v-for="(item, idx) in items"
         :key="idx"
-        class="flex items-center gap-3 p-3 glass-card rounded-xl cursor-pointer hover:bg-white/40 transition-colors"
+        class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all"
+        style="background: var(--color-bg-surface); border: 1px solid var(--color-border);"
+        @mouseenter="$event.currentTarget.style.background = 'var(--color-bg-surface2)'"
+        @mouseleave="$event.currentTarget.style.background = 'var(--color-bg-surface)'"
       >
         <div class="shrink-0">
           <input
             type="checkbox"
             v-model="item.selected"
-            class="w-5 h-5 text-accent rounded border-white/40 bg-white/20 focus:ring-accent/50 cursor-pointer"
+            class="w-5 h-5 rounded cursor-pointer accent-[var(--color-accent)]"
           />
         </div>
         <!-- Thumbnail -->
@@ -43,17 +49,18 @@
           v-if="item.thumbnail"
           :src="item.thumbnail"
           :alt="item.title"
-          class="w-[60px] h-[40px] object-cover rounded-md shrink-0"
+          class="w-[60px] h-[40px] object-cover rounded-lg shrink-0"
         />
         <div
           v-else
-          class="w-[60px] h-[40px] bg-black/5 rounded-md shrink-0 flex items-center justify-center text-muted text-xs"
+          class="w-[60px] h-[40px] rounded-lg shrink-0 flex items-center justify-center text-xs"
+          style="background: var(--color-bg-surface2); color: var(--color-muted);"
         >
           ▶
         </div>
         <!-- Title -->
         <div class="flex-1 min-w-0">
-          <p class="text-text text-sm font-medium line-clamp-2 leading-snug">
+          <p class="text-sm font-medium line-clamp-2 leading-snug" style="color: var(--color-text);">
             {{ item.title }}
           </p>
         </div>
@@ -61,21 +68,18 @@
     </div>
 
     <!-- Global Format selector for Playlist -->
-    <div class="glass-subtle p-4 rounded-xl space-y-3">
-      <p class="text-sm font-semibold text-text jp-label">Pilih Format Download:</p>
-      <div class="flex gap-2">
+    <div class="p-4 rounded-2xl space-y-3" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
+      <p class="text-sm font-bold jp-label" style="color: var(--color-text);">フォーマット · Pilih Format:</p>
+      <div class="tab-kawaii">
         <button
           v-for="type in ['video', 'audio']"
           :key="type"
-          class="flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer capitalize"
           :class="[
-            selectedType === type
-              ? 'bg-accent text-white shadow-md'
-              : 'text-muted hover:text-text hover:bg-white/30 bg-white/10',
+            selectedType === type ? 'tab-active' : '',
           ]"
           @click="selectedType = type"
         >
-          {{ type }} (Terbaik)
+          {{ type === 'video' ? '動画 · Video (Terbaik)' : '音楽 · Audio (Terbaik)' }}
         </button>
       </div>
     </div>
@@ -84,23 +88,19 @@
     <div class="flex gap-3 mt-4">
       <button
         type="button"
-        class="flex-1 py-3 rounded-xl glass-subtle text-muted hover:text-text font-medium text-sm transition-all duration-200 cursor-pointer"
+        class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        Batal
+        <span class="jp-label">戻る · Batal</span>
       </button>
       <button
         type="button"
         :disabled="selectedCount === 0"
-        class="flex-[2] py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-        :class="[
-          selectedCount > 0
-            ? 'bg-accent hover:bg-accent-hover shadow-lg shadow-accent/20 active:scale-[0.98]'
-            : 'bg-muted/30',
-        ]"
+        class="flex-[2] btn-primary"
+        :style="selectedCount === 0 ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
         @click="startDownload"
       >
-        Mulai Download ({{ selectedCount }})
+        <span class="jp-label">ダウンロード · Download ({{ selectedCount }}) ★</span>
       </button>
     </div>
   </div>

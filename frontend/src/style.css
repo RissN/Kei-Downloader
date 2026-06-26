@@ -1,22 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "Noto Sans JP", sans-serif;
+  --font-sans: "Nunito", "Noto Sans JP", sans-serif;
+  --font-display: "Nunito", sans-serif;
   --font-jp: "Noto Sans JP", sans-serif;
 
-  --color-accent: #0ea5e9;
-  --color-accent-hover: #0284c7;
-  --color-accent-soft: #e0f2fe;
-  --color-text: #0f172a;
-  --color-muted: #475569;
-  --color-success: #10b981;
-  --color-success-soft: #d1fae5;
-  --color-danger: #ef4444;
-  --color-danger-soft: #fee2e2;
-  --color-sakura: #bae6fd;
+  /* ── Kawaii Palette — Teal × Blue-Green (vivid) ── */
+  --color-bg-base: #eef7f5;
+  --color-bg-surface: #f4fbf9;
+  --color-bg-surface2: #e0f2ed;
+  --color-border: #a8d8cc;
+  --color-accent: #1fb89a;
+  --color-accent-hover: #17a088;
+  --color-accent-soft: #c4f0e4;
+  --color-purple: #38a3d6;
+  --color-purple-soft: #d6eefa;
+  --color-text: #163030;
+  --color-muted: #4d7e75;
+  --color-text-muted: #8bb5ac;
+  --color-success: #86efac;
+  --color-danger: #fca5a5;
+  --color-sakura: #c4f0e4;
 }
 
-/* ---- Global ---- */
+/* ──────────────────────────────────────────
+   Global
+   ────────────────────────────────────────── */
 
 *,
 *::before,
@@ -27,71 +37,255 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
+  font-family: "Nunito", "Noto Sans JP", sans-serif !important;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  background-color: var(--color-bg-base);
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  line-height: 1.6;
 }
 
-/* ---- Glass Utilities ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Nunito", sans-serif !important;
+  font-weight: 800;
+}
 
-.glass {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+/* ──────────────────────────────────────────
+   Card — .card-kawaii
+   ────────────────────────────────────────── */
+
+.card-kawaii {
+  background: linear-gradient(160deg, var(--color-bg-surface) 0%, var(--color-bg-surface2) 100%);
+  border: 1.5px solid var(--color-border);
+  border-radius: 16px;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.04),
+    0 4px 24px rgba(31, 184, 154, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.card-kawaii:hover {
+  box-shadow:
+    0 8px 32px rgba(31, 184, 154, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
 }
 
-.glass-strong {
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
+/* ──────────────────────────────────────────
+   Input — .input-kawaii
+   ────────────────────────────────────────── */
 
-.glass-subtle {
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.glass-card {
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+.input-kawaii {
+  background: var(--color-bg-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
   transition: all 0.2s ease;
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+.input-kawaii::placeholder {
+  color: var(--color-text-muted);
+  font-family: var(--font-jp);
 }
 
-.glass-input {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.8);
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
-  transition: all 0.2s ease;
-}
-
-.glass-input:focus {
-  background: rgba(255, 255, 255, 0.95);
+.input-kawaii:focus {
+  outline: none;
+  background: #fff;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+  box-shadow: 0 0 0 3px rgba(31, 184, 154, 0.2);
 }
 
-/* ---- Scrollbar ---- */
+/* ──────────────────────────────────────────
+   Buttons
+   ────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #1fb89a 0%, #22c9a8 40%, #38a3d6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  font-family: "Nunito", sans-serif !important;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow:
+    0 4px 16px rgba(31, 184, 154, 0.4),
+    0 2px 4px rgba(31, 184, 154, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(31, 184, 154, 0.45);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--color-muted);
+  border: 1.5px solid var(--color-border);
+  border-radius: 9999px;
+  font-family: "Nunito", sans-serif !important;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--color-bg-surface2);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ──────────────────────────────────────────
+   Badge — .badge-best
+   ────────────────────────────────────────── */
+
+.badge-best {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+  color: #fff;
+  font-family: var(--font-jp);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(31, 184, 154, 0.3);
+  letter-spacing: 0.04em;
+}
+
+/* ──────────────────────────────────────────
+   Tab — .tab-kawaii
+   ────────────────────────────────────────── */
+
+.tab-kawaii {
+  display: flex;
+  background: var(--color-bg-surface2);
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 4px;
+  border: 1.5px solid var(--color-border);
+}
+
+.tab-kawaii button {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: "Nunito", sans-serif !important;
+  color: var(--color-muted);
+  background: transparent;
+}
+
+.tab-kawaii button:hover {
+  color: var(--color-text);
+  background: var(--color-bg-surface);
+}
+
+.tab-active {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-purple)) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(31, 184, 154, 0.3);
+}
+
+/* ──────────────────────────────────────────
+   Progress Bar — .progress-kawaii
+   ────────────────────────────────────────── */
+
+.progress-kawaii {
+  position: relative;
+  width: 100%;
+  height: 2.75rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: var(--color-bg-surface2);
+  border: 1.5px solid var(--color-border);
+}
+
+.progress-kawaii-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+  transition: width 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-kawaii-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.progress-kawaii-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.875rem;
+  z-index: 1;
+}
+
+/* ──────────────────────────────────────────
+   Gradient Text — .text-gradient
+   ────────────────────────────────────────── */
+
+.text-gradient {
+  background: linear-gradient(135deg, #1aae8e 0%, #1fb89a 40%, #2ba0d0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ──────────────────────────────────────────
+   Scrollbar
+   ────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -100,28 +294,20 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--color-border);
   border-radius: 3px;
 }
 
-/* ---- Animations ---- */
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 8px rgba(224, 60, 60, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 28px rgba(224, 60, 60, 0.6);
-  }
-}
+/* ──────────────────────────────────────────
+   Animations
+   ────────────────────────────────────────── */
 
 @keyframes shimmer {
   0% {
-    background-position: -200% 0;
+    left: -100%;
   }
   100% {
-    background-position: 200% 0;
+    left: 200%;
   }
 }
 
@@ -136,39 +322,61 @@ body {
   }
 }
 
-@keyframes float-kanji {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.18;
+@keyframes pulse-kawaii {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(31, 184, 154, 0.3);
   }
   50% {
-    transform: translateY(-30px) rotate(3deg);
-    opacity: 0.28;
+    box-shadow: 0 0 24px rgba(31, 184, 154, 0.5);
   }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(8px);
+  }
+  60% {
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .animate-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0.2) 75%
+    var(--color-bg-surface2) 25%,
+    var(--color-accent-soft) 50%,
+    var(--color-bg-surface2) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer-bg 1.5s infinite;
   border-radius: 12px;
+}
+
+@keyframes shimmer-bg {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .animate-fade-in {
   animation: fade-in 0.4s ease-out both;
 }
 
-/* ---- Vue Transitions ---- */
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out both;
+}
+
+/* ──────────────────────────────────────────
+   Vue Transitions
+   ────────────────────────────────────────── */
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
@@ -190,8 +398,8 @@ body {
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.modal-enter-active .glass-strong,
-.modal-leave-active .glass-strong {
+.modal-enter-active .modal-card,
+.modal-leave-active .modal-card {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -200,28 +408,125 @@ body {
   opacity: 0;
 }
 
-.modal-enter-from .glass-strong,
-.modal-leave-to .glass-strong {
+.modal-enter-from .modal-card,
+.modal-leave-to .modal-card {
   transform: scale(0.95);
 }
 
-/* ---- Floating Kanji ---- */
-
-.kanji-float {
-  position: absolute;
-  font-family: "Noto Sans JP", sans-serif;
-  color: rgba(255, 255, 255, 0.25);
-  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
-  animation: float-kanji 10s ease-in-out infinite;
-  user-select: none;
-  pointer-events: none;
-  font-weight: 900;
-  line-height: 1;
-}
-
-/* ---- Japanese Label ---- */
+/* ──────────────────────────────────────────
+   Japanese Label
+   ────────────────────────────────────────── */
 
 .jp-label {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: var(--font-jp);
   letter-spacing: 0.05em;
+}
+
+.jp-display {
+  font-family: var(--font-jp);
+  font-weight: 700;
+}
+
+/* ──────────────────────────────────────────
+   Format card states
+   ────────────────────────────────────────── */
+
+.format-card {
+  background: var(--color-bg-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.format-card:hover {
+  background: var(--color-bg-surface2);
+  box-shadow: 0 4px 16px rgba(31, 184, 154, 0.12);
+}
+
+.format-card-selected {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(31, 184, 154, 0.15), 0 4px 16px rgba(31, 184, 154, 0.18);
+}
+
+/* ──────────────────────────────────────────
+   History badges
+   ────────────────────────────────────────── */
+
+.badge-video {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.badge-audio {
+  background: var(--color-purple-soft);
+  color: var(--color-purple);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+/* ──────────────────────────────────────────
+   Misc
+   ────────────────────────────────────────── */
+
+.hint-text {
+  font-family: var(--font-jp);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.error-kawaii {
+  color: var(--color-danger);
+  background: rgba(252, 165, 165, 0.1);
+  border: 1px solid rgba(252, 165, 165, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+/* ──────────────────────────────────────────
+   Format List Transition (tab switch)
+   ────────────────────────────────────────── */
+
+.format-list-enter-active {
+  animation: format-pop-in 0.3s ease-out both;
+}
+
+.format-list-leave-active {
+  animation: format-pop-out 0.2s ease-in both;
+  position: absolute;
+}
+
+.format-list-move {
+  transition: transform 0.3s ease;
+}
+
+@keyframes format-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes format-pop-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
 }

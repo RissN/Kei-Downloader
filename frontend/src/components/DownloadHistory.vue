@@ -1,21 +1,22 @@
 <template>
   <div
     v-if="history.length"
-    class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-4"
+    class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-4"
   >
     <!-- Section header -->
     <div class="flex items-center justify-between">
-      <div>
-        <p class="text-accent text-[10px] font-bold tracking-widest jp-label uppercase">
-          Riwayat Download
-        </p>
+      <div class="space-y-0.5">
+        <h3 class="text-base font-extrabold text-gradient jp-display">
+          ダウンロード履歴
+        </h3>
+        <p class="text-xs" style="color: var(--color-muted);">Riwayat Download</p>
       </div>
       <button
         id="btn-clear-history"
-        class="text-xs text-muted hover:text-danger transition-colors cursor-pointer jp-label"
+        class="btn-ghost text-xs !py-2 !px-3"
         @click="clearHistory"
       >
-        Hapus Riwayat
+        <span class="jp-label">削除 · Hapus</span>
       </button>
     </div>
 
@@ -24,46 +25,61 @@
       <div
         v-for="(item, idx) in history"
         :key="idx"
-        class="flex items-center gap-3 p-3 glass-card rounded-xl"
+        class="flex items-center gap-3 p-3 rounded-2xl transition-all"
+        style="background: var(--color-bg-surface); border: 1px solid var(--color-border);"
+        @mouseenter="$event.currentTarget.style.background = 'var(--color-bg-surface2)'"
+        @mouseleave="$event.currentTarget.style.background = 'var(--color-bg-surface)'"
       >
         <!-- Thumbnail -->
         <img
           v-if="item.thumbnail"
           :src="item.thumbnail"
           :alt="item.title"
-          class="w-[52px] h-[36px] object-cover rounded-md shrink-0"
+          class="w-[52px] h-[36px] object-cover rounded-lg shrink-0"
         />
         <div
           v-else
-          class="w-[52px] h-[36px] bg-black/5 rounded-md shrink-0 flex items-center justify-center text-muted text-xs"
+          class="w-[52px] h-[36px] rounded-lg shrink-0 flex items-center justify-center text-xs"
+          style="background: var(--color-bg-surface2); color: var(--color-muted);"
         >
           ▶
         </div>
 
         <!-- Info -->
         <div class="flex-1 min-w-0">
-          <p class="text-text text-sm font-medium truncate">{{ item.title }}</p>
+          <p class="text-sm font-semibold truncate" style="color: var(--color-text);">{{ item.title }}</p>
           <div class="flex items-center gap-2 mt-0.5">
             <span
-              class="text-[10px] font-bold px-1.5 py-0.5 rounded"
               :class="[
                 item.type === 'video'
-                  ? 'bg-accent/12 text-accent'
-                  : 'bg-blue-500/12 text-blue-600',
+                  ? 'badge-video'
+                  : 'badge-audio',
               ]"
             >
-              {{ item.type === "video" ? "Video" : "Audio" }}
+              {{ item.type === "video" ? "動画 · Video" : "音楽 · Audio" }}
             </span>
-            <span class="text-muted text-xs">{{ item.quality }}</span>
+            <span class="text-xs" style="color: var(--color-text-muted);">{{ item.quality }}</span>
           </div>
         </div>
 
         <!-- Relative time -->
-        <span class="text-muted text-xs shrink-0">
+        <span class="text-xs shrink-0" style="color: var(--color-text-muted);">
           {{ relativeTime(item.timestamp) }}
         </span>
       </div>
     </div>
+
+    <!-- Empty state (for future use if needed) -->
+  </div>
+
+  <!-- Empty state when no history -->
+  <div
+    v-else
+    class="card-kawaii p-6 text-center animate-fade-in"
+  >
+    <p class="jp-display text-sm" style="color: var(--color-text-muted);">
+      (´・ω・｀) Belum ada riwayat
+    </p>
   </div>
 </template>
 

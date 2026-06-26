@@ -1,7 +1,7 @@
 <template>
-  <div class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video preview -->
-    <div class="rounded-xl overflow-hidden glass-card">
+    <div class="rounded-2xl overflow-hidden" style="border: 1.5px solid var(--color-border);">
       <div class="relative">
         <img
           v-if="videoInfo?.thumbnail"
@@ -12,29 +12,33 @@
         <!-- Duration badge -->
         <span
           v-if="videoInfo?.duration"
-          class="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-medium px-2 py-0.5 rounded backdrop-blur-sm"
+          class="absolute bottom-2 right-2 text-white text-xs font-bold px-2.5 py-1 rounded-full"
+          style="background: rgba(26, 54, 54, 0.8); backdrop-filter: blur(4px);"
         >
           {{ formatDuration(videoInfo.duration) }}
         </span>
       </div>
-      <div class="p-4">
-        <h3 class="text-text font-bold text-base leading-snug line-clamp-2">
+      <div class="p-4" style="background: var(--color-bg-surface);">
+        <h3 class="font-bold text-base leading-snug line-clamp-2" style="color: var(--color-text);">
           {{ videoInfo?.title }}
         </h3>
       </div>
     </div>
 
+    <!-- Section title -->
+    <div class="text-center space-y-1">
+      <h3 class="text-lg font-extrabold text-gradient jp-display">フォーマット選択</h3>
+      <p class="text-xs" style="color: var(--color-muted);">Pilih Format</p>
+    </div>
+
     <!-- Tab switcher -->
-    <div class="flex glass-subtle rounded-xl p-1 gap-1">
+    <div class="tab-kawaii">
       <button
         v-for="tab in tabs"
         :key="tab.value"
         :id="`tab-${tab.value}`"
-        class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer"
         :class="[
-          selectedType === tab.value
-            ? 'bg-accent text-white shadow-lg shadow-accent/20'
-            : 'text-muted hover:text-text hover:bg-white/30',
+          selectedType === tab.value ? 'tab-active' : '',
         ]"
         @click="$emit('selectType', tab.value)"
       >
@@ -44,7 +48,9 @@
     </div>
 
     <!-- Format grid -->
-    <div
+    <TransitionGroup
+      name="format-list"
+      tag="div"
       :class="[
         selectedType === 'video'
           ? 'grid grid-cols-2 gap-3'
@@ -55,29 +61,31 @@
         v-for="(fmt, idx) in filteredFormats"
         :key="fmt.format_id"
         :id="`format-${fmt.format_id}`"
-        class="relative p-4 rounded-xl text-left transition-all duration-200 cursor-pointer"
+        class="text-left transition-all duration-200 cursor-pointer"
         :class="[
           selectedFormat?.format_id === fmt.format_id
-            ? 'bg-accent/10 border-2 border-accent/50 shadow-md shadow-accent/10'
-            : 'glass-card',
+            ? 'format-card format-card-selected'
+            : 'format-card',
         ]"
+        :style="{ animationDelay: `${idx * 50}ms` }"
         @click="$emit('selectFormat', fmt)"
       >
         <!-- Best badge -->
         <span
           v-if="idx === 0"
-          class="absolute -top-2 right-3 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm jp-label uppercase"
+          class="badge-best absolute -top-2 right-3"
         >
-          Terbaik
+          最高 · Terbaik
         </span>
 
         <div class="space-y-1.5">
-          <span class="text-text font-bold text-base">
+          <span class="font-bold text-base" style="color: var(--color-text);">
             {{ fmt.quality_label }}
           </span>
-          <div class="flex items-center gap-2 text-xs text-muted">
+          <div class="flex items-center gap-2 text-xs" style="color: var(--color-muted);">
             <span
-              class="px-1.5 py-0.5 bg-black/5 rounded text-[10px] font-semibold uppercase"
+              class="px-1.5 py-0.5 rounded-full text-[10px] font-bold uppercase"
+              style="background: var(--color-bg-surface2); color: var(--color-muted);"
             >
               .{{ fmt.ext }}
             </span>
@@ -87,28 +95,24 @@
           </div>
         </div>
       </button>
-    </div>
+    </TransitionGroup>
 
     <!-- Actions -->
     <div class="flex gap-3">
       <button
         id="btn-change-url"
         type="button"
-        class="flex-1 py-3 rounded-xl glass-subtle text-muted hover:text-text font-medium text-sm transition-all duration-200 cursor-pointer"
+        class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        ← <span class="jp-label">Ubah URL</span>
+        <span class="jp-label">戻る · Kembali</span>
       </button>
       <button
         id="btn-start-download"
         type="button"
         :disabled="!selectedFormat"
-        class="flex-[2] py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-        :class="[
-          selectedFormat
-            ? 'bg-accent hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20'
-            : 'bg-muted/30',
-        ]"
+        class="flex-[2] btn-primary"
+        :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
         @click="$emit('startDownload')"
       >
         <svg
@@ -123,7 +127,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="jp-label">Mulai Download</span>
+        <span class="jp-label">ダウンロード · Unduh</span>
       </button>
     </div>
   </div>
@@ -141,8 +145,8 @@ const props = defineProps({
 defineEmits(["selectType", "selectFormat", "startDownload", "reset"]);
 
 const tabs = [
-  { value: "video", label: "Video", icon: "🎬 " },
-  { value: "audio", label: "Audio", icon: "🎵 " },
+  { value: "video", label: "動画 · Video", icon: "🎬 " },
+  { value: "audio", label: "音楽 · Audio", icon: "🎵 " },
 ];
 
 const filteredFormats = computed(() => {

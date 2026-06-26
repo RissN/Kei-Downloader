@@ -1,18 +1,18 @@
 <template>
-  <div class="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video info -->
-    <div class="flex items-center gap-4 p-4 glass-card rounded-xl">
+    <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
       <img
         v-if="videoInfo?.thumbnail"
         :src="videoInfo.thumbnail"
         :alt="videoInfo?.title"
-        class="w-20 h-[60px] object-cover rounded-lg shrink-0"
+        class="w-20 h-[60px] object-cover rounded-xl shrink-0"
       />
       <div class="min-w-0 flex-1">
-        <h3 class="text-text font-semibold text-sm truncate">
+        <h3 class="font-bold text-sm truncate" style="color: var(--color-text);">
           {{ videoInfo?.title }}
         </h3>
-        <p class="text-muted text-xs mt-1">
+        <p class="text-xs mt-1" style="color: var(--color-muted);">
           {{ selectedFormat?.quality_label }} ·
           {{ selectedFormat?.ext?.toUpperCase() }}
         </p>
@@ -21,35 +21,37 @@
 
     <!-- Progress bar -->
     <div class="space-y-3">
-      <div
-        class="relative w-full h-10 rounded-full overflow-hidden glass-subtle"
-      >
+      <div class="progress-kawaii">
         <div
-          class="h-full rounded-full transition-all duration-500 ease-out"
-          :class="[
-            progress < 100
-              ? 'bg-gradient-to-r from-accent to-sakura animate-pulse-glow'
-              : 'bg-success',
-          ]"
-          :style="{ width: `${progress}%` }"
+          class="progress-kawaii-fill"
+          :style="{
+            width: `${progress}%`,
+            background: progress >= 100
+              ? 'var(--color-success)'
+              : 'linear-gradient(135deg, var(--color-accent), var(--color-purple))',
+          }"
         ></div>
         <span
-          class="absolute inset-0 flex items-center justify-center text-sm font-bold drop-shadow-sm"
-          :class="progress > 45 ? 'text-white' : 'text-text'"
+          class="progress-kawaii-label drop-shadow-sm"
+          :style="{
+            color: progress > 45 ? '#fff' : 'var(--color-text)',
+          }"
         >
           {{ Math.round(progress) }}%
         </span>
       </div>
 
       <!-- Status text -->
-      <p class="text-center text-muted text-sm">
+      <p class="text-center text-sm" style="color: var(--color-muted);">
         <span v-if="progress < 99" class="jp-label">
-          Mengunduh...
-          <span class="text-text font-semibold">{{ Math.round(progress) }}%</span>
+          ダウンロード中... · Mengunduh...
+          <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
-        <span v-else-if="progress < 100" class="jp-label"> Memproses... </span>
-        <span v-else class="text-success font-semibold jp-label">
-          ✓ Selesai! Menyimpan file...
+        <span v-else-if="progress < 100" class="jp-label">
+          処理中... · Memproses...
+        </span>
+        <span v-else class="font-bold jp-display" style="color: var(--color-accent);">
+          完了！ · Selesai! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
         </span>
       </p>
     </div>
