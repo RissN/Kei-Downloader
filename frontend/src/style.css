@@ -99,6 +99,11 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 3px rgba(31, 184, 154, 0.2);
 }
 
+.input-field:hover:not(:focus) {
+  border-color: var(--color-accent-hover);
+  box-shadow: 0 0 0 2px rgba(31, 184, 154, 0.1);
+}
+
 /* ──────────────────────────────────────────
    Buttons
    ────────────────────────────────────────── */
@@ -109,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #1fb89a 0%, #22c9a8 40%, #38a3d6 100%);
+  background: linear-gradient(135deg, #138c71 0%, #1aae8e 40%, #2080a4 100%);
   color: #fff;
   border: none;
   border-radius: 9999px;
@@ -127,6 +132,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-primary:hover:not(:disabled) {
   transform: scale(1.03);
+  background: linear-gradient(135deg, #107a62 0%, #179e80 40%, #1c7293 100%);
   box-shadow: 0 6px 20px rgba(31, 184, 154, 0.45);
 }
 

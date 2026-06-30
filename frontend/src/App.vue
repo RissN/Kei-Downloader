@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen">
+  <div class="relative min-h-screen flex flex-col">
     <!-- Background: dot pattern is on body via CSS -->
 
     <!-- Header -->
@@ -49,7 +49,7 @@
     </header>
 
     <!-- Main content -->
-    <main class="relative z-10 max-w-[680px] mx-auto px-4 sm:px-6 py-10 space-y-6">
+    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-10 flex-1 flex flex-col justify-center space-y-6">
       <Transition name="slide-fade" mode="out-in">
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
@@ -141,7 +141,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 pb-6 px-4 sm:px-6">
+    <footer class="relative z-10 w-full pb-6 px-4 sm:px-6 mt-auto">
       <div class="max-w-[680px] mx-auto px-4 py-5 mt-4 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top: 1px solid var(--color-border);">
         <p class="text-xs" style="color: var(--color-text-muted);">
           &copy; {{ new Date().getFullYear() }} KEI Downloader. All rights reserved.
