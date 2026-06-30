@@ -104,7 +104,7 @@
           ></path>
         </svg>
         <span class="jp-label">
-          {{ isLoading ? "Mengambil Info..." : "✦ Cek Video" }}
+          {{ isLoading ? "Mengambil Info..." : "Cek Video" }}
         </span>
       </button>
     </form>

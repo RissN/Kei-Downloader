@@ -41,7 +41,7 @@ class DownloadRequest(BaseModel):
 
 class DownloadStatus(BaseModel):
     task_id: str
-    status: Literal["pending", "downloading", "done", "error"]
+    status: Literal["pending", "downloading", "streaming", "done", "error"]
     progress: float = 0.0
     filename: Optional[str] = None
     error_msg: Optional[str] = None

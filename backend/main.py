@@ -28,6 +28,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["Content-Disposition", "Content-Length"],
 )
 
 # --- Global state ---
@@ -116,10 +117,10 @@ async def download_file(
             )
             raise HTTPException(status_code=500, detail="Download gagal: file tidak ditemukan.")
 
-        # Tandai selesai
+        # Tandai selesai download (yt-dlp), mulai streaming ke client
         task_progress[task_id] = DownloadStatus(
             task_id=task_id,
-            status="done",
+            status="streaming",
             progress=100.0,
             filename=os.path.basename(filepath),
         )
@@ -141,16 +142,27 @@ async def download_file(
                             break
                         yield chunk
             finally:
+                # Tandai benar-benar selesai setelah file di-stream
+                task_progress[task_id] = DownloadStatus(
+                    task_id=task_id,
+                    status="done",
+                    progress=100.0,
+                    filename=os.path.basename(filepath),
+                )
                 try:
                     os.remove(filepath)
                 except OSError:
                     pass
 
         encoded_name = quote(clean_name)
+        file_size = os.path.getsize(filepath)
         return StreamingResponse(
             file_streamer(),
             media_type=content_type,
-            headers={"Content-Disposition": f"attachment; filename*=utf-8''{encoded_name}"},
+            headers={
+                "Content-Disposition": f"attachment; filename*=utf-8''{encoded_name}",
+                "Content-Length": str(file_size),
+            },
         )
 
     except HTTPException:
@@ -170,7 +182,7 @@ async def progress_stream(task_id: str) -> StreamingResponse:
             status = task_progress.get(task_id)
             if status:
                 yield f"data: {status.model_dump_json()}\n\n"
-                if status.status in ("done", "error"):
+                if status.status in ("done", "error", "streaming"):
                     break
             else:
                 payload = json.dumps(

@@ -100,7 +100,7 @@
         :style="selectedCount === 0 ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
         @click="startDownload"
       >
-        <span class="jp-label">Download ({{ selectedCount }}) ★</span>
+        <span class="jp-label">Download ({{ selectedCount }})</span>
       </button>
     </div>
   </div>

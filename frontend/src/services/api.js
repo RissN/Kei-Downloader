@@ -54,7 +54,7 @@ export function createProgressSSE(taskId, onProgress, onDone, onError) {
   source.onmessage = (event) => {
     try {
       const data = JSON.parse(event.data);
-      if (data.status === "done") {
+      if (data.status === "done" || data.status === "streaming") {
         onDone();
         source.close();
       } else if (data.status === "error") {

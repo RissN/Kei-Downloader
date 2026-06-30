@@ -123,7 +123,7 @@
           <div class="space-y-2">
             <h2 class="text-2xl font-extrabold text-gradient">Selesai!</h2>
             <p class="text-sm jp-display" style="color: var(--color-muted);">
-              ✧ Download berhasil! File tersimpan di folder download browser.
+              Download berhasil! File tersimpan di folder download browser.
             </p>
           </div>
           <button
@@ -131,7 +131,7 @@
             class="btn-primary"
             @click="handleReset"
           >
-            ✦ <span class="jp-label">Download Lagi</span>
+            <span class="jp-label">Download Lagi</span>
           </button>
         </div>
       </Transition>
