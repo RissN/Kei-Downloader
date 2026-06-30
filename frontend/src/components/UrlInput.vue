@@ -154,9 +154,6 @@ function onInput() {
 function onPaste() {
   setTimeout(() => {
     validate(url.value);
-    if (!validationError.value && url.value) {
-      handleFetchInfo();
-    }
   }, 50);
 }
 
