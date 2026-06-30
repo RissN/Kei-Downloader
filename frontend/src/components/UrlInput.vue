@@ -3,7 +3,7 @@
     <!-- Heading -->
     <div class="text-center space-y-2">
       <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient jp-display">
-        動画ダウンロード
+        Download Video
       </h2>
       <p class="text-sm" style="color: var(--color-muted);">
         Paste link YouTube di bawah ini
@@ -18,7 +18,7 @@
           ref="inputRef"
           v-model="url"
           type="url"
-          placeholder="YouTubeのURLを入力してください..."
+          placeholder="Masukkan URL YouTube di sini..."
           class="w-full px-4 py-3.5 pr-10 text-sm outline-none input-kawaii"
           :class="[
             validationError
@@ -104,14 +104,14 @@
           ></path>
         </svg>
         <span class="jp-label">
-          {{ isLoading ? "確認中... · Mengambil Info..." : "✦ 確認する · Cek Video" }}
+          {{ isLoading ? "Mengambil Info..." : "✦ Cek Video" }}
         </span>
       </button>
     </form>
 
     <!-- Hint -->
     <p class="hint-text text-center">
-      ヒント: YouTube, Shorts, dan Playlist didukung ✓
+      Tips: YouTube, Shorts, dan Playlist didukung ✓
     </p>
   </div>
 </template>

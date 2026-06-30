@@ -3,12 +3,12 @@
     <!-- Header -->
     <div class="text-center space-y-2">
       <h2 class="text-xl sm:text-2xl font-extrabold text-gradient jp-display">
-        プレイリスト発見！
+        Playlist Ditemukan!
       </h2>
       <h3 class="text-base font-bold truncate" style="color: var(--color-text);">
         {{ videoInfo?.title }}
       </h3>
-      <p class="text-sm" style="color: var(--color-muted);">{{ items.length }} 動画 · Video Tersedia</p>
+      <p class="text-sm" style="color: var(--color-muted);">{{ items.length }} Video Tersedia</p>
     </div>
 
     <!-- Actions -->
@@ -20,7 +20,7 @@
         @mouseleave="$event.target.style.background = 'transparent'"
         @click="toggleAll"
       >
-        {{ allSelected ? "全解除 · Batal Pilih" : "全選択 · Pilih Semua" }}
+        {{ allSelected ? "Batal Pilih" : "Pilih Semua" }}
       </button>
       <div class="text-sm font-bold px-4" style="color: var(--color-accent);">
         {{ selectedCount }} Terpilih
@@ -69,7 +69,7 @@
 
     <!-- Global Format selector for Playlist -->
     <div class="p-4 rounded-2xl space-y-3" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
-      <p class="text-sm font-bold jp-label" style="color: var(--color-text);">フォーマット · Pilih Format:</p>
+      <p class="text-sm font-bold jp-label" style="color: var(--color-text);">Pilih Format:</p>
       <div class="tab-kawaii">
         <button
           v-for="type in ['video', 'audio']"
@@ -79,7 +79,7 @@
           ]"
           @click="selectedType = type"
         >
-          {{ type === 'video' ? '動画 · Video (Terbaik)' : '音楽 · Audio (Terbaik)' }}
+          {{ type === 'video' ? 'Video (Terbaik)' : 'Audio (Terbaik)' }}
         </button>
       </div>
     </div>
@@ -91,7 +91,7 @@
         class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        <span class="jp-label">戻る · Batal</span>
+        <span class="jp-label">Batal</span>
       </button>
       <button
         type="button"
@@ -100,7 +100,7 @@
         :style="selectedCount === 0 ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
         @click="startDownload"
       >
-        <span class="jp-label">ダウンロード · Download ({{ selectedCount }}) ★</span>
+        <span class="jp-label">Download ({{ selectedCount }}) ★</span>
       </button>
     </div>
   </div>

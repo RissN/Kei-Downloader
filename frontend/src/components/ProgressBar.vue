@@ -44,14 +44,14 @@
       <!-- Status text -->
       <p class="text-center text-sm" style="color: var(--color-muted);">
         <span v-if="progress < 99" class="jp-label">
-          ダウンロード中... · Mengunduh...
+          Mengunduh...
           <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
         <span v-else-if="progress < 100" class="jp-label">
-          処理中... · Memproses...
+          Memproses...
         </span>
         <span v-else class="font-bold jp-display" style="color: var(--color-accent);">
-          完了！ · Selesai! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+          Selesai! ✧
         </span>
       </p>
     </div>

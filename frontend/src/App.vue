@@ -24,10 +24,10 @@
           <div class="flex flex-col flex-1">
             <h1 class="text-2xl sm:text-[1.7rem] font-extrabold tracking-tight leading-tight">
               <span class="text-gradient">KEI</span>
-              <span class="jp-display text-gradient"> ダウンローダー</span>
+              <span class="jp-display text-gradient"> Downloader</span>
             </h1>
             <p class="text-xs jp-label mt-0.5" style="color: var(--color-muted);">
-              動画・音楽ダウンロード · Download Video & Audio
+              Download Video & Audio
             </p>
           </div>
           <!-- Settings Button -->
@@ -37,7 +37,7 @@
             @click="showSettings = true"
             @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
             @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
-            title="設定 · Pengaturan"
+            title="Pengaturan"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -121,9 +121,9 @@
             </svg>
           </div>
           <div class="space-y-2">
-            <h2 class="text-2xl font-extrabold text-gradient">完了！ · Selesai!</h2>
+            <h2 class="text-2xl font-extrabold text-gradient">Selesai!</h2>
             <p class="text-sm jp-display" style="color: var(--color-muted);">
-              (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ Download berhasil! File tersimpan di folder download browser.
+              ✧ Download berhasil! File tersimpan di folder download browser.
             </p>
           </div>
           <button
@@ -131,7 +131,7 @@
             class="btn-primary"
             @click="handleReset"
           >
-            ✦ <span class="jp-label">もう一度 · Download Lagi</span>
+            ✦ <span class="jp-label">Download Lagi</span>
           </button>
         </div>
       </Transition>
@@ -144,7 +144,7 @@
     <footer class="relative z-10 pb-6 px-4 sm:px-6">
       <div class="max-w-[680px] mx-auto px-4 py-3" style="border-top: 1px solid var(--color-border);">
         <p class="text-center text-xs" style="color: var(--color-text-muted);">
-          <span class="jp-label">作られた</span> Vue 3 + FastAPI + yt-dlp
+          <span class="jp-label">Dibuat dengan</span> Vue 3 + FastAPI + yt-dlp
         </p>
       </div>
     </footer>

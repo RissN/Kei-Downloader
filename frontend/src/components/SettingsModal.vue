@@ -6,7 +6,7 @@
     <!-- Modal Content -->
     <div class="modal-card relative w-full max-w-md card-kawaii p-6 sm:p-8 space-y-6">
       <div class="flex items-center justify-between">
-        <h2 class="text-xl font-extrabold text-gradient jp-display">設定 · Pengaturan</h2>
+        <h2 class="text-xl font-extrabold text-gradient jp-display">Pengaturan</h2>
         <button @click="$emit('close')" class="cursor-pointer rounded-full w-8 h-8 flex items-center justify-center transition-all" style="color: var(--color-muted);"
           @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
           @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
@@ -20,7 +20,7 @@
       <div class="space-y-5">
         <!-- Default Tab -->
         <div class="space-y-2">
-          <label class="text-sm font-bold jp-label block" style="color: var(--color-text);">タイプ · Tipe Default</label>
+          <label class="text-sm font-bold jp-label block" style="color: var(--color-text);">Tipe Default</label>
           <div class="tab-kawaii">
             <button
               v-for="type in ['video', 'audio']"
@@ -30,7 +30,7 @@
               ]"
               @click="settings.defaultType = type"
             >
-              {{ type === 'video' ? '動画 · Video' : '音楽 · Audio' }}
+              {{ type === 'video' ? 'Video' : 'Audio' }}
             </button>
           </div>
         </div>
@@ -38,7 +38,7 @@
         <!-- Subtitles -->
         <div class="flex items-center justify-between p-4 rounded-2xl" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
           <div>
-            <p class="text-sm font-bold jp-label" style="color: var(--color-text);">字幕 · Embed Subtitle</p>
+            <p class="text-sm font-bold jp-label" style="color: var(--color-text);">Embed Subtitle</p>
             <p class="text-xs mt-0.5" style="color: var(--color-muted);">Otomatis download dan tanamkan subtitle (ID/EN) jika tersedia.</p>
           </div>
           <button
@@ -62,7 +62,7 @@
         class="w-full btn-primary"
         @click="$emit('close')"
       >
-        <span class="jp-label">閉じる · Tutup</span>
+        <span class="jp-label">Tutup</span>
       </button>
     </div>
   </div>

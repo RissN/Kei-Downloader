@@ -27,7 +27,7 @@
 
     <!-- Section title -->
     <div class="text-center space-y-1">
-      <h3 class="text-lg font-extrabold text-gradient jp-display">フォーマット選択</h3>
+      <h3 class="text-lg font-extrabold text-gradient jp-display">Pilih Format</h3>
       <p class="text-xs" style="color: var(--color-muted);">Pilih Format</p>
     </div>
 
@@ -75,7 +75,7 @@
           v-if="idx === 0"
           class="badge-best absolute -top-2 right-3"
         >
-          最高 · Terbaik
+          Terbaik
         </span>
 
         <div class="space-y-1.5">
@@ -105,7 +105,7 @@
         class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        <span class="jp-label">戻る · Kembali</span>
+        <span class="jp-label">Kembali</span>
       </button>
       <button
         id="btn-start-download"
@@ -127,7 +127,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="jp-label">ダウンロード · Unduh</span>
+        <span class="jp-label">Unduh</span>
       </button>
     </div>
   </div>
@@ -145,8 +145,8 @@ const props = defineProps({
 defineEmits(["selectType", "selectFormat", "startDownload", "reset"]);
 
 const tabs = [
-  { value: "video", label: "動画 · Video", icon: "🎬 " },
-  { value: "audio", label: "音楽 · Audio", icon: "🎵 " },
+  { value: "video", label: "Video", icon: "🎬 " },
+  { value: "audio", label: "Audio", icon: "🎵 " },
 ];
 
 const filteredFormats = computed(() => {

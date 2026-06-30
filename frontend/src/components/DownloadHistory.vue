@@ -7,7 +7,7 @@
     <div class="flex items-center justify-between">
       <div class="space-y-0.5">
         <h3 class="text-base font-extrabold text-gradient jp-display">
-          ダウンロード履歴
+          Riwayat Download
         </h3>
         <p class="text-xs" style="color: var(--color-muted);">Riwayat Download</p>
       </div>
@@ -16,7 +16,7 @@
         class="btn-ghost text-xs !py-2 !px-3"
         @click="clearHistory"
       >
-        <span class="jp-label">削除 · Hapus</span>
+        <span class="jp-label">Hapus</span>
       </button>
     </div>
 
@@ -56,7 +56,7 @@
                   : 'badge-audio',
               ]"
             >
-              {{ item.type === "video" ? "動画 · Video" : "音楽 · Audio" }}
+              {{ item.type === "video" ? "Video" : "Audio" }}
             </span>
             <span class="text-xs" style="color: var(--color-text-muted);">{{ item.quality }}</span>
           </div>
@@ -78,7 +78,7 @@
     class="card-kawaii p-6 text-center animate-fade-in"
   >
     <p class="jp-display text-sm" style="color: var(--color-text-muted);">
-      (´・ω・｀) Belum ada riwayat
+      Belum ada riwayat
     </p>
   </div>
 </template>
