@@ -1,37 +1,39 @@
-# ⛩️ KEI Downloader
+# KEI Downloader
 
-Aplikasi web modern untuk mengunduh video dan audio dari YouTube. Dirancang dengan **Tema Japanese Glassmorphism (Sky Blue Edition)** yang cerah dan estetis, memberikan pengalaman mengunduh yang cepat, mulus, dan indah dipandang.
+Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan antarmuka modern bergaya **Glassmorphism** yang bersih dan responsif.
 
-**Stack Utama:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
-
----
-
-## ✨ Fitur Unggulan
-
-- 🎨 **Sky Blue Glassmorphism UI:** Antarmuka tembus pandang yang menyesuaikan dengan latar belakang Anda, dilengkapi dengan animasi transisi yang halus.
-- 🎬 **Resolusi hingga 4K Ultrawide:** Sistem deteksi otomatis yang cerdas untuk mengunduh format video terbaik hingga *2160p*, termasuk format *DASH* & *Ultrawide*.
-- 🗂️ **Dukungan Playlist Batch:** Paste URL Playlist dan pilih video mana saja yang ingin diunduh. Sistem akan mengantre dan mengunduhnya satu per satu secara berurutan.
-- 📝 **Embed Subtitle Otomatis:** Fitur pengaturan untuk secara otomatis mengunduh dan menanamkan (embed) subtitle (ID/EN) ke dalam format mp4 menggunakan `ffmpeg`.
-- ⚙️ **Pengaturan Tersimpan:** Atur preferensi Anda (Audio/Video default, Subtitle) dan sistem akan mengingatnya di browser Anda.
+**Stack:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
 
 ---
 
-## ⚙️ Persyaratan Sistem (Prerequisites)
+## Fitur
+
+- **Glassmorphism UI** — Antarmuka modern dengan efek transparan, animasi transisi halus, dan desain responsif.
+- **Resolusi hingga 4K** — Deteksi otomatis format video terbaik hingga 2160p, termasuk format DASH & Ultrawide.
+- **Download Playlist** — Paste URL Playlist, pilih video yang diinginkan, lalu download secara batch berurutan.
+- **Embed Subtitle** — Otomatis download dan tanamkan subtitle (ID/EN) ke dalam file MP4 menggunakan ffmpeg.
+- **Progress Real-time** — Progress bar yang sinkron dengan proses download sebenarnya (server-side download + transfer file ke browser).
+- **Pengaturan Tersimpan** — Preferensi (Audio/Video default, Subtitle) tersimpan di browser.
+- **Riwayat Download** — Catatan download terakhir tersimpan secara lokal.
+
+---
+
+## Persyaratan Sistem
 
 - **Python 3.11+**
 - **Node.js 18+**
-- **ffmpeg** — **wajib** terinstall dan tersedia di system PATH.  
+- **ffmpeg** — Wajib terinstall dan tersedia di system PATH.
   Download: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 
-Cek apakah ffmpeg sudah terinstall melalui terminal:
+Cek apakah ffmpeg sudah terinstall:
 ```bash
 ffmpeg -version
 ```
-*(Catatan: Aplikasi ini juga otomatis memindai lokasi umum instalasi ffmpeg via WinGet/Scoop di Windows).*
+> Aplikasi ini juga otomatis memindai lokasi umum instalasi ffmpeg (WinGet, Scoop, Chocolatey) di Windows.
 
 ---
 
-## 🚀 Instalasi & Menjalankan Aplikasi
+## Instalasi & Menjalankan
 
 ### 1. Clone & Setup Backend
 
@@ -41,13 +43,13 @@ cd Kei-Downloader/backend
 
 # Buat & aktifkan virtual environment
 python -m venv .venv
-.venv\Scripts\activate      # Untuk Windows
-# source .venv/bin/activate # Untuk macOS/Linux
+.venv\Scripts\activate      # Windows
+# source .venv/bin/activate # macOS/Linux
 
-# Install dependencies backend
+# Install dependencies
 pip install -r requirements.txt
 
-# Jalankan server API (Port 8000)
+# Jalankan server API
 uvicorn main:app --reload --port 8000
 ```
 
@@ -58,37 +60,42 @@ Buka **terminal baru** (biarkan backend tetap berjalan):
 ```bash
 cd Kei-Downloader/frontend
 npm install
-
-# Jalankan development server
 npm run dev
 ```
 
 ### 3. Akses Aplikasi
-Buka browser dan kunjungi: **http://localhost:5173**
+
+Buka browser: **http://localhost:5173**
 
 ---
 
-## 📝 Cara Penggunaan
+## Cara Penggunaan
 
-1. **Pengaturan Awal:** Klik ikon ⚙️ (Gear) di pojok kanan atas untuk mengatur tipe *default* (Video/Audio) dan menyalakan fitur *Embed Subtitle*.
-2. **Download Single Video:** 
-   - Paste URL YouTube (termasuk resolusi tinggi 4K).
-   - Klik "Ambil Info" dan pilih resolusi yang muncul.
-   - Klik "Mulai Download".
+1. **Pengaturan (opsional):** Klik ikon gear di pojok kanan atas untuk mengatur tipe default (Video/Audio) dan mengaktifkan Embed Subtitle.
+2. **Download Video:**
+   - Paste URL YouTube ke kolom input.
+   - Klik **"Cek Video"** untuk mengambil info video.
+   - Pilih format dan resolusi yang diinginkan.
+   - Klik **"Unduh"** untuk mulai download.
 3. **Download Playlist:**
-   - Paste URL Playlist YouTube.
-   - Layar akan menampilkan daftar video dalam mode *batch selection*.
-   - Centang video yang ingin diunduh, lalu tekan "Mulai Download (N)". Aplikasi akan mengunduh secara berurutan.
+   - Paste URL Playlist YouTube, lalu klik **"Cek Video"**.
+   - Centang video yang ingin diunduh dari daftar yang muncul.
+   - Pilih format (Video/Audio), lalu klik **"Download (N)"**.
+   - Aplikasi akan mengunduh secara berurutan.
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
-- **`⚠️ WARNING: ffmpeg tidak ditemukan di PATH`**  
-  Pastikan ffmpeg sudah terinstall. Jika menggunakan Windows, coba install via `winget install ffmpeg` dan *restart terminal*.
-- **Pilihan Resolusi 1080p/4K Tidak Muncul?**  
-  Terkadang video dari YouTube diproses perlahan. Namun, sistem kita sudah mendeteksi otomatis *format_note* dan *lebar video* untuk memastikan 4K selalu muncul jika tersedia dari YouTube. Pastikan Anda me-*refresh* URL jika habis menekan batal.
+- **`ffmpeg tidak ditemukan di PATH`**
+  Pastikan ffmpeg sudah terinstall. Di Windows, coba `winget install ffmpeg` lalu restart terminal.
+
+- **Resolusi 1080p/4K tidak muncul?**
+  Sistem sudah mendeteksi otomatis via format_note dan lebar video. Pastikan video tersedia dalam resolusi tersebut di YouTube.
+
+- **Progress bar tidak bergerak?**
+  Pastikan backend (`uvicorn`) sedang berjalan di port 8000. Progress tracking menggunakan SSE (Server-Sent Events) untuk memantau proses download secara real-time.
 
 ---
 
-*Made with ❤️ using FastAPI & Vue 3*
+*Dibuat dengan Vue 3 + FastAPI + yt-dlp*
