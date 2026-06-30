@@ -1,10 +1,10 @@
 <template>
   <div class="relative min-h-screen">
-    <!-- Background: kawaii dot pattern is on body via CSS -->
+    <!-- Background: dot pattern is on body via CSS -->
 
     <!-- Header -->
     <header class="sticky top-0 z-20">
-      <div class="card-kawaii" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
+      <div class="card" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
         <div class="max-w-[680px] mx-auto px-4 sm:px-6 py-5 flex items-center gap-4">
           <!-- Kawaii play icon -->
           <div
@@ -24,9 +24,9 @@
           <div class="flex flex-col flex-1">
             <h1 class="text-2xl sm:text-[1.7rem] font-extrabold tracking-tight leading-tight">
               <span class="text-gradient">KEI</span>
-              <span class="jp-display text-gradient"> Downloader</span>
+              <span class="text-display text-gradient"> Downloader</span>
             </h1>
-            <p class="text-xs jp-label mt-0.5" style="color: var(--color-muted);">
+            <p class="text-xs text-label mt-0.5" style="color: var(--color-muted);">
               Download Video & Audio
             </p>
           </div>
@@ -54,10 +54,10 @@
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
 
-        <!-- State: loading (kawaii skeleton) -->
+        <!-- State: loading (skeleton) -->
         <div
           v-else-if="status === 'loading'"
-          class="card-kawaii p-6 space-y-4"
+          class="card p-6 space-y-4"
         >
           <div class="animate-shimmer h-[200px] rounded-xl"></div>
           <div class="animate-shimmer h-12 rounded-xl"></div>
@@ -98,7 +98,7 @@
         <!-- State: done -->
         <div
           v-else-if="status === 'done'"
-          class="card-kawaii p-8 text-center space-y-6 animate-bounce-in"
+          class="card p-8 text-center space-y-6 animate-bounce-in"
         >
           <div
             class="w-20 h-20 mx-auto rounded-full flex items-center justify-center"
@@ -122,7 +122,7 @@
           </div>
           <div class="space-y-2">
             <h2 class="text-2xl font-extrabold text-gradient">Selesai!</h2>
-            <p class="text-sm jp-display" style="color: var(--color-muted);">
+            <p class="text-sm text-display" style="color: var(--color-muted);">
               Download berhasil! File tersimpan di folder download browser.
             </p>
           </div>
@@ -131,7 +131,7 @@
             class="btn-primary"
             @click="handleReset"
           >
-            <span class="jp-label">Download Lagi</span>
+            <span class="text-label">Download Lagi</span>
           </button>
         </div>
       </Transition>
@@ -142,9 +142,12 @@
 
     <!-- Footer -->
     <footer class="relative z-10 pb-6 px-4 sm:px-6">
-      <div class="max-w-[680px] mx-auto px-4 py-3" style="border-top: 1px solid var(--color-border);">
-        <p class="text-center text-xs" style="color: var(--color-text-muted);">
-          <span class="jp-label">Dibuat dengan</span> Vue 3 + FastAPI + yt-dlp
+      <div class="max-w-[680px] mx-auto px-4 py-5 mt-4 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top: 1px solid var(--color-border);">
+        <p class="text-xs" style="color: var(--color-text-muted);">
+          &copy; {{ new Date().getFullYear() }} KEI Downloader. All rights reserved.
+        </p>
+        <p class="text-xs" style="color: var(--color-text-muted);">
+          <span class="text-label">Dibuat dengan</span> Vue 3 + FastAPI + yt-dlp
         </p>
       </div>
     </footer>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video info -->
     <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
       <img
@@ -21,9 +21,9 @@
 
     <!-- Progress bar -->
     <div class="space-y-3">
-      <div class="progress-kawaii">
+      <div class="progress-bar">
         <div
-          class="progress-kawaii-fill"
+          class="progress-fill"
           :style="{
             width: `${progress}%`,
             background: progress >= 100
@@ -32,7 +32,7 @@
           }"
         ></div>
         <span
-          class="progress-kawaii-label drop-shadow-sm"
+          class="progress-label drop-shadow-sm"
           :style="{
             color: progress > 45 ? '#fff' : 'var(--color-text)',
           }"
@@ -43,18 +43,18 @@
 
       <!-- Status text -->
       <p class="text-center text-sm" style="color: var(--color-muted);">
-        <span v-if="progress < 90" class="jp-label">
+        <span v-if="progress < 90" class="text-label">
           Mengunduh...
           <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
-        <span v-else-if="progress < 99" class="jp-label">
+        <span v-else-if="progress < 99" class="text-label">
           Menyimpan file...
           <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
-        <span v-else-if="progress < 100" class="jp-label">
+        <span v-else-if="progress < 100" class="text-label">
           Memproses...
         </span>
-        <span v-else class="font-bold jp-display" style="color: var(--color-accent);">
+        <span v-else class="font-bold text-display" style="color: var(--color-accent);">
           Selesai!
         </span>
       </p>

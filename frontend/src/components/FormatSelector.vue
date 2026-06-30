@@ -1,5 +1,5 @@
 <template>
-  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video preview -->
     <div class="rounded-2xl overflow-hidden" style="border: 1.5px solid var(--color-border);">
       <div class="relative">
@@ -27,12 +27,12 @@
 
     <!-- Section title -->
     <div class="text-center space-y-1">
-      <h3 class="text-lg font-extrabold text-gradient jp-display">Pilih Format</h3>
+      <h3 class="text-lg font-extrabold text-gradient text-display">Pilih Format</h3>
       <p class="text-xs" style="color: var(--color-muted);">Pilih Format</p>
     </div>
 
     <!-- Tab switcher -->
-    <div class="tab-kawaii">
+    <div class="tab-group">
       <button
         v-for="tab in tabs"
         :key="tab.value"
@@ -43,7 +43,7 @@
         @click="$emit('selectType', tab.value)"
       >
         {{ tab.icon }}
-        <span class="jp-label">{{ tab.label }}</span>
+        <span class="text-label">{{ tab.label }}</span>
       </button>
     </div>
 
@@ -105,7 +105,7 @@
         class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        <span class="jp-label">Kembali</span>
+        <span class="text-label">Kembali</span>
       </button>
       <button
         id="btn-start-download"
@@ -127,7 +127,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="jp-label">Unduh</span>
+        <span class="text-label">Unduh</span>
       </button>
     </div>
   </div>

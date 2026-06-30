@@ -1,8 +1,8 @@
 <template>
-  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Heading -->
     <div class="text-center space-y-2">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient jp-display">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient text-display">
         Download Video
       </h2>
       <p class="text-sm" style="color: var(--color-muted);">
@@ -19,7 +19,7 @@
           v-model="url"
           type="url"
           placeholder="Masukkan URL YouTube di sini..."
-          class="w-full px-4 py-3.5 pr-10 text-sm outline-none input-kawaii"
+          class="w-full px-4 py-3.5 pr-10 text-sm outline-none input-field"
           :class="[
             validationError
               ? '!border-[var(--color-danger)] focus:!border-[var(--color-danger)]'
@@ -60,16 +60,16 @@
         class="text-xs flex items-center gap-1.5"
         style="color: var(--color-danger);"
       >
-        <span class="jp-display">(´；ω；｀)</span>
+        <span class="text-display">⚠</span>
         {{ validationError }}
       </p>
 
       <!-- API error -->
       <div
         v-if="errorMessage"
-        class="error-kawaii text-sm flex items-start gap-2"
+        class="error-box text-sm flex items-start gap-2"
       >
-        <span class="jp-display text-base shrink-0">(´；ω；｀)</span>
+        <span class="text-display text-base shrink-0">⚠</span>
         <span>{{ errorMessage }}</span>
       </div>
 
@@ -103,7 +103,7 @@
             d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           ></path>
         </svg>
-        <span class="jp-label">
+        <span class="text-label">
           {{ isLoading ? "Mengambil Info..." : "Cek Video" }}
         </span>
       </button>
@@ -111,7 +111,7 @@
 
     <!-- Hint -->
     <p class="hint-text text-center">
-      Tips: YouTube, Shorts, dan Playlist didukung ✓
+      Tips: YouTube, Shorts, dan Playlist didukung
     </p>
   </div>
 </template>

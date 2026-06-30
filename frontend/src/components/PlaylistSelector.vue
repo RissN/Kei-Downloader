@@ -1,8 +1,8 @@
 <template>
-  <div class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-6">
+  <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Header -->
     <div class="text-center space-y-2">
-      <h2 class="text-xl sm:text-2xl font-extrabold text-gradient jp-display">
+      <h2 class="text-xl sm:text-2xl font-extrabold text-gradient text-display">
         Playlist Ditemukan!
       </h2>
       <h3 class="text-base font-bold truncate" style="color: var(--color-text);">
@@ -69,8 +69,8 @@
 
     <!-- Global Format selector for Playlist -->
     <div class="p-4 rounded-2xl space-y-3" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
-      <p class="text-sm font-bold jp-label" style="color: var(--color-text);">Pilih Format:</p>
-      <div class="tab-kawaii">
+      <p class="text-sm font-bold text-label" style="color: var(--color-text);">Pilih Format:</p>
+      <div class="tab-group">
         <button
           v-for="type in ['video', 'audio']"
           :key="type"
@@ -91,7 +91,7 @@
         class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        <span class="jp-label">Batal</span>
+        <span class="text-label">Batal</span>
       </button>
       <button
         type="button"
@@ -100,7 +100,7 @@
         :style="selectedCount === 0 ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
         @click="startDownload"
       >
-        <span class="jp-label">Download ({{ selectedCount }})</span>
+        <span class="text-label">Download ({{ selectedCount }})</span>
       </button>
     </div>
   </div>

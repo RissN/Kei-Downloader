@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Nunito", "Noto Sans JP", sans-serif;
+  --font-sans: "Nunito", sans-serif;
   --font-display: "Nunito", sans-serif;
-  --font-jp: "Noto Sans JP", sans-serif;
 
-  /* ── Kawaii Palette — Teal × Blue-Green (vivid) ── */
+  /* ── Palette — Teal × Blue-Green ── */
   --color-bg-base: #eef7f5;
   --color-bg-surface: #f4fbf9;
   --color-bg-surface2: #e0f2ed;
@@ -17,10 +16,10 @@
   --color-purple: #38a3d6;
   --color-purple-soft: #d6eefa;
   --color-text: #163030;
-  --color-muted: #4d7e75;
-  --color-text-muted: #8bb5ac;
-  --color-success: #86efac;
-  --color-danger: #fca5a5;
+  --color-muted: #3d6b62;
+  --color-text-muted: #6a9e94;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
   --color-sakura: #c4f0e4;
 }
 
@@ -37,14 +36,14 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Nunito", "Noto Sans JP", sans-serif !important;
+  font-family: "Nunito", sans-serif !important;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   background-color: var(--color-bg-base);
-  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(168, 216, 204, 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
   line-height: 1.6;
 }
 
@@ -54,10 +53,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────────────
-   Card — .card-kawaii
+   Card — .card
    ────────────────────────────────────────── */
 
-.card-kawaii {
+.card {
   background: linear-gradient(160deg, var(--color-bg-surface) 0%, var(--color-bg-surface2) 100%);
   border: 1.5px solid var(--color-border);
   border-radius: 16px;
@@ -69,9 +68,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-
-
-.card-kawaii:hover {
+.card:hover {
   box-shadow:
     0 8px 32px rgba(31, 184, 154, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -79,10 +76,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────────────
-   Input — .input-kawaii
+   Input — .input-field
    ────────────────────────────────────────── */
 
-.input-kawaii {
+.input-field {
   background: var(--color-bg-surface);
   border: 1.5px solid var(--color-border);
   border-radius: 12px;
@@ -90,12 +87,12 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.2s ease;
 }
 
-.input-kawaii::placeholder {
+.input-field::placeholder {
   color: var(--color-text-muted);
-  font-family: var(--font-jp);
+  font-family: "Nunito", sans-serif;
 }
 
-.input-kawaii:focus {
+.input-field:focus {
   outline: none;
   background: #fff;
   border-color: var(--color-accent);
@@ -138,9 +135,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:disabled {
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: not-allowed;
   box-shadow: none;
+  background: var(--color-text-muted) !important;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .btn-ghost {
@@ -174,7 +173,7 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
   color: #fff;
-  font-family: var(--font-jp);
+  font-family: "Nunito", sans-serif;
   font-size: 10px;
   font-weight: 700;
   padding: 2px 10px;
@@ -184,10 +183,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────────────
-   Tab — .tab-kawaii
+   Tab — .tab-group
    ────────────────────────────────────────── */
 
-.tab-kawaii {
+.tab-group {
   display: flex;
   background: var(--color-bg-surface2);
   border-radius: 9999px;
@@ -196,7 +195,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1.5px solid var(--color-border);
 }
 
-.tab-kawaii button {
+.tab-group button {
   flex: 1;
   padding: 0.625rem 1rem;
   border-radius: 9999px;
@@ -210,7 +209,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 
-.tab-kawaii button:hover {
+.tab-group button:hover {
   color: var(--color-text);
   background: var(--color-bg-surface);
 }
@@ -222,10 +221,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────────────
-   Progress Bar — .progress-kawaii
+   Progress Bar — .progress-bar
    ────────────────────────────────────────── */
 
-.progress-kawaii {
+.progress-bar {
   position: relative;
   width: 100%;
   height: 2.75rem;
@@ -235,7 +234,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1.5px solid var(--color-border);
 }
 
-.progress-kawaii-fill {
+.progress-fill {
   height: 100%;
   border-radius: 9999px;
   background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
@@ -244,7 +243,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-.progress-kawaii-fill::after {
+.progress-fill::after {
   content: '';
   position: absolute;
   top: 0;
@@ -260,7 +259,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.progress-kawaii-label {
+.progress-label {
   position: absolute;
   inset: 0;
   display: flex;
@@ -319,15 +318,6 @@ h1, h2, h3, h4, h5, h6 {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes pulse-kawaii {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(31, 184, 154, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 24px rgba(31, 184, 154, 0.5);
   }
 }
 
@@ -414,16 +404,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────────────
-   Japanese Label
+   Text label & display utility
    ────────────────────────────────────────── */
 
-.jp-label {
-  font-family: var(--font-jp);
+.text-label {
+  font-family: "Nunito", sans-serif;
   letter-spacing: 0.05em;
 }
 
-.jp-display {
-  font-family: var(--font-jp);
+.text-display {
+  font-family: "Nunito", sans-serif;
   font-weight: 700;
 }
 
@@ -479,15 +469,15 @@ h1, h2, h3, h4, h5, h6 {
    ────────────────────────────────────────── */
 
 .hint-text {
-  font-family: var(--font-jp);
+  font-family: "Nunito", sans-serif;
   color: var(--color-text-muted);
   font-size: 0.75rem;
 }
 
-.error-kawaii {
+.error-box {
   color: var(--color-danger);
-  background: rgba(252, 165, 165, 0.1);
-  border: 1px solid rgba(252, 165, 165, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   border-radius: 12px;
   padding: 0.75rem;
 }

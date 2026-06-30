@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="history.length"
-    class="card-kawaii p-6 sm:p-8 animate-fade-in space-y-4"
+    class="card p-6 sm:p-8 animate-fade-in space-y-4"
   >
     <!-- Section header -->
     <div class="flex items-center justify-between">
       <div class="space-y-0.5">
-        <h3 class="text-base font-extrabold text-gradient jp-display">
+        <h3 class="text-base font-extrabold text-gradient text-display">
           Riwayat Download
         </h3>
         <p class="text-xs" style="color: var(--color-muted);">Riwayat Download</p>
@@ -16,7 +16,7 @@
         class="btn-ghost text-xs !py-2 !px-3"
         @click="clearHistory"
       >
-        <span class="jp-label">Hapus</span>
+        <span class="text-label">Hapus</span>
       </button>
     </div>
 
@@ -75,9 +75,9 @@
   <!-- Empty state when no history -->
   <div
     v-else
-    class="card-kawaii p-6 text-center animate-fade-in"
+    class="card p-6 text-center animate-fade-in"
   >
-    <p class="jp-display text-sm" style="color: var(--color-text-muted);">
+    <p class="text-display text-sm" style="color: var(--color-text-muted);">
       Belum ada riwayat
     </p>
   </div>
