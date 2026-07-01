@@ -48,6 +48,23 @@
     </div>
 
     <!-- Format grid -->
+    <div v-if="selectedType === 'audio'" class="flex justify-center -mt-2 mb-4 animate-fade-in">
+      <div class="relative">
+        <select
+          v-model="selectedAudioCodec"
+          class="appearance-none bg-transparent border border-[var(--color-border)] rounded-full px-4 py-1.5 pr-8 text-sm font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] transition-colors cursor-pointer"
+          style="background: var(--color-bg-surface);"
+        >
+          <option value="mp3">Format: MP3</option>
+          <option value="opus">Format: OPUS</option>
+        </select>
+        <!-- Custom dropdown arrow -->
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3" style="color: var(--color-muted);">
+          <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
+    </div>
+
     <TransitionGroup
       name="format-list"
       tag="div"
@@ -134,7 +151,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps({
   videoInfo: { type: Object, default: null },
@@ -142,16 +159,31 @@ const props = defineProps({
   selectedFormat: { type: Object, default: null },
 });
 
-defineEmits(["selectType", "selectFormat", "startDownload", "reset"]);
+const emit = defineEmits(["selectType", "selectFormat", "startDownload", "reset"]);
 
 const tabs = [
   { value: "video", label: "Video", icon: "🎬 " },
   { value: "audio", label: "Audio", icon: "🎵 " },
 ];
 
+const selectedAudioCodec = ref("mp3");
+
+// Reset codec to mp3 when switching back to audio tab (optional, but good for UX)
+watch(() => props.selectedType, (newVal) => {
+  if (newVal === 'audio') {
+    selectedAudioCodec.value = "mp3";
+  }
+});
+
 const filteredFormats = computed(() => {
   if (!props.videoInfo?.formats) return [];
-  return props.videoInfo.formats.filter((f) => f.type === props.selectedType);
+  return props.videoInfo.formats.filter((f) => {
+    if (f.type !== props.selectedType) return false;
+    if (props.selectedType === 'audio' && f.ext) {
+      return f.ext === selectedAudioCodec.value;
+    }
+    return true;
+  });
 });
 
 /**

@@ -260,20 +260,27 @@ class YTDownloader:
         return formats
 
     def _build_audio_formats(self, duration: int) -> List[Format]:
-        """Generate audio format options (MP3 at different bitrates)."""
+        """Generate audio format options (MP3 and Opus at different bitrates)."""
         formats: List[Format] = []
-        for bitrate in AUDIO_BITRATES:
-            estimated_size = int(bitrate * 1000 * duration / 8) if duration else None
-            formats.append(
-                Format(
-                    format_id=f"bestaudio-{bitrate}",
-                    ext="mp3",
-                    resolution=f"{bitrate}kbps",
-                    filesize_approx=estimated_size,
-                    quality_label=f"{bitrate} kbps",
-                    type="audio",
+        audio_options = [
+            {"codec": "mp3", "bitrates": AUDIO_BITRATES},
+            {"codec": "opus", "bitrates": [192, 160, 128]}
+        ]
+        
+        for opt in audio_options:
+            codec = opt["codec"]
+            for bitrate in opt["bitrates"]:
+                estimated_size = int(bitrate * 1000 * duration / 8) if duration else None
+                formats.append(
+                    Format(
+                        format_id=f"bestaudio-{codec}-{bitrate}",
+                        ext=codec,
+                        resolution=f"{bitrate}kbps",
+                        filesize_approx=estimated_size,
+                        quality_label=f"{codec.upper()} {bitrate} kbps",
+                        type="audio",
+                    )
                 )
-            )
         return formats
 
     def _build_ydl_opts(
@@ -307,12 +314,15 @@ class YTDownloader:
             opts["ffmpeg_location"] = FFMPEG_LOCATION
 
         if is_audio:
-            bitrate = format_id.split("-")[1]
+            parts = format_id.split("-")
+            codec = parts[1] if len(parts) > 1 else "mp3"
+            bitrate = parts[2] if len(parts) > 2 else "192"
+            
             opts["format"] = "bestaudio/best"
             opts["postprocessors"] = [
                 {
                     "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
+                    "preferredcodec": codec,
                     "preferredquality": bitrate,
                 }
             ]

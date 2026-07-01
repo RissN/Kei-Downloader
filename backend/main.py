@@ -127,7 +127,12 @@ async def download_file(
 
         # Tentukan content type
         ext = os.path.splitext(filepath)[1].lower()
-        content_type = "audio/mpeg" if ext == ".mp3" else "video/mp4"
+        if ext == ".mp3":
+            content_type = "audio/mpeg"
+        elif ext in (".opus", ".ogg"):
+            content_type = "audio/opus"
+        else:
+            content_type = "video/mp4"
         filename = os.path.basename(filepath)
         # Hapus prefix task_id dari nama file
         clean_name = filename.split("_", 1)[1] if "_" in filename else filename
