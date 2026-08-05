@@ -1,19 +1,19 @@
 <template>
-  <div class="relative min-h-screen flex flex-col">
+  <div class="relative h-screen h-dvh max-h-screen overflow-hidden flex flex-col justify-between">
     <!-- Background: dot pattern is on body via CSS -->
 
     <!-- Header -->
-    <header class="sticky top-0 z-20">
+    <header class="sticky top-0 z-20 shrink-0">
       <div class="card" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
-        <div class="max-w-[680px] mx-auto px-4 sm:px-6 py-5 flex items-center gap-4">
+        <div class="max-w-[680px] mx-auto px-4 sm:px-6 py-3.5 flex items-center gap-4">
           <!-- Kawaii play icon -->
           <div
-            class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
-            style="background: linear-gradient(135deg, #1fb89a, #38a3d6); box-shadow: 0 4px 16px rgba(31, 184, 154, 0.4);"
+            class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, #ff6b6b, #a855f7); box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-white"
+              class="w-5 h-5 text-white"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -22,17 +22,17 @@
           </div>
           <!-- Header Text -->
           <div class="flex flex-col flex-1">
-            <h1 class="text-2xl sm:text-[1.7rem] font-extrabold tracking-tight leading-tight">
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
               <span class="text-gradient">KEI</span>
               <span class="text-display text-gradient"> Downloader</span>
             </h1>
-            <p class="text-xs text-label mt-0.5" style="color: var(--color-muted);">
+            <p class="text-[11px] text-label mt-0.2" style="color: var(--color-muted);">
               Download Video & Audio
             </p>
           </div>
           <!-- Settings Button -->
           <button
-            class="w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer"
+            class="w-9 h-9 flex items-center justify-center rounded-full transition-all cursor-pointer"
             style="color: var(--color-muted);"
             @click="showSettings = true"
             @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
@@ -49,7 +49,7 @@
     </header>
 
     <!-- Main content -->
-    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-10 flex-1 flex flex-col justify-center space-y-6">
+    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-4 flex-1 flex flex-col justify-center overflow-y-auto min-h-0 space-y-4">
       <Transition name="slide-fade" mode="out-in">
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
@@ -98,15 +98,15 @@
         <!-- State: done -->
         <div
           v-else-if="status === 'done'"
-          class="card p-8 text-center space-y-6 animate-bounce-in"
+          class="card p-6 sm:p-8 text-center space-y-5 animate-bounce-in"
         >
           <div
-            class="w-20 h-20 mx-auto rounded-full flex items-center justify-center"
-            style="background: rgba(134, 239, 172, 0.2);"
+            class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full flex items-center justify-center"
+            style="background: rgba(16, 185, 129, 0.2);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-10 w-10"
+              class="h-8 w-8 sm:h-10 sm:w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -120,7 +120,7 @@
               />
             </svg>
           </div>
-          <div class="space-y-2">
+          <div class="space-y-1.5">
             <h2 class="text-2xl font-extrabold text-gradient">Selesai!</h2>
             <p class="text-sm text-display" style="color: var(--color-muted);">
               Download berhasil! File tersimpan di folder download browser.
@@ -141,8 +141,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 w-full pb-6 px-4 sm:px-6 mt-auto">
-      <div class="max-w-[680px] mx-auto px-4 py-5 mt-4 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top: 1px solid var(--color-border);">
+    <footer class="relative z-10 w-full px-4 sm:px-6 shrink-0">
+      <div class="max-w-[680px] mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2" style="border-top: 1px solid var(--color-border);">
         <p class="text-xs" style="color: var(--color-text-muted);">
           &copy; {{ new Date().getFullYear() }} KEI Downloader. All rights reserved.
         </p>
