@@ -1,51 +1,51 @@
 <template>
-  <div class="space-y-4 animate-fade-in">
-    <!-- Card 1: Video Info Preview -->
-    <div class="card p-4 sm:p-5">
-      <div class="flex flex-col sm:flex-row items-center gap-4">
-        <!-- Thumbnail -->
-        <div class="relative w-full sm:w-52 aspect-video rounded-xl overflow-hidden shrink-0 shadow-md" style="border: 1px solid var(--color-border);">
-          <img
-            v-if="videoInfo?.thumbnail"
-            :src="videoInfo.thumbnail"
-            :alt="videoInfo?.title"
-            class="w-full h-full object-cover"
-          />
-          <!-- Duration badge -->
-          <span
-            v-if="videoInfo?.duration"
-            class="absolute bottom-2 right-2 text-white text-[11px] font-bold px-2 py-0.5 rounded-md"
-            style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(4px);"
-          >
-            {{ formatDuration(videoInfo.duration) }}
-          </span>
-        </div>
+  <div class="space-y-5 animate-fade-in">
+    <!-- Card 1: Large Featured Video Info Preview -->
+    <div class="card p-4 sm:p-6 space-y-3">
+      <!-- Large Hero Thumbnail -->
+      <div class="relative w-full aspect-video max-h-[320px] rounded-2xl overflow-hidden shadow-xl" style="border: 1.5px solid var(--color-border);">
+        <img
+          v-if="videoInfo?.thumbnail"
+          :src="videoInfo.thumbnail"
+          :alt="videoInfo?.title"
+          class="w-full h-full object-cover"
+        />
+        <!-- Duration badge -->
+        <span
+          v-if="videoInfo?.duration"
+          class="absolute bottom-3 right-3 text-white text-xs font-bold px-3 py-1 rounded-lg"
+          style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.15);"
+        >
+          {{ formatDuration(videoInfo.duration) }}
+        </span>
+      </div>
 
-        <!-- Info & Title -->
-        <div class="flex-1 min-w-0 space-y-1.5 text-center sm:text-left">
+      <!-- Title & Details -->
+      <div class="pt-1 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="space-y-1">
           <span
             class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider"
             style="background: var(--color-accent-soft); color: var(--color-accent);"
           >
             YouTube Video
           </span>
-          <h2 class="font-extrabold text-base sm:text-lg leading-snug line-clamp-2" style="color: var(--color-text);">
+          <h2 class="font-extrabold text-base sm:text-xl leading-snug line-clamp-2" style="color: var(--color-text);">
             {{ videoInfo?.title }}
           </h2>
         </div>
       </div>
     </div>
 
-    <!-- Card 2: Format Options & Actions -->
+    <!-- Card 2: Format Selection Grid & Actions -->
     <div class="card p-5 sm:p-6 space-y-5">
-      <!-- Section Title & Tabs Header -->
+      <!-- Header: Title & Tab Switcher -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
         <div class="space-y-0.5">
           <h3 class="text-lg font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
-          <p class="text-xs" style="color: var(--color-muted);">Pilih format media yang sesuai untuk diunduh</p>
+          <p class="text-xs" style="color: var(--color-muted);">Pilih resolusi video atau bitrate audio yang Anda inginkan</p>
         </div>
 
-        <!-- Tab switcher -->
+        <!-- Tab Switcher -->
         <div class="tab-group shrink-0 sm:w-auto w-full">
           <button
             v-for="tab in tabs"
@@ -63,28 +63,28 @@
       </div>
 
       <!-- Audio Codec Selector -->
-      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/25 px-3 py-2 rounded-xl border border-[var(--color-border)] animate-fade-in">
-        <span class="text-xs font-bold text-[var(--color-muted)]">Format Audio:</span>
+      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/30 px-4 py-2.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
+        <span class="text-xs font-bold text-[var(--color-muted)]">Format Enkoding Audio:</span>
         <select
           v-model="selectedAudioCodec"
-          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
+          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3.5 py-1.5 pr-8 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
         >
           <option value="mp3">MP3 (.mp3)</option>
           <option value="opus">OPUS (.opus)</option>
         </select>
       </div>
 
-      <!-- Format Grid (Spreads horizontally into 2-4 columns) -->
+      <!-- Format Grid (3 Columns on Desktop for optimal spacing & balance) -->
       <TransitionGroup
         name="format-list"
         tag="div"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[300px] overflow-y-auto pr-1"
+        class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 max-h-[340px] overflow-y-auto pr-1"
       >
         <button
           v-for="(fmt, idx) in filteredFormats"
           :key="fmt.format_id"
           :id="`format-${fmt.format_id}`"
-          class="text-left transition-all duration-200 cursor-pointer"
+          class="text-left transition-all duration-200 cursor-pointer relative"
           :class="[
             selectedFormat?.format_id === fmt.format_id
               ? 'format-card format-card-selected'
@@ -101,18 +101,20 @@
             Terbaik
           </span>
 
-          <div class="space-y-1">
-            <span class="font-bold text-sm sm:text-base block truncate" style="color: var(--color-text);">
-              {{ fmt.quality_label }}
-            </span>
+          <div class="space-y-1.5 p-1">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-extrabold text-sm sm:text-base block truncate" style="color: var(--color-text);">
+                {{ fmt.quality_label }}
+              </span>
+            </div>
             <div class="flex items-center gap-1.5 text-[11px]" style="color: var(--color-muted);">
               <span
-                class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase shrink-0"
-                style="background: rgba(255, 255, 255, 0.1); color: var(--color-muted);"
+                class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase shrink-0"
+                style="background: rgba(255, 255, 255, 0.12); color: var(--color-muted);"
               >
                 .{{ fmt.ext }}
               </span>
-              <span v-if="fmt.filesize_approx" class="truncate">
+              <span v-if="fmt.filesize_approx" class="truncate font-semibold">
                 ~{{ formatSize(fmt.filesize_approx) }}
               </span>
             </div>
@@ -150,7 +152,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="text-label">Unduh</span>
+          <span class="text-label">Unduh Sekarang</span>
         </button>
       </div>
     </div>
