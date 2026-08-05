@@ -13,7 +13,8 @@ from uuid import uuid4
 from fastapi import FastAPI, HTTPException, Query
 # pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 from downloader import YTDownloader
 from schemas import DownloadStatus, InfoRequest
@@ -21,7 +22,12 @@ from schemas import DownloadStatus, InfoRequest
 app = FastAPI(title="YT Downloader API")
 
 # --- CORS ---
-origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -35,7 +41,7 @@ app.add_middleware(
 task_progress: Dict[str, DownloadStatus] = {}
 downloader = YTDownloader()
 
-DOWNLOAD_DIR = Path(__file__).parent.parent / "downloads"
+DOWNLOAD_DIR = Path(__file__).parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
 
 
@@ -45,10 +51,10 @@ async def startup_check() -> None:
     from downloader import FFMPEG_LOCATION
 
     if FFMPEG_LOCATION:
-        print(f"✅ ffmpeg ditemukan: {FFMPEG_LOCATION}")
+        print(f"[OK] ffmpeg ditemukan: {FFMPEG_LOCATION}")
     else:
         print(
-            "⚠️  WARNING: ffmpeg tidak ditemukan di PATH maupun lokasi umum. "
+            "[WARNING] ffmpeg tidak ditemukan di PATH maupun lokasi umum. "
             "Konversi audio dan merge video akan gagal."
         )
 
@@ -205,3 +211,21 @@ async def progress_stream(task_id: str) -> StreamingResponse:
             "X-Accel-Buffering": "no",
         },
     )
+
+
+# --- Static files serving (Monolith) ---
+DIST_DIR = Path(__file__).parent / "dist"
+
+if DIST_DIR.exists():
+    if (DIST_DIR / "assets").exists():
+        app.mount("/assets", StaticFiles(directory=DIST_DIR / "assets"), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        file_path = DIST_DIR / full_path
+        if file_path.is_file():
+            return FileResponse(file_path)
+        return FileResponse(DIST_DIR / "index.html")
+

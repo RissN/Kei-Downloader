@@ -11,7 +11,7 @@ import yt_dlp
 
 from schemas import Format, InfoResponse
 
-DOWNLOAD_DIR = Path(__file__).parent.parent / "downloads"
+DOWNLOAD_DIR = Path(__file__).parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
 
 
