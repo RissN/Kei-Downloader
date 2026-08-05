@@ -1,77 +1,52 @@
 <template>
-  <div class="card p-6 sm:p-8 animate-fade-in">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-      <!-- Left Column: Video Preview -->
-      <div class="md:col-span-5 space-y-4">
-        <div class="rounded-2xl overflow-hidden shadow-lg" style="border: 1.5px solid var(--color-border);">
-          <div class="relative">
-            <img
-              v-if="videoInfo?.thumbnail"
-              :src="videoInfo.thumbnail"
-              :alt="videoInfo?.title"
-              class="w-full aspect-video object-cover"
-            />
-            <!-- Duration badge -->
-            <span
-              v-if="videoInfo?.duration"
-              class="absolute bottom-2 right-2 text-white text-xs font-bold px-2.5 py-1 rounded-full"
-              style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(4px);"
-            >
-              {{ formatDuration(videoInfo.duration) }}
-            </span>
-          </div>
-          <div class="p-4" style="background: rgba(14, 14, 28, 0.6);">
-            <h3 class="font-bold text-base leading-snug line-clamp-3" style="color: var(--color-text);">
-              {{ videoInfo?.title }}
-            </h3>
-          </div>
+  <div class="space-y-4 animate-fade-in">
+    <!-- Card 1: Video Info Preview -->
+    <div class="card p-4 sm:p-5">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <!-- Thumbnail -->
+        <div class="relative w-full sm:w-52 aspect-video rounded-xl overflow-hidden shrink-0 shadow-md" style="border: 1px solid var(--color-border);">
+          <img
+            v-if="videoInfo?.thumbnail"
+            :src="videoInfo.thumbnail"
+            :alt="videoInfo?.title"
+            class="w-full h-full object-cover"
+          />
+          <!-- Duration badge -->
+          <span
+            v-if="videoInfo?.duration"
+            class="absolute bottom-2 right-2 text-white text-[11px] font-bold px-2 py-0.5 rounded-md"
+            style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(4px);"
+          >
+            {{ formatDuration(videoInfo.duration) }}
+          </span>
         </div>
 
-        <!-- Desktop Actions (under preview) -->
-        <div class="hidden md:flex flex-col gap-2.5 pt-2">
-          <button
-            id="btn-start-download"
-            type="button"
-            :disabled="!selectedFormat"
-            class="w-full btn-primary"
-            :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
-            @click="$emit('startDownload')"
+        <!-- Info & Title -->
+        <div class="flex-1 min-w-0 space-y-1.5 text-center sm:text-left">
+          <span
+            class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider"
+            style="background: var(--color-accent-soft); color: var(--color-accent);"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="text-label">Unduh Sekarang</span>
-          </button>
-          <button
-            id="btn-change-url"
-            type="button"
-            class="w-full btn-ghost"
-            @click="$emit('reset')"
-          >
-            <span class="text-label">Kembali</span>
-          </button>
+            YouTube Video
+          </span>
+          <h2 class="font-extrabold text-base sm:text-lg leading-snug line-clamp-2" style="color: var(--color-text);">
+            {{ videoInfo?.title }}
+          </h2>
         </div>
       </div>
+    </div>
 
-      <!-- Right Column: Format Options & Tabs -->
-      <div class="md:col-span-7 space-y-5">
-        <!-- Section title -->
-        <div class="space-y-1">
-          <h3 class="text-xl font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
-          <p class="text-xs" style="color: var(--color-muted);">Pilih tipe media yang ingin diunduh</p>
+    <!-- Card 2: Format Options & Actions -->
+    <div class="card p-5 sm:p-6 space-y-5">
+      <!-- Section Title & Tabs Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+        <div class="space-y-0.5">
+          <h3 class="text-lg font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
+          <p class="text-xs" style="color: var(--color-muted);">Pilih format media yang sesuai untuk diunduh</p>
         </div>
 
         <!-- Tab switcher -->
-        <div class="tab-group">
+        <div class="tab-group shrink-0 sm:w-auto w-full">
           <button
             v-for="tab in tabs"
             :key="tab.value"
@@ -85,86 +60,98 @@
             <span class="text-label">{{ tab.label }}</span>
           </button>
         </div>
+      </div>
 
-        <!-- Audio Codec Selector -->
-        <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/20 p-2.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
-          <span class="text-xs font-bold text-[var(--color-muted)] pl-2">Format Audio:</span>
-          <select
-            v-model="selectedAudioCodec"
-            class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
-          >
-            <option value="mp3">MP3 (.mp3)</option>
-            <option value="opus">OPUS (.opus)</option>
-          </select>
-        </div>
-
-        <!-- Format Grid -->
-        <TransitionGroup
-          name="format-list"
-          tag="div"
-          class="grid grid-cols-2 gap-3 max-h-[280px] overflow-y-auto pr-1"
+      <!-- Audio Codec Selector -->
+      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/25 px-3 py-2 rounded-xl border border-[var(--color-border)] animate-fade-in">
+        <span class="text-xs font-bold text-[var(--color-muted)]">Format Audio:</span>
+        <select
+          v-model="selectedAudioCodec"
+          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
         >
-          <button
-            v-for="(fmt, idx) in filteredFormats"
-            :key="fmt.format_id"
-            :id="`format-${fmt.format_id}`"
-            class="text-left transition-all duration-200 cursor-pointer"
-            :class="[
-              selectedFormat?.format_id === fmt.format_id
-                ? 'format-card format-card-selected'
-                : 'format-card',
-            ]"
-            :style="{ animationDelay: `${idx * 50}ms` }"
-            @click="$emit('selectFormat', fmt)"
+          <option value="mp3">MP3 (.mp3)</option>
+          <option value="opus">OPUS (.opus)</option>
+        </select>
+      </div>
+
+      <!-- Format Grid (Spreads horizontally into 2-4 columns) -->
+      <TransitionGroup
+        name="format-list"
+        tag="div"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[300px] overflow-y-auto pr-1"
+      >
+        <button
+          v-for="(fmt, idx) in filteredFormats"
+          :key="fmt.format_id"
+          :id="`format-${fmt.format_id}`"
+          class="text-left transition-all duration-200 cursor-pointer"
+          :class="[
+            selectedFormat?.format_id === fmt.format_id
+              ? 'format-card format-card-selected'
+              : 'format-card',
+          ]"
+          :style="{ animationDelay: `${idx * 40}ms` }"
+          @click="$emit('selectFormat', fmt)"
+        >
+          <!-- Best badge -->
+          <span
+            v-if="idx === 0"
+            class="badge-best absolute -top-2 right-2 text-[9px] px-2 py-0.5"
           >
-            <!-- Best badge -->
-            <span
-              v-if="idx === 0"
-              class="badge-best absolute -top-2 right-2 text-[9px] px-2 py-0.5"
-            >
-              Terbaik
+            Terbaik
+          </span>
+
+          <div class="space-y-1">
+            <span class="font-bold text-sm sm:text-base block truncate" style="color: var(--color-text);">
+              {{ fmt.quality_label }}
             </span>
-
-            <div class="space-y-1">
-              <span class="font-bold text-sm sm:text-base block" style="color: var(--color-text);">
-                {{ fmt.quality_label }}
+            <div class="flex items-center gap-1.5 text-[11px]" style="color: var(--color-muted);">
+              <span
+                class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase shrink-0"
+                style="background: rgba(255, 255, 255, 0.1); color: var(--color-muted);"
+              >
+                .{{ fmt.ext }}
               </span>
-              <div class="flex items-center gap-1.5 text-[11px]" style="color: var(--color-muted);">
-                <span
-                  class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase"
-                  style="background: rgba(255, 255, 255, 0.1); color: var(--color-muted);"
-                >
-                  .{{ fmt.ext }}
-                </span>
-                <span v-if="fmt.filesize_approx">
-                  ~{{ formatSize(fmt.filesize_approx) }}
-                </span>
-              </div>
+              <span v-if="fmt.filesize_approx" class="truncate">
+                ~{{ formatSize(fmt.filesize_approx) }}
+              </span>
             </div>
-          </button>
-        </TransitionGroup>
+          </div>
+        </button>
+      </TransitionGroup>
 
-        <!-- Mobile Actions (shown only on small screens) -->
-        <div class="flex md:hidden gap-3 pt-2">
-          <button
-            id="btn-change-url-mobile"
-            type="button"
-            class="flex-1 btn-ghost"
-            @click="$emit('reset')"
+      <!-- Action Buttons -->
+      <div class="flex gap-3 pt-2">
+        <button
+          id="btn-change-url"
+          type="button"
+          class="flex-1 btn-ghost"
+          @click="$emit('reset')"
+        >
+          <span class="text-label">Kembali</span>
+        </button>
+        <button
+          id="btn-start-download"
+          type="button"
+          :disabled="!selectedFormat"
+          class="flex-[2] btn-primary"
+          :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+          @click="$emit('startDownload')"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
           >
-            <span class="text-label">Kembali</span>
-          </button>
-          <button
-            id="btn-start-download-mobile"
-            type="button"
-            :disabled="!selectedFormat"
-            class="flex-[2] btn-primary"
-            :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
-            @click="$emit('startDownload')"
-          >
-            <span class="text-label">Unduh</span>
-          </button>
-        </div>
+            <path
+              fill-rule="evenodd"
+              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-label">Unduh</span>
+        </button>
       </div>
     </div>
   </div>

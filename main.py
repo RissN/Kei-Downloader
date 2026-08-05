@@ -67,6 +67,23 @@ async def health() -> dict:
     return {"status": "ok", "yt_dlp_version": yt_dlp.version.__version__}
 
 
+def sanitize_error_message(msg: str) -> str:
+    msg_lower = msg.lower()
+    if "is not a valid url" in msg_lower or "unsupported url" in msg_lower:
+        return "URL YouTube tidak valid atau tidak didukung. Mohon periksa kembali link Anda."
+    if "private video" in msg_lower:
+        return "Video ini bersifat privat dan tidak dapat diakses."
+    if "not available" in msg_lower or "unavailable" in msg_lower:
+        return "Video tidak tersedia atau dibatasi di region Anda."
+    if "copyright" in msg_lower:
+        return "Video ini tidak dapat diunduh karena klaim hak cipta."
+    if "sign in to confirm your age" in msg_lower or "age-gated" in msg_lower:
+        return "Video ini dibatasi usia oleh YouTube."
+    if "file tidak ditemukan" in msg_lower:
+        return "Gagal memproses file hasil unduhan. Silakan coba lagi."
+    return "Terjadi kesalahan saat memproses video. Silakan coba lagi atau pilih format lain."
+
+
 @app.post("/api/info")
 async def get_info(req: InfoRequest) -> dict:
     try:
@@ -74,16 +91,14 @@ async def get_info(req: InfoRequest) -> dict:
         return info.model_dump()
     except Exception as e:
         traceback.print_exc()
-        msg = str(e)
-        if "is not a valid URL" in msg or "Unsupported URL" in msg:
-            raise HTTPException(status_code=400, detail="URL tidak valid atau tidak didukung.")
-        if "Private video" in msg:
-            raise HTTPException(status_code=400, detail="Video ini bersifat privat.")
-        if "not available" in msg.lower() or "unavailable" in msg.lower():
-            raise HTTPException(
-                status_code=404, detail="Video tidak tersedia atau dibatasi di region Anda."
-            )
-        raise HTTPException(status_code=500, detail=f"Gagal mengambil info video: {msg}")
+        clean_msg = sanitize_error_message(str(e))
+        if "tidak valid" in clean_msg:
+            raise HTTPException(status_code=400, detail=clean_msg)
+        if "privat" in clean_msg:
+            raise HTTPException(status_code=400, detail=clean_msg)
+        if "tidak tersedia" in clean_msg:
+            raise HTTPException(status_code=404, detail=clean_msg)
+        raise HTTPException(status_code=500, detail=clean_msg)
 
 
 @app.get("/api/download")
@@ -180,10 +195,11 @@ async def download_file(
         raise
     except Exception as e:
         traceback.print_exc()
+        clean_msg = sanitize_error_message(str(e))
         task_progress[task_id] = DownloadStatus(
-            task_id=task_id, status="error", progress=0, error_msg=str(e)
+            task_id=task_id, status="error", progress=0, error_msg=clean_msg
         )
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=clean_msg)
 
 
 @app.get("/api/progress/{task_id}")

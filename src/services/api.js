@@ -15,8 +15,12 @@ export async function fetchVideoInfo(url) {
   });
 
   if (!response.ok) {
-    const body = await response.json().catch(() => ({ detail: "Terjadi kesalahan pada server" }));
-    throw new Error(body.detail || `HTTP ${response.status}`);
+    const body = await response.json().catch(() => ({ detail: "Gagal terhubung ke server. Silakan coba lagi." }));
+    let msg = body.detail || "Terjadi kesalahan saat memproses permintaan.";
+    if (typeof msg !== "string" || msg.includes("HTTP") || msg.includes("500") || msg.includes("yt_dlp") || msg.includes("Postprocessing")) {
+      msg = "Terjadi kesalahan saat memproses video. Silakan periksa kembali link Anda atau coba beberapa saat lagi.";
+    }
+    throw new Error(msg);
   }
 
   return response.json();
