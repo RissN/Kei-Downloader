@@ -308,10 +308,13 @@ class YTDownloader:
             "no_warnings": True,
             "outtmpl": str(DOWNLOAD_DIR / f"{task_id}_%(title).80s.%(ext)s"),
             "progress_hooks": [progress_hook],
+            "writethumbnail": True,
         }
 
         if FFMPEG_LOCATION:
             opts["ffmpeg_location"] = FFMPEG_LOCATION
+
+        postprocessors = []
 
         if is_audio:
             parts = format_id.split("-")
@@ -319,13 +322,13 @@ class YTDownloader:
             bitrate = parts[2] if len(parts) > 2 else "192"
             
             opts["format"] = "bestaudio/best"
-            opts["postprocessors"] = [
+            postprocessors.append(
                 {
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": codec,
                     "preferredquality": bitrate,
                 }
-            ]
+            )
         else:
             opts["format"] = f"{format_id}+bestaudio/best"
             opts["merge_output_format"] = "mp4"
@@ -335,11 +338,25 @@ class YTDownloader:
                 opts["subtitleslangs"] = ["id", "en"]
                 opts["embedsubtitles"] = True
                 opts["compat_opts"] = set() # Avoid subtitle format issues
-                opts["postprocessors"] = opts.get("postprocessors", []) + [
+                postprocessors.append(
                     {
                         "key": "FFmpegEmbedSubtitle",
                         "already_have_subtitle": False,
                     }
-                ]
+                )
 
+        # Embed metadata (Title, Artist/Uploader, Date) & Thumbnail (Album Art)
+        if FFMPEG_LOCATION:
+            postprocessors.extend([
+                {
+                    "key": "FFmpegMetadata",
+                    "add_metadata": True,
+                },
+                {
+                    "key": "EmbedThumbnail",
+                    "already_have_thumbnail": False,
+                },
+            ])
+
+        opts["postprocessors"] = postprocessors
         return opts
