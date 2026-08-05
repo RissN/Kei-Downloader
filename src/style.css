@@ -33,6 +33,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 html,
 body {
   margin: 0;
@@ -209,16 +213,16 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(14, 14, 28, 0.6);
   backdrop-filter: blur(8px);
   border-radius: 9999px;
-  padding: 4px;
-  gap: 4px;
+  padding: 3px;
+  gap: 3px;
   border: 1.5px solid var(--color-border);
 }
 
 .tab-group button {
   flex: 1;
-  padding: 0.625rem 1rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
@@ -389,7 +393,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .slide-fade-enter-from {
