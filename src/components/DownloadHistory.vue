@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="history.length"
+    v-if="displayedHistory.length"
     class="card p-6 sm:p-8 animate-fade-in space-y-4"
   >
     <!-- Section header -->
@@ -23,7 +23,7 @@
     <!-- List -->
     <div class="space-y-2">
       <div
-        v-for="(item, idx) in history"
+        v-for="(item, idx) in displayedHistory"
         :key="idx"
         class="flex items-center gap-3 p-3 rounded-2xl transition-all"
         style="background: var(--color-bg-surface); border: 1px solid var(--color-border);"
@@ -84,11 +84,14 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useDownloader } from "../composables/useDownloader";
 import { useDownloadStore } from "../stores/downloadStore";
 
 const { history } = useDownloader();
 const store = useDownloadStore();
+
+const displayedHistory = computed(() => history.value.slice(0, 3));
 
 function clearHistory() {
   store.clearHistory();
