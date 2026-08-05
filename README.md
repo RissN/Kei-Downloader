@@ -1,16 +1,24 @@
 # KEI Downloader
 
-<p align="center">
-  <b>🌐 Select Language / Pilih Bahasa</b>
-</p>
+<div align="center">
+
+Aplikasi web modern untuk mengunduh video & audio YouTube.  
+Modern web application to download YouTube videos & audio.
+
+<br />
+
+**Pilih Bahasa / Select Language:**
+
+[![Bahasa Indonesia](https://img.shields.io/badge/Bahasa_Indonesia-🇮🇩-FF6B6B?style=for-the-badge)](#-bahasa-indonesia) &nbsp;
+[![English](https://img.shields.io/badge/English-🇬🇧-A855F7?style=for-the-badge)](#-english)
 
 ---
 
-<details open>
-  <summary><b>🇮🇩 Bahasa Indonesia</b> (Klik untuk membuka/menutup)</summary>
-  <br>
+</div>
 
-Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan arsitektur **Monolith** yang efisien, menggabungkan backend FastAPI dan frontend Vue 3 dengan antarmuka modern bergaya **Glassmorphism**.
+## 🇮🇩 Bahasa Indonesia
+
+Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan arsitektur **Monolith** yang efisien, menggabungkan backend FastAPI dan frontend Vue 3 dengan antarmuka modern bergaya **Cyber-Sunset Glassmorphism**.
 
 **Stack:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
 
@@ -136,13 +144,11 @@ Akses frontend versi dev di: **http://localhost:5173**
 - **Progress bar tidak bergerak?**  
   Pastikan backend FastAPI sedang berjalan di port 8000. Progress tracking menggunakan SSE (Server-Sent Events) untuk memantau proses download secara real-time.
 
-</details>
+---
 
-<br>
+<br />
 
-<details>
-  <summary><b>🇬🇧 English</b> (Click to open/close)</summary>
-  <br>
+## 🇬🇧 English
 
 A web application to download video and audio from YouTube. Built with an efficient **Monolith** architecture, pairing a FastAPI backend and a Vue 3 frontend with a sleek **Cyber-Sunset Glassmorphism** design.
 
@@ -269,8 +275,6 @@ Access the dev server at: **http://localhost:5173**
 
 - **Progress bar stuck?**  
   Ensure the FastAPI server is running on port 8000. Progress tracking relies on SSE (Server-Sent Events) for real-time progress.
-
-</details>
 
 ---
 
