@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-screen h-dvh max-h-screen overflow-hidden flex flex-col justify-between">
+  <div class="relative min-h-screen flex flex-col justify-between overflow-x-hidden">
     <!-- Background: dot pattern is on body via CSS -->
 
     <!-- Header -->
@@ -49,7 +49,7 @@
     </header>
 
     <!-- Main content -->
-    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-4 flex-1 flex flex-col justify-center overflow-y-auto min-h-0 space-y-4">
+    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col justify-start my-auto space-y-5">
       <Transition name="slide-fade" mode="out-in">
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
