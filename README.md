@@ -1,6 +1,6 @@
 # KEI Downloader
 
-Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan antarmuka modern bergaya **Glassmorphism** yang bersih dan responsif.
+Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan arsitektur **Monolith** yang efisien, menggabungkan backend FastAPI dan frontend Vue 3 dengan antarmuka modern bergaya **Glassmorphism**.
 
 **Stack:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
 
@@ -20,7 +20,7 @@ Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan antar
 
 ## Persyaratan Sistem
 
-- **Python 3.11+**
+- **Python 3.10+**
 - **Node.js 18+**
 - **ffmpeg** — Wajib terinstall dan tersedia di system PATH.
   Download: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
@@ -33,39 +33,71 @@ ffmpeg -version
 
 ---
 
+## Struktur Proyek (Monolith)
+
+```text
+Kei-Downloader/
+├── dist/                  # Output build frontend (disajikan oleh FastAPI)
+├── public/                # Asset statis frontend (background, icon)
+├── src/                   # Source code Vue 3 (Components, Stores, Composables)
+├── downloader.py          # Logika downloader yt-dlp & penanganan ffmpeg
+├── main.py                # Server FastAPI & pengelola API & static files
+├── schemas.py             # Schema Pydantic
+├── index.html             # Entrypoint HTML Vite
+├── package.json           # Dependencies Node.js (Vue, Vite, Tailwind CSS v4)
+├── requirements.txt       # Dependencies Python (FastAPI, yt-dlp, uvicorn)
+└── vite.config.js         # Konfigurasi Vite
+```
+
+---
+
 ## Instalasi & Menjalankan
 
-### 1. Clone & Setup Backend
+### 1. Clone & Setup Dependencies
 
 ```bash
 git clone https://github.com/RissN/Kei-Downloader.git
-cd Kei-Downloader/backend
+cd Kei-Downloader
 
-# Buat & aktifkan virtual environment
+# Install dependencies Node.js
+npm install
+
+# Buat & aktifkan virtual environment Python
 python -m venv .venv
-.venv\Scripts\activate      # Windows
+.venv\Scripts\activate      # Windows (PowerShell)
 # source .venv/bin/activate # macOS/Linux
 
-# Install dependencies
+# Install dependencies Python
 pip install -r requirements.txt
-
-# Jalankan server API
-uvicorn main:app --reload --port 8000
 ```
 
-### 2. Setup Frontend
-
-Buka **terminal baru** (biarkan backend tetap berjalan):
+### 2. Build Frontend & Menjalankan Server Monolith
 
 ```bash
-cd Kei-Downloader/frontend
-npm install
+# Build frontend Vue ke folder dist/
+npm run build
+
+# Jalankan server FastAPI (Secara otomatis me-serve API dan Frontend)
+python -m uvicorn main:app --reload --port 8000
+```
+
+Buka browser di: **http://localhost:8000**
+
+---
+
+### Mode Development (Hot Reload UI)
+
+Jika Anda ingin melakukan pengembangan UI secara langsung (*live editing*):
+
+```bash
+# Terminal 1 (Backend API):
+python -m uvicorn main:app --reload --port 8000
+
+# Terminal 2 (Vite Dev Server):
 npm run dev
 ```
 
-### 3. Akses Aplikasi
-
-Buka browser: **http://localhost:5173**
+Akses frontend versi dev di: **http://localhost:5173**
 
 ---
 
@@ -90,11 +122,11 @@ Buka browser: **http://localhost:5173**
 - **`ffmpeg tidak ditemukan di PATH`**
   Pastikan ffmpeg sudah terinstall. Di Windows, coba `winget install ffmpeg` lalu restart terminal.
 
-- **Resolusi 1080p/4K tidak muncul?**
-  Sistem sudah mendeteksi otomatis via format_note dan lebar video. Pastikan video tersedia dalam resolusi tersebut di YouTube.
+- **`Fatal error in launcher: Unable to create process`**
+  Jalankan server uvicorn menggunakan `python -m uvicorn main:app --reload --port 8000` (bukan memanggil `uvicorn` langsung).
 
 - **Progress bar tidak bergerak?**
-  Pastikan backend (`uvicorn`) sedang berjalan di port 8000. Progress tracking menggunakan SSE (Server-Sent Events) untuk memantau proses download secara real-time.
+  Pastikan backend FastAPI sedang berjalan di port 8000. Progress tracking menggunakan SSE (Server-Sent Events) untuk memantau proses download secara real-time.
 
 ---
 
