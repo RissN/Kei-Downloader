@@ -1,9 +1,9 @@
 <template>
-  <div class="space-y-5 animate-fade-in">
-    <!-- Card 1: Large Featured Video Info Preview -->
-    <div class="card p-4 sm:p-6 space-y-3">
-      <!-- Large Hero Thumbnail -->
-      <div class="relative w-full aspect-video max-h-[320px] rounded-2xl overflow-hidden shadow-xl" style="border: 1.5px solid var(--color-border);">
+  <div class="space-y-3.5 animate-fade-in">
+    <!-- Card 1: Featured Video Info Preview -->
+    <div class="card p-3 sm:p-4 space-y-2">
+      <!-- Thumbnail -->
+      <div class="relative w-full aspect-video max-h-[210px] sm:max-h-[230px] rounded-xl overflow-hidden shadow-lg" style="border: 1.5px solid var(--color-border);">
         <img
           v-if="videoInfo?.thumbnail"
           :src="videoInfo.thumbnail"
@@ -13,7 +13,7 @@
         <!-- Duration badge -->
         <span
           v-if="videoInfo?.duration"
-          class="absolute bottom-3 right-3 text-white text-xs font-bold px-3 py-1 rounded-lg"
+          class="absolute bottom-2 right-2 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-md"
           style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.15);"
         >
           {{ formatDuration(videoInfo.duration) }}
@@ -21,15 +21,15 @@
       </div>
 
       <!-- Title & Details -->
-      <div class="pt-1 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="space-y-1">
+      <div class="px-1 flex items-center justify-between gap-2">
+        <div class="space-y-0.5 flex-1 min-w-0">
           <span
-            class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider"
+            class="inline-block px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider"
             style="background: var(--color-accent-soft); color: var(--color-accent);"
           >
             YouTube Video
           </span>
-          <h2 class="font-extrabold text-base sm:text-xl leading-snug line-clamp-2" style="color: var(--color-text);">
+          <h2 class="font-extrabold text-sm sm:text-base leading-snug truncate" style="color: var(--color-text);">
             {{ videoInfo?.title }}
           </h2>
         </div>
@@ -37,12 +37,12 @@
     </div>
 
     <!-- Card 2: Format Selection Grid & Actions -->
-    <div class="card p-5 sm:p-6 space-y-5">
+    <div class="card p-4 sm:p-5 space-y-3.5">
       <!-- Header: Title & Tab Switcher -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="space-y-0.5">
-          <h3 class="text-lg font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
-          <p class="text-xs" style="color: var(--color-muted);">Pilih resolusi video atau bitrate audio yang Anda inginkan</p>
+          <h3 class="text-base sm:text-lg font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
+          <p class="text-[11px]" style="color: var(--color-muted);">Pilih resolusi video atau bitrate audio yang Anda inginkan</p>
         </div>
 
         <!-- Tab Switcher -->
@@ -63,11 +63,11 @@
       </div>
 
       <!-- Audio Codec Selector -->
-      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/30 px-4 py-2.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
+      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/30 px-3 py-1.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
         <span class="text-xs font-bold text-[var(--color-muted)]">Format Enkoding Audio:</span>
         <select
           v-model="selectedAudioCodec"
-          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3.5 py-1.5 pr-8 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
+          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
         >
           <option value="mp3">MP3 (.mp3)</option>
           <option value="opus">OPUS (.opus)</option>
@@ -78,7 +78,7 @@
       <TransitionGroup
         name="format-list"
         tag="div"
-        class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 max-h-[340px] overflow-y-auto pr-1"
+        class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[210px] overflow-y-auto pr-1"
       >
         <button
           v-for="(fmt, idx) in filteredFormats"
@@ -90,7 +90,7 @@
               ? 'format-card format-card-selected'
               : 'format-card',
           ]"
-          :style="{ animationDelay: `${idx * 40}ms` }"
+          :style="{ animationDelay: `${idx * 30}ms` }"
           @click="$emit('selectFormat', fmt)"
         >
           <!-- Best badge -->
@@ -101,15 +101,13 @@
             Terbaik
           </span>
 
-          <div class="space-y-1.5 p-1">
-            <div class="flex items-center justify-between gap-1">
-              <span class="font-extrabold text-sm sm:text-base block truncate" style="color: var(--color-text);">
-                {{ fmt.quality_label }}
-              </span>
-            </div>
-            <div class="flex items-center gap-1.5 text-[11px]" style="color: var(--color-muted);">
+          <div class="space-y-1 p-0.5">
+            <span class="font-extrabold text-xs sm:text-sm block truncate" style="color: var(--color-text);">
+              {{ fmt.quality_label }}
+            </span>
+            <div class="flex items-center gap-1 text-[10px]" style="color: var(--color-muted);">
               <span
-                class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase shrink-0"
+                class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase shrink-0"
                 style="background: rgba(255, 255, 255, 0.12); color: var(--color-muted);"
               >
                 .{{ fmt.ext }}
@@ -123,11 +121,11 @@
       </TransitionGroup>
 
       <!-- Action Buttons -->
-      <div class="flex gap-3 pt-2">
+      <div class="flex gap-2.5 pt-1">
         <button
           id="btn-change-url"
           type="button"
-          class="flex-1 btn-ghost"
+          class="flex-1 btn-ghost !py-2"
           @click="$emit('reset')"
         >
           <span class="text-label">Kembali</span>
@@ -136,13 +134,13 @@
           id="btn-start-download"
           type="button"
           :disabled="!selectedFormat"
-          class="flex-[2] btn-primary"
+          class="flex-[2] btn-primary !py-2"
           :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
           @click="$emit('startDownload')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5"
+            class="w-4 h-4"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
