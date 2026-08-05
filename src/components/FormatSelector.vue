@@ -78,7 +78,7 @@
       <TransitionGroup
         name="format-list"
         tag="div"
-        class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto pt-1 pr-1"
+        class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1"
       >
         <button
           v-for="(fmt, idx) in filteredFormats"
