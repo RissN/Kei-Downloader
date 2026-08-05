@@ -1,5 +1,9 @@
 # KEI Downloader
 
+<p align="center">
+  <b>Bahasa Indonesia</b> | <a href="README_EN.md">English</a>
+</p>
+
 Aplikasi web untuk mengunduh video dan audio dari YouTube. Dibangun dengan arsitektur **Monolith** yang efisien, menggabungkan backend FastAPI dan frontend Vue 3 dengan antarmuka modern bergaya **Glassmorphism**.
 
 **Stack:** Vue 3 + Tailwind CSS v4 (Frontend) · FastAPI + yt-dlp (Backend)
