@@ -4,3 +4,5 @@ yt-dlp>=2024.5.1
 python-multipart>=0.0.9
 python-dotenv>=1.0.1
 aiofiles>=23.2.1
+mutagen>=1.47.0
+
