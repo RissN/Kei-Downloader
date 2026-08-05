@@ -78,7 +78,7 @@
       <TransitionGroup
         name="format-list"
         tag="div"
-        class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[210px] overflow-y-auto pr-1"
+        class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto pt-1 pr-1"
       >
         <button
           v-for="(fmt, idx) in filteredFormats"
@@ -93,18 +93,19 @@
           :style="{ animationDelay: `${idx * 30}ms` }"
           @click="$emit('selectFormat', fmt)"
         >
-          <!-- Best badge -->
-          <span
-            v-if="idx === 0"
-            class="badge-best absolute -top-2 right-2 text-[9px] px-2 py-0.5"
-          >
-            Terbaik
-          </span>
-
           <div class="space-y-1 p-0.5">
-            <span class="font-extrabold text-xs sm:text-sm block truncate" style="color: var(--color-text);">
-              {{ fmt.quality_label }}
-            </span>
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-extrabold text-xs sm:text-sm block truncate" style="color: var(--color-text);">
+                {{ fmt.quality_label }}
+              </span>
+              <!-- Best badge -->
+              <span
+                v-if="idx === 0"
+                class="badge-best text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold leading-none"
+              >
+                Terbaik
+              </span>
+            </div>
             <div class="flex items-center gap-1 text-[10px]" style="color: var(--color-muted);">
               <span
                 class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase shrink-0"
