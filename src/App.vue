@@ -5,7 +5,7 @@
     <!-- Header -->
     <header class="sticky top-0 z-20 shrink-0">
       <div class="card" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
-        <div class="max-w-[680px] mx-auto px-4 sm:px-6 py-3.5 flex items-center gap-4">
+        <div class="max-w-[880px] mx-auto px-4 sm:px-6 py-3.5 flex items-center gap-4">
           <!-- Kawaii play icon -->
           <div
             class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center shrink-0"
@@ -49,7 +49,7 @@
     </header>
 
     <!-- Main content -->
-    <main class="relative z-10 w-full max-w-[680px] mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col justify-start my-auto space-y-5">
+    <main class="relative z-10 w-full max-w-[880px] mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col justify-start my-auto space-y-5">
       <Transition name="slide-fade" mode="out-in">
         <!-- State: idle / error -->
         <UrlInput v-if="status === 'idle' || status === 'error'" />
@@ -136,13 +136,13 @@
         </div>
       </Transition>
 
-      <!-- Download history -->
-      <DownloadHistory v-if="history.length > 0" :history="history" />
+      <!-- Download history (Only shown when idle or error) -->
+      <DownloadHistory v-if="(status === 'idle' || status === 'error') && history.length > 0" :history="history" />
     </main>
 
     <!-- Footer -->
     <footer class="relative z-10 w-full px-4 sm:px-6 shrink-0">
-      <div class="max-w-[680px] mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2" style="border-top: 1px solid var(--color-border);">
+      <div class="max-w-[880px] mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2" style="border-top: 1px solid var(--color-border);">
         <p class="text-xs" style="color: var(--color-text-muted);">
           &copy; {{ new Date().getFullYear() }} KEI Downloader. All rights reserved.
         </p>

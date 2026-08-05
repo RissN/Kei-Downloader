@@ -1,151 +1,171 @@
 <template>
-  <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
-    <!-- Video preview -->
-    <div class="rounded-2xl overflow-hidden" style="border: 1.5px solid var(--color-border);">
-      <div class="relative">
-        <img
-          v-if="videoInfo?.thumbnail"
-          :src="videoInfo.thumbnail"
-          :alt="videoInfo?.title"
-          class="w-full aspect-video object-cover"
-        />
-        <!-- Duration badge -->
-        <span
-          v-if="videoInfo?.duration"
-          class="absolute bottom-2 right-2 text-white text-xs font-bold px-2.5 py-1 rounded-full"
-          style="background: rgba(26, 54, 54, 0.8); backdrop-filter: blur(4px);"
-        >
-          {{ formatDuration(videoInfo.duration) }}
-        </span>
-      </div>
-      <div class="p-4" style="background: var(--color-bg-surface);">
-        <h3 class="font-bold text-base leading-snug line-clamp-2" style="color: var(--color-text);">
-          {{ videoInfo?.title }}
-        </h3>
-      </div>
-    </div>
-
-    <!-- Section title -->
-    <div class="text-center space-y-1">
-      <h3 class="text-lg font-extrabold text-gradient text-display">Pilih Format</h3>
-      <p class="text-xs" style="color: var(--color-muted);">Pilih Format</p>
-    </div>
-
-    <!-- Tab switcher -->
-    <div class="tab-group">
-      <button
-        v-for="tab in tabs"
-        :key="tab.value"
-        :id="`tab-${tab.value}`"
-        :class="[
-          selectedType === tab.value ? 'tab-active' : '',
-        ]"
-        @click="$emit('selectType', tab.value)"
-      >
-        {{ tab.icon }}
-        <span class="text-label">{{ tab.label }}</span>
-      </button>
-    </div>
-
-    <!-- Format grid -->
-    <div v-if="selectedType === 'audio'" class="flex justify-center -mt-2 mb-4 animate-fade-in">
-      <div class="relative">
-        <select
-          v-model="selectedAudioCodec"
-          class="appearance-none bg-transparent border border-[var(--color-border)] rounded-full px-4 py-1.5 pr-8 text-sm font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] transition-colors cursor-pointer"
-          style="background: var(--color-bg-surface);"
-        >
-          <option value="mp3">Format: MP3</option>
-          <option value="opus">Format: OPUS</option>
-        </select>
-        <!-- Custom dropdown arrow -->
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3" style="color: var(--color-muted);">
-          <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div>
-      </div>
-    </div>
-
-    <TransitionGroup
-      name="format-list"
-      tag="div"
-      :class="[
-        selectedType === 'video'
-          ? 'grid grid-cols-2 gap-3'
-          : 'flex flex-col gap-3',
-      ]"
-    >
-      <button
-        v-for="(fmt, idx) in filteredFormats"
-        :key="fmt.format_id"
-        :id="`format-${fmt.format_id}`"
-        class="text-left transition-all duration-200 cursor-pointer"
-        :class="[
-          selectedFormat?.format_id === fmt.format_id
-            ? 'format-card format-card-selected'
-            : 'format-card',
-        ]"
-        :style="{ animationDelay: `${idx * 50}ms` }"
-        @click="$emit('selectFormat', fmt)"
-      >
-        <!-- Best badge -->
-        <span
-          v-if="idx === 0"
-          class="badge-best absolute -top-2 right-3"
-        >
-          Terbaik
-        </span>
-
-        <div class="space-y-1.5">
-          <span class="font-bold text-base" style="color: var(--color-text);">
-            {{ fmt.quality_label }}
-          </span>
-          <div class="flex items-center gap-2 text-xs" style="color: var(--color-muted);">
+  <div class="card p-6 sm:p-8 animate-fade-in">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+      <!-- Left Column: Video Preview -->
+      <div class="md:col-span-5 space-y-4">
+        <div class="rounded-2xl overflow-hidden shadow-lg" style="border: 1.5px solid var(--color-border);">
+          <div class="relative">
+            <img
+              v-if="videoInfo?.thumbnail"
+              :src="videoInfo.thumbnail"
+              :alt="videoInfo?.title"
+              class="w-full aspect-video object-cover"
+            />
+            <!-- Duration badge -->
             <span
-              class="px-1.5 py-0.5 rounded-full text-[10px] font-bold uppercase"
-              style="background: var(--color-bg-surface2); color: var(--color-muted);"
+              v-if="videoInfo?.duration"
+              class="absolute bottom-2 right-2 text-white text-xs font-bold px-2.5 py-1 rounded-full"
+              style="background: rgba(14, 14, 28, 0.85); backdrop-filter: blur(4px);"
             >
-              .{{ fmt.ext }}
-            </span>
-            <span v-if="fmt.filesize_approx">
-              ~{{ formatSize(fmt.filesize_approx) }}
+              {{ formatDuration(videoInfo.duration) }}
             </span>
           </div>
+          <div class="p-4" style="background: rgba(14, 14, 28, 0.6);">
+            <h3 class="font-bold text-base leading-snug line-clamp-3" style="color: var(--color-text);">
+              {{ videoInfo?.title }}
+            </h3>
+          </div>
         </div>
-      </button>
-    </TransitionGroup>
 
-    <!-- Actions -->
-    <div class="flex gap-3">
-      <button
-        id="btn-change-url"
-        type="button"
-        class="flex-1 btn-ghost"
-        @click="$emit('reset')"
-      >
-        <span class="text-label">Kembali</span>
-      </button>
-      <button
-        id="btn-start-download"
-        type="button"
-        :disabled="!selectedFormat"
-        class="flex-[2] btn-primary"
-        :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
-        @click="$emit('startDownload')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+        <!-- Desktop Actions (under preview) -->
+        <div class="hidden md:flex flex-col gap-2.5 pt-2">
+          <button
+            id="btn-start-download"
+            type="button"
+            :disabled="!selectedFormat"
+            class="w-full btn-primary"
+            :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+            @click="$emit('startDownload')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="text-label">Unduh Sekarang</span>
+          </button>
+          <button
+            id="btn-change-url"
+            type="button"
+            class="w-full btn-ghost"
+            @click="$emit('reset')"
+          >
+            <span class="text-label">Kembali</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Format Options & Tabs -->
+      <div class="md:col-span-7 space-y-5">
+        <!-- Section title -->
+        <div class="space-y-1">
+          <h3 class="text-xl font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
+          <p class="text-xs" style="color: var(--color-muted);">Pilih tipe media yang ingin diunduh</p>
+        </div>
+
+        <!-- Tab switcher -->
+        <div class="tab-group">
+          <button
+            v-for="tab in tabs"
+            :key="tab.value"
+            :id="`tab-${tab.value}`"
+            :class="[
+              selectedType === tab.value ? 'tab-active' : '',
+            ]"
+            @click="$emit('selectType', tab.value)"
+          >
+            {{ tab.icon }}
+            <span class="text-label">{{ tab.label }}</span>
+          </button>
+        </div>
+
+        <!-- Audio Codec Selector -->
+        <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/20 p-2.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
+          <span class="text-xs font-bold text-[var(--color-muted)] pl-2">Format Audio:</span>
+          <select
+            v-model="selectedAudioCodec"
+            class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
+          >
+            <option value="mp3">MP3 (.mp3)</option>
+            <option value="opus">OPUS (.opus)</option>
+          </select>
+        </div>
+
+        <!-- Format Grid -->
+        <TransitionGroup
+          name="format-list"
+          tag="div"
+          class="grid grid-cols-2 gap-3 max-h-[280px] overflow-y-auto pr-1"
         >
-          <path
-            fill-rule="evenodd"
-            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span class="text-label">Unduh</span>
-      </button>
+          <button
+            v-for="(fmt, idx) in filteredFormats"
+            :key="fmt.format_id"
+            :id="`format-${fmt.format_id}`"
+            class="text-left transition-all duration-200 cursor-pointer"
+            :class="[
+              selectedFormat?.format_id === fmt.format_id
+                ? 'format-card format-card-selected'
+                : 'format-card',
+            ]"
+            :style="{ animationDelay: `${idx * 50}ms` }"
+            @click="$emit('selectFormat', fmt)"
+          >
+            <!-- Best badge -->
+            <span
+              v-if="idx === 0"
+              class="badge-best absolute -top-2 right-2 text-[9px] px-2 py-0.5"
+            >
+              Terbaik
+            </span>
+
+            <div class="space-y-1">
+              <span class="font-bold text-sm sm:text-base block" style="color: var(--color-text);">
+                {{ fmt.quality_label }}
+              </span>
+              <div class="flex items-center gap-1.5 text-[11px]" style="color: var(--color-muted);">
+                <span
+                  class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase"
+                  style="background: rgba(255, 255, 255, 0.1); color: var(--color-muted);"
+                >
+                  .{{ fmt.ext }}
+                </span>
+                <span v-if="fmt.filesize_approx">
+                  ~{{ formatSize(fmt.filesize_approx) }}
+                </span>
+              </div>
+            </div>
+          </button>
+        </TransitionGroup>
+
+        <!-- Mobile Actions (shown only on small screens) -->
+        <div class="flex md:hidden gap-3 pt-2">
+          <button
+            id="btn-change-url-mobile"
+            type="button"
+            class="flex-1 btn-ghost"
+            @click="$emit('reset')"
+          >
+            <span class="text-label">Kembali</span>
+          </button>
+          <button
+            id="btn-start-download-mobile"
+            type="button"
+            :disabled="!selectedFormat"
+            class="flex-[2] btn-primary"
+            :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+            @click="$emit('startDownload')"
+          >
+            <span class="text-label">Unduh</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
