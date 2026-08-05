@@ -45,11 +45,9 @@
       <p class="text-center text-sm" style="color: var(--color-muted);">
         <span v-if="progress < 90" class="text-label">
           Mengunduh...
-          <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
         <span v-else-if="progress < 99" class="text-label">
           Menyimpan file...
-          <span class="font-bold" style="color: var(--color-accent);">{{ Math.round(progress) }}%</span>
         </span>
         <span v-else-if="progress < 100" class="text-label">
           Memproses...
