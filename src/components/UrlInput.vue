@@ -2,11 +2,11 @@
   <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Heading -->
     <div class="text-center space-y-2">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient text-display">
+      <h2 class="text-3xl sm:text-4xl font-bold text-display">
         Download Video
       </h2>
       <p class="text-sm" style="color: var(--color-muted);">
-        Paste link YouTube di bawah ini
+        Paste a YouTube link below
       </p>
     </div>
 
@@ -18,7 +18,7 @@
           ref="inputRef"
           v-model="url"
           type="url"
-          placeholder="Masukkan URL YouTube di sini..."
+          placeholder="Enter YouTube URL here..."
           class="w-full px-4 py-3.5 pr-10 text-sm outline-none input-field"
           :class="[
             validationError
@@ -35,7 +35,7 @@
           type="button"
           class="absolute right-3 top-1/2 -translate-y-1/2 transition-colors cursor-pointer"
           style="color: var(--color-text-muted);"
-          @mouseenter="$event.target.style.color = 'var(--color-accent)'"
+          @mouseenter="$event.target.style.color = 'var(--color-text)'"
           @mouseleave="$event.target.style.color = 'var(--color-text-muted)'"
           @click="clearInput"
         >
@@ -79,7 +79,7 @@
         type="submit"
         :disabled="!url || !!validationError || isLoading"
         class="w-full btn-primary"
-        :style="(!url || !!validationError || isLoading) ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+        :style="(!url || !!validationError || isLoading) ? 'opacity: 0.3;' : ''"
       >
         <!-- Loading spinner -->
         <svg
@@ -104,14 +104,14 @@
           ></path>
         </svg>
         <span class="text-label">
-          {{ isLoading ? "Mengambil Info..." : "Cek Video" }}
+          {{ isLoading ? "Fetching Info..." : "Check Video" }}
         </span>
       </button>
     </form>
 
     <!-- Hint -->
     <p class="hint-text text-center">
-      Tips: YouTube, Shorts, dan Playlist didukung
+      Tips: YouTube, Shorts, and Playlists are supported
     </p>
   </div>
 </template>
@@ -141,7 +141,7 @@ function validate(value) {
   }
   if (!YT_REGEX.test(value)) {
     validationError.value =
-      "URL tidak valid. Gunakan format: youtube.com/watch?v=... atau youtu.be/...";
+      "Invalid URL. Use format: youtube.com/watch?v=... or youtu.be/...";
   } else {
     validationError.value = "";
   }

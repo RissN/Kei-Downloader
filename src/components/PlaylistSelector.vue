@@ -2,17 +2,17 @@
   <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Header -->
     <div class="text-center space-y-2">
-      <h2 class="text-xl sm:text-2xl font-extrabold text-gradient text-display">
-        Playlist Ditemukan!
+      <h2 class="text-xl sm:text-2xl font-bold text-display">
+        Playlist Found!
       </h2>
       <h3 class="text-base font-bold truncate" style="color: var(--color-text);">
         {{ videoInfo?.title }}
       </h3>
-      <p class="text-sm" style="color: var(--color-muted);">{{ items.length }} Video Tersedia</p>
+      <p class="text-sm" style="color: var(--color-muted);">{{ items.length }} Videos Available</p>
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center justify-between p-3 rounded-full" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
+      <div class="flex items-center justify-between p-3 rounded-lg" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
       <button
         class="text-sm font-bold px-4 py-2 rounded-full transition-all cursor-pointer"
         style="color: var(--color-text);"
@@ -20,7 +20,7 @@
         @mouseleave="$event.target.style.background = 'transparent'"
         @click="toggleAll"
       >
-        {{ allSelected ? "Batal Pilih" : "Pilih Semua" }}
+        {{ allSelected ? "Deselect All" : "Select All" }}
       </button>
       <div class="text-sm font-bold px-4" style="color: var(--color-accent);">
         {{ selectedCount }} Terpilih
@@ -32,7 +32,7 @@
       <label
         v-for="(item, idx) in items"
         :key="idx"
-        class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all"
+        class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all"
         style="background: var(--color-bg-surface); border: 1px solid var(--color-border);"
         @mouseenter="$event.currentTarget.style.background = 'var(--color-bg-surface2)'"
         @mouseleave="$event.currentTarget.style.background = 'var(--color-bg-surface)'"
@@ -68,8 +68,8 @@
     </div>
 
     <!-- Global Format selector for Playlist -->
-    <div class="p-4 rounded-2xl space-y-3" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
-      <p class="text-sm font-bold text-label" style="color: var(--color-text);">Pilih Format:</p>
+    <div class="p-4 rounded-lg space-y-3" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
+      <p class="text-sm font-bold text-label" style="color: var(--color-text);">Choose Format:</p>
       <div class="tab-group">
         <button
           v-for="type in ['video', 'audio']"
@@ -79,7 +79,7 @@
           ]"
           @click="selectedType = type"
         >
-          {{ type === 'video' ? 'Video (Terbaik)' : 'Audio (Terbaik)' }}
+          {{ type === 'video' ? 'Video (Best)' : 'Audio (Best)' }}
         </button>
       </div>
     </div>
@@ -91,13 +91,13 @@
         class="flex-1 btn-ghost"
         @click="$emit('reset')"
       >
-        <span class="text-label">Batal</span>
+        <span class="text-label">Cancel</span>
       </button>
       <button
         type="button"
         :disabled="selectedCount === 0"
         class="flex-[2] btn-primary"
-        :style="selectedCount === 0 ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+        :style="selectedCount === 0 ? 'opacity: 0.3;' : ''"
         @click="startDownload"
       >
         <span class="text-label">Download ({{ selectedCount }})</span>

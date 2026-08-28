@@ -6,14 +6,14 @@
     <header class="sticky top-0 z-20 shrink-0">
       <div class="card" style="border-radius: 0; border-left: none; border-right: none; border-top: none;">
         <div class="max-w-[880px] mx-auto px-4 sm:px-6 py-3.5 flex items-center gap-4">
-          <!-- Kawaii play icon -->
+          <!-- Play icon -->
           <div
-            class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center shrink-0"
-            style="background: linear-gradient(135deg, #ff6b6b, #a855f7); box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);"
+            class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0"
+            style="background: var(--color-accent); color: var(--color-bg-base);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-white"
+              class="w-5 h-5"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -22,9 +22,9 @@
           </div>
           <!-- Header Text -->
           <div class="flex flex-col flex-1">
-            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
-              <span class="text-gradient">KEI</span>
-              <span class="text-display text-gradient"> Downloader</span>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight leading-tight">
+              <span class="text-white">KEI</span>
+              <span class="text-white text-display"> Downloader</span>
             </h1>
             <p class="text-[11px] text-label mt-0.2" style="color: var(--color-muted);">
               Download Video & Audio
@@ -35,9 +35,9 @@
             class="w-9 h-9 flex items-center justify-center rounded-full transition-all cursor-pointer"
             style="color: var(--color-muted);"
             @click="showSettings = true"
-            @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
+            @mouseenter="$event.target.style.color = 'var(--color-text)'; $event.target.style.background = 'var(--color-bg-surface2)'"
             @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
-            title="Pengaturan"
+            title="Settings"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -102,7 +102,7 @@
         >
           <div
             class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full flex items-center justify-center"
-            style="background: rgba(16, 185, 129, 0.2);"
+            style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -121,9 +121,9 @@
             </svg>
           </div>
           <div class="space-y-1.5">
-            <h2 class="text-2xl font-extrabold text-gradient">Selesai!</h2>
+            <h2 class="text-2xl font-bold text-white">Done!</h2>
             <p class="text-sm text-display" style="color: var(--color-muted);">
-              Download berhasil! File tersimpan di folder download browser.
+              Download successful! File saved to your browser's download folder.
             </p>
           </div>
           <button
@@ -131,7 +131,7 @@
             class="btn-primary"
             @click="handleReset"
           >
-            <span class="text-label">Download Lagi</span>
+            <span class="text-label">Download Again</span>
           </button>
         </div>
       </Transition>
@@ -147,7 +147,7 @@
           &copy; {{ new Date().getFullYear() }} KEI Downloader. All rights reserved.
         </p>
         <p class="text-xs" style="color: var(--color-text-muted);">
-          <span class="text-label">Dibuat dengan</span> Vue 3 + FastAPI + yt-dlp
+          <span class="text-label">Built with</span> Vue 3 + FastAPI + yt-dlp
         </p>
       </div>
     </footer>

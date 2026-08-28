@@ -1,7 +1,7 @@
 <template>
   <div class="card p-6 sm:p-8 animate-fade-in space-y-6">
     <!-- Video info -->
-    <div class="flex items-center gap-4 p-4 rounded-2xl" style="background: var(--color-bg-surface2); border: 1px solid var(--color-border);">
+    <div class="flex items-center gap-4 p-4 rounded-lg" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
       <img
         v-if="videoInfo?.thumbnail"
         :src="videoInfo.thumbnail"
@@ -28,13 +28,13 @@
             width: `${progress}%`,
             background: progress >= 100
               ? 'var(--color-success)'
-              : 'linear-gradient(135deg, var(--color-accent), var(--color-purple))',
+              : 'var(--color-accent)',
           }"
         ></div>
         <span
           class="progress-label drop-shadow-sm"
           :style="{
-            color: progress > 45 ? '#fff' : 'var(--color-text)',
+            color: progress > 45 ? 'var(--color-bg-base)' : 'var(--color-text)',
           }"
         >
           {{ Math.round(progress) }}%
@@ -44,16 +44,16 @@
       <!-- Status text -->
       <p class="text-center text-sm" style="color: var(--color-muted);">
         <span v-if="progress < 90" class="text-label">
-          Mengunduh...
+          Downloading...
         </span>
         <span v-else-if="progress < 99" class="text-label">
-          Menyimpan file...
+          Saving file...
         </span>
         <span v-else-if="progress < 100" class="text-label">
-          Memproses...
+          Processing...
         </span>
-        <span v-else class="font-bold text-display" style="color: var(--color-accent);">
-          Selesai!
+        <span v-else class="font-bold text-display" style="color: var(--color-text);">
+          Done!
         </span>
       </p>
     </div>

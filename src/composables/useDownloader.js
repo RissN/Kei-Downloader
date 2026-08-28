@@ -255,7 +255,7 @@ export function useDownloader() {
       })
       .catch((err) => {
         store.status = "error";
-        store.errorMessage = err.message || "Download gagal";
+        store.errorMessage = err.message || "Download failed";
         disconnect();
       });
   }

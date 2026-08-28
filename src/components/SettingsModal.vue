@@ -1,14 +1,14 @@
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <!-- Backdrop -->
-    <div class="absolute inset-0 backdrop-blur-sm" style="background: rgba(26, 54, 54, 0.3);" @click="$emit('close')"></div>
+      <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);" @click="$emit('close')"></div>
 
     <!-- Modal Content -->
     <div class="modal-card relative w-full max-w-md card p-6 sm:p-8 space-y-6">
       <div class="flex items-center justify-between">
-        <h2 class="text-xl font-extrabold text-gradient text-display">Pengaturan</h2>
+        <h2 class="text-xl font-bold text-display">Settings</h2>
         <button @click="$emit('close')" class="cursor-pointer rounded-full w-8 h-8 flex items-center justify-center transition-all" style="color: var(--color-muted);"
-          @mouseenter="$event.target.style.color = 'var(--color-accent)'; $event.target.style.background = 'var(--color-bg-surface2)'"
+          @mouseenter="$event.target.style.color = 'var(--color-text)'; $event.target.style.background = 'var(--color-bg-surface2)'"
           @mouseleave="$event.target.style.color = 'var(--color-muted)'; $event.target.style.background = 'transparent'"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,7 +20,7 @@
       <div class="space-y-5">
         <!-- Default Tab -->
         <div class="space-y-2">
-          <label class="text-sm font-bold text-label block" style="color: var(--color-text);">Tipe Default</label>
+          <label class="text-sm font-bold text-label block" style="color: var(--color-text);">Default Type</label>
           <div class="tab-group">
             <button
               v-for="type in ['video', 'audio']"
@@ -36,23 +36,24 @@
         </div>
 
         <!-- Subtitles -->
-        <div class="flex items-center justify-between p-4 rounded-2xl" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
+        <div class="flex items-center justify-between p-4 rounded-lg" style="background: var(--color-bg-surface); border: 1px solid var(--color-border);">
           <div>
             <p class="text-sm font-bold text-label" style="color: var(--color-text);">Embed Subtitle</p>
-            <p class="text-xs mt-0.5" style="color: var(--color-muted);">Otomatis download dan tanamkan subtitle (ID/EN) jika tersedia.</p>
+            <p class="text-xs mt-0.5" style="color: var(--color-muted);">Automatically download and embed subtitles (ID/EN) if available.</p>
           </div>
           <button
             class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors cursor-pointer"
             :style="{
               background: settings.includeSubtitles
-                ? 'linear-gradient(135deg, var(--color-accent), var(--color-purple))'
-                : 'var(--color-border)',
+                ? 'var(--color-accent)'
+                : '#404040',
             }"
             @click="settings.includeSubtitles = !settings.includeSubtitles"
           >
             <span
-              class="inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform"
+              class="inline-block h-5 w-5 transform rounded-full shadow-sm transition-transform"
               :class="settings.includeSubtitles ? 'translate-x-5' : 'translate-x-[2px]'"
+              :style="{ background: settings.includeSubtitles ? 'var(--color-bg-base)' : '#666' }"
             />
           </button>
         </div>
@@ -62,7 +63,7 @@
         class="w-full btn-primary"
         @click="$emit('close')"
       >
-        <span class="text-label">Tutup</span>
+        <span class="text-label">Close</span>
       </button>
     </div>
   </div>

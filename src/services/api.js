@@ -15,10 +15,10 @@ export async function fetchVideoInfo(url) {
   });
 
   if (!response.ok) {
-    const body = await response.json().catch(() => ({ detail: "Gagal terhubung ke server. Silakan coba lagi." }));
-    let msg = body.detail || "Terjadi kesalahan saat memproses permintaan.";
+    const body = await response.json().catch(() => ({ detail: "Failed to connect to server. Please try again." }));
+    let msg = body.detail || "An error occurred while processing the request.";
     if (typeof msg !== "string" || msg.includes("HTTP") || msg.includes("500") || msg.includes("yt_dlp") || msg.includes("Postprocessing")) {
-      msg = "Terjadi kesalahan saat memproses video. Silakan periksa kembali link Anda atau coba beberapa saat lagi.";
+      msg = "An error occurred while processing the video. Please check your link or try again later.";
     }
     throw new Error(msg);
   }
@@ -62,7 +62,7 @@ export function createProgressSSE(taskId, onProgress, onDone, onError) {
         onDone();
         source.close();
       } else if (data.status === "error") {
-        onError(data.error_msg || "Download gagal");
+        onError(data.error_msg || "Download failed");
         source.close();
       } else {
         onProgress(data.progress || 0);
@@ -73,7 +73,7 @@ export function createProgressSSE(taskId, onProgress, onDone, onError) {
   };
 
   source.onerror = () => {
-    onError("Koneksi ke server terputus");
+    onError("Connection to server lost");
     source.close();
   };
 

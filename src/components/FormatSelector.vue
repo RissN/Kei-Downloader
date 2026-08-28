@@ -24,8 +24,8 @@
       <div class="px-1 flex items-center justify-between gap-2">
         <div class="space-y-0.5 flex-1 min-w-0">
           <span
-            class="inline-block px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider"
-            style="background: var(--color-accent-soft); color: var(--color-accent);"
+            class="inline-block px-2 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wider"
+            style="background: var(--color-accent-soft); color: var(--color-muted);"
           >
             YouTube Video
           </span>
@@ -41,8 +41,8 @@
       <!-- Header: Title & Tab Switcher -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div class="space-y-0.5">
-          <h3 class="text-base sm:text-lg font-extrabold text-gradient text-display">Pilih Format & Kualitas</h3>
-          <p class="text-[11px]" style="color: var(--color-muted);">Pilih resolusi video atau bitrate audio yang Anda inginkan</p>
+          <h3 class="text-base sm:text-lg font-bold text-display">Choose Format & Quality</h3>
+          <p class="text-[11px]" style="color: var(--color-muted);">Select your desired video resolution or audio bitrate</p>
         </div>
 
         <!-- Tab Switcher -->
@@ -63,11 +63,11 @@
       </div>
 
       <!-- Audio Codec Selector -->
-      <div v-if="selectedType === 'audio'" class="flex items-center justify-between bg-black/30 px-3 py-1.5 rounded-xl border border-[var(--color-border)] animate-fade-in">
-        <span class="text-xs font-bold text-[var(--color-muted)]">Format Enkoding Audio:</span>
+      <div v-if="selectedType === 'audio'" class="flex items-center justify-between px-3 py-1.5 rounded-lg border border-[var(--color-border)] animate-fade-in" style="background: var(--color-bg-surface);">
+        <span class="text-xs font-medium text-[var(--color-muted)]">Audio Encoding Format:</span>
         <select
           v-model="selectedAudioCodec"
-          class="appearance-none bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg px-3 py-1 pr-7 text-xs font-bold text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
+          class="appearance-none bg-[var(--color-bg-surface2)] border border-[var(--color-border)] rounded px-3 py-1 pr-7 text-xs font-medium text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] cursor-pointer"
         >
           <option value="mp3">MP3 (.mp3)</option>
           <option value="opus">OPUS (.opus)</option>
@@ -95,7 +95,7 @@
         >
           <div class="space-y-1 p-0.5">
             <div class="flex items-center justify-between gap-1">
-              <span class="font-extrabold text-xs sm:text-sm block truncate" style="color: var(--color-text);">
+              <span class="font-semibold text-xs sm:text-sm block truncate" style="color: var(--color-text);">
                 {{ fmt.quality_label }}
               </span>
               <!-- Best badge -->
@@ -103,13 +103,13 @@
                 v-if="idx === 0"
                 class="badge-best text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold leading-none"
               >
-                Terbaik
+                Best
               </span>
             </div>
             <div class="flex items-center gap-1 text-[10px]" style="color: var(--color-muted);">
               <span
-                class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase shrink-0"
-                style="background: rgba(255, 255, 255, 0.12); color: var(--color-muted);"
+                class="px-1.5 py-0.2 rounded text-[8px] font-medium uppercase shrink-0"
+                style="background: var(--color-accent-soft); color: var(--color-text-muted);"
               >
                 .{{ fmt.ext }}
               </span>
@@ -129,14 +129,14 @@
           class="flex-1 btn-ghost !py-2"
           @click="$emit('reset')"
         >
-          <span class="text-label">Kembali</span>
+          <span class="text-label">Back</span>
         </button>
         <button
           id="btn-start-download"
           type="button"
           :disabled="!selectedFormat"
           class="flex-[2] btn-primary !py-2"
-          :style="!selectedFormat ? 'background: var(--color-text-muted); box-shadow: none;' : ''"
+          :style="!selectedFormat ? 'opacity: 0.3;' : ''"
           @click="$emit('startDownload')"
         >
           <svg
@@ -151,7 +151,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="text-label">Unduh Sekarang</span>
+          <span class="text-label">Download Now</span>
         </button>
       </div>
     </div>

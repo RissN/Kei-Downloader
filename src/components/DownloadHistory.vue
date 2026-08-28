@@ -6,17 +6,17 @@
     <!-- Section header -->
     <div class="flex items-center justify-between">
       <div class="space-y-0.5">
-        <h3 class="text-base font-extrabold text-gradient text-display">
-          Riwayat Download
+        <h3 class="text-base font-bold text-display">
+          Download History
         </h3>
-        <p class="text-xs" style="color: var(--color-muted);">Riwayat Download</p>
+        <p class="text-xs" style="color: var(--color-muted);">Download History</p>
       </div>
       <button
         id="btn-clear-history"
         class="btn-ghost text-xs !py-2 !px-3"
         @click="clearHistory"
       >
-        <span class="text-label">Hapus</span>
+        <span class="text-label">Clear</span>
       </button>
     </div>
 
@@ -25,7 +25,7 @@
       <div
         v-for="(item, idx) in displayedHistory"
         :key="idx"
-        class="flex items-center gap-3 p-3 rounded-2xl transition-all"
+        class="flex items-center gap-3 p-3 rounded-lg transition-all"
         style="background: var(--color-bg-surface); border: 1px solid var(--color-border);"
         @mouseenter="$event.currentTarget.style.background = 'var(--color-bg-surface2)'"
         @mouseleave="$event.currentTarget.style.background = 'var(--color-bg-surface)'"
@@ -47,7 +47,7 @@
 
         <!-- Info -->
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold truncate" style="color: var(--color-text);">{{ item.title }}</p>
+          <p class="text-sm font-medium truncate" style="color: var(--color-text);">{{ item.title }}</p>
           <div class="flex items-center gap-2 mt-0.5">
             <span
               :class="[
@@ -78,7 +78,7 @@
     class="card p-6 text-center animate-fade-in"
   >
     <p class="text-display text-sm" style="color: var(--color-text-muted);">
-      Belum ada riwayat
+      No history yet
     </p>
   </div>
 </template>
@@ -106,12 +106,12 @@ function relativeTime(timestamp) {
   const diff = Date.now() - timestamp;
   const seconds = Math.floor(diff / 1000);
 
-  if (seconds < 60) return "Baru saja";
+  if (seconds < 60) return "Just now";
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} menit lalu`;
+  if (minutes < 60) return `${minutes} min ago`;
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} jam lalu`;
+  if (hours < 24) return `${hours} hr ago`;
   const days = Math.floor(hours / 24);
-  return `${days} hari lalu`;
+  return `${days} days ago`;
 }
 </script>
