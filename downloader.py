@@ -3,16 +3,20 @@
 import asyncio
 import glob
 import os
+import re
 import shutil
 from pathlib import Path
 from typing import Callable, List, Optional
 
 import yt_dlp
 
-from schemas import Format, InfoResponse
+from schemas import Format, InfoResponse, is_valid_format_id, is_valid_youtube_url
 
 DOWNLOAD_DIR = Path(__file__).parent / "downloads"
 DOWNLOAD_DIR.mkdir(exist_ok=True)
+
+MAX_FILESIZE_MB = int(os.environ.get("MAX_FILESIZE_MB", "5000"))
+MAX_FILESIZE_BYTES = MAX_FILESIZE_MB * 1024 * 1024
 
 
 def find_ffmpeg() -> Optional[str]:
@@ -120,6 +124,9 @@ class YTDownloader:
 
     async def get_info(self, url: str) -> InfoResponse:
         """Extract video info dan return format yang tersedia. Handle playlist jika ada."""
+        if not is_valid_youtube_url(url):
+            raise ValueError("Only YouTube URLs are allowed")
+
         ydl_opts = {
             "quiet": True,
             "no_warnings": True,
@@ -144,6 +151,10 @@ class YTDownloader:
                     continue
                 # yt-dlp flat extract might put url or id
                 entry_url = entry.get("url") or (f"https://www.youtube.com/watch?v={entry.get('id')}" if entry.get("id") else "")
+
+                # Validate playlist item URL is from YouTube
+                if entry_url and not is_valid_youtube_url(entry_url):
+                    continue
                 
                 # thumbnail fallback
                 thumb = entry.get("thumbnail")
@@ -187,6 +198,11 @@ class YTDownloader:
         include_subtitles: bool = False,
     ) -> str:
         """Download video/audio dan return filepath."""
+        if not is_valid_format_id(format_id):
+            raise ValueError("Invalid format_id")
+        if not is_valid_youtube_url(url):
+            raise ValueError("Only YouTube URLs are allowed")
+
         opts = self._build_ydl_opts(format_id, task_id, progress_callback, include_subtitles)
 
         loop = asyncio.get_event_loop()
@@ -309,6 +325,7 @@ class YTDownloader:
             "outtmpl": str(DOWNLOAD_DIR / f"{task_id}_%(title).80s.%(ext)s"),
             "progress_hooks": [progress_hook],
             "writethumbnail": True,
+            "max_filesize": MAX_FILESIZE_BYTES,
         }
 
         if FFMPEG_LOCATION:
