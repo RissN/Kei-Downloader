@@ -1,31 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Nunito", sans-serif;
-  --font-display: "Nunito", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
 
-  /* ── Palette — Sunset Dusk × Cyber Glassmorphism ── */
-  --color-bg-base: #0e0e1a;
-  --color-bg-surface: rgba(22, 20, 42, 0.72);
-  --color-bg-surface2: rgba(38, 33, 66, 0.8);
-  --color-border: rgba(255, 154, 118, 0.25);
-  --color-accent: #ff6b6b;
-  --color-accent-hover: #ff5252;
-  --color-accent-soft: rgba(255, 107, 107, 0.2);
-  --color-purple: #a855f7;
-  --color-purple-soft: rgba(168, 85, 247, 0.2);
+  --color-bg-base: #0a0a0a;
+  --color-bg-surface: #141414;
+  --color-bg-surface2: #1c1c1c;
+  --color-border: #262626;
+  --color-accent: #ffffff;
+  --color-accent-hover: #e5e5e5;
+  --color-accent-soft: rgba(255, 255, 255, 0.08);
+  --color-purple: #a3a3a3;
+  --color-purple-soft: rgba(163, 163, 163, 0.12);
   --color-text: #ffffff;
-  --color-muted: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-success: #10b981;
-  --color-danger: #f43f5e;
-  --color-sakura: rgba(255, 182, 193, 0.2);
+  --color-muted: #a3a3a3;
+  --color-text-muted: #737373;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-sakura: rgba(255, 255, 255, 0.04);
 }
-
-/* ──────────────────────────────────────────
-   Global
-   ────────────────────────────────────────── */
 
 *,
 *::before,
@@ -45,110 +40,78 @@ body {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  font-family: "Nunito", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-bg-base);
-  background-image: linear-gradient(180deg, rgba(14, 14, 26, 0.4) 0%, rgba(14, 14, 26, 0.75) 100%), url('/bg/bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
   line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Nunito", sans-serif !important;
-  font-weight: 800;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 700;
 }
 
-/* ──────────────────────────────────────────
-   Card — .card (Glassmorphism)
-   ────────────────────────────────────────── */
-
 .card {
-  background: rgba(22, 20, 42, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: all 0.25s ease;
+  border-radius: 12px;
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
 .card:hover {
-  box-shadow:
-    0 12px 40px rgba(255, 107, 107, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 154, 118, 0.4);
-  transform: translateY(-1px);
+  border-color: var(--color-border);
 }
 
-/* ──────────────────────────────────────────
-   Input — .input-field
-   ────────────────────────────────────────── */
-
 .input-field {
-  background: rgba(14, 14, 28, 0.65);
-  backdrop-filter: blur(8px);
-  border: 1.5px solid var(--color-border);
-  border-radius: 12px;
-  color: #ffffff;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
   transition: all 0.2s ease;
 }
 
 .input-field::placeholder {
   color: var(--color-text-muted);
-  font-family: "Nunito", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .input-field:focus {
   outline: none;
-  background: rgba(14, 14, 28, 0.85);
+  background: var(--color-bg-surface);
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
 }
 
 .input-field:hover:not(:focus) {
-  border-color: rgba(255, 154, 118, 0.5);
-  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.15);
+  border-color: #404040;
 }
-
-/* ──────────────────────────────────────────
-   Buttons
-   ────────────────────────────────────────── */
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #a855f7 100%);
-  color: #fff;
+  padding: 0.875rem 1.75rem;
+  background: var(--color-accent);
+  color: var(--color-bg-base);
   border: none;
-  border-radius: 9999px;
-  font-family: "Nunito", sans-serif !important;
-  font-weight: 800;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow:
-    0 4px 20px rgba(255, 107, 107, 0.4),
-    0 2px 6px rgba(168, 85, 247, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: scale(1.03);
-  background: linear-gradient(135deg, #ff5252 0%, #ff7a39 50%, #9333ea 100%);
-  box-shadow: 0 6px 24px rgba(255, 107, 107, 0.55);
+  background: var(--color-accent-hover);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -156,11 +119,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
-  box-shadow: none;
-  background: rgba(148, 163, 184, 0.3) !important;
-  color: rgba(255, 255, 255, 0.5);
+  background: var(--color-text-muted) !important;
+  color: var(--color-bg-base);
 }
 
 .btn-ghost {
@@ -169,98 +131,82 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  background: transparent;
   color: var(--color-muted);
-  border: 1.5px solid var(--color-border);
-  border-radius: 9999px;
-  font-family: "Nunito", sans-serif !important;
-  font-weight: 700;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 500;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-ghost:hover {
   background: var(--color-bg-surface2);
-  color: #ffffff;
-  border-color: var(--color-accent);
+  color: var(--color-text);
+  border-color: #404040;
 }
-
-/* ──────────────────────────────────────────
-   Badge — .badge-best
-   ────────────────────────────────────────── */
 
 .badge-best {
   display: inline-block;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
-  color: #fff;
-  font-family: "Nunito", sans-serif;
+  background: var(--color-accent);
+  color: var(--color-bg-base);
+  font-family: "Inter", sans-serif;
   font-size: 10px;
-  font-weight: 700;
-  padding: 2px 10px;
-  border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
 }
-
-/* ──────────────────────────────────────────
-   Tab — .tab-group
-   ────────────────────────────────────────── */
 
 .tab-group {
   display: flex;
-  background: rgba(14, 14, 28, 0.6);
-  backdrop-filter: blur(8px);
-  border-radius: 9999px;
+  background: var(--color-bg-surface);
+  border-radius: 8px;
   padding: 3px;
   gap: 3px;
-  border: 1.5px solid var(--color-border);
+  border: 1px solid var(--color-border);
 }
 
 .tab-group button {
   flex: 1;
-  padding: 0.35rem 0.85rem;
-  border-radius: 9999px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  transition: all 0.25s ease;
-  font-family: "Nunito", sans-serif !important;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif !important;
   color: var(--color-text-muted);
   background: transparent;
 }
 
 .tab-group button:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .tab-active {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-purple)) !important;
-  color: #fff !important;
-  box-shadow: 0 4px 14px rgba(255, 107, 107, 0.4);
+  background: var(--color-accent) !important;
+  color: var(--color-bg-base) !important;
 }
-
-/* ──────────────────────────────────────────
-   Progress Bar — .progress-bar
-   ────────────────────────────────────────── */
 
 .progress-bar {
   position: relative;
   width: 100%;
-  height: 2.75rem;
-  border-radius: 9999px;
+  height: 2.5rem;
+  border-radius: 8px;
   overflow: hidden;
-  background: rgba(14, 14, 28, 0.7);
-  border: 1.5px solid var(--color-border);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
 }
 
 .progress-fill {
   height: 100%;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, var(--color-accent), #ff8e53, var(--color-purple));
+  border-radius: 8px;
+  background: var(--color-accent);
   transition: width 0.5s ease-out;
   position: relative;
   overflow: hidden;
@@ -276,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
+    rgba(0, 0, 0, 0.15) 50%,
     transparent 100%
   );
   animation: shimmer 1.8s ease-in-out infinite;
@@ -289,132 +235,91 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.875rem;
+  font-weight: 600;
+  font-size: 0.8125rem;
   z-index: 1;
 }
 
-/* ──────────────────────────────────────────
-   Gradient Text — .text-gradient
-   ────────────────────────────────────────── */
-
 .text-gradient {
-  background: linear-gradient(135deg, #ff7e5f 0%, #ff6b6b 40%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
 }
 
-/* ──────────────────────────────────────────
-   Scrollbar
-   ────────────────────────────────────────── */
-
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: #333;
   border-radius: 3px;
 }
 
-/* ──────────────────────────────────────────
-   Animations
-   ────────────────────────────────────────── */
-
 @keyframes shimmer {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 200%;
-  }
+  0% { left: -100%; }
+  100% { left: 200%; }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translateY(8px);
-  }
-  60% {
-    transform: scale(1.02) translateY(-2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  0% { opacity: 0; transform: scale(0.95) translateY(4px); }
+  60% { transform: scale(1.01) translateY(-1px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .animate-shimmer {
   background: linear-gradient(
     90deg,
     var(--color-bg-surface2) 25%,
-    var(--color-accent-soft) 50%,
+    rgba(255, 255, 255, 0.04) 50%,
     var(--color-bg-surface2) 75%
   );
   background-size: 200% 100%;
   animation: shimmer-bg 1.5s infinite;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 @keyframes shimmer-bg {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out both;
+  animation: fade-in 0.3s ease-out both;
 }
 
 .animate-bounce-in {
-  animation: bounce-in 0.5s ease-out both;
+  animation: bounce-in 0.4s ease-out both;
 }
-
-/* ──────────────────────────────────────────
-   Vue Transitions
-   ────────────────────────────────────────── */
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
 .slide-fade-enter-from {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(10px);
 }
 
 .slide-fade-leave-to {
   opacity: 0;
-  transform: translateY(-15px);
+  transform: translateY(-10px);
 }
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-enter-active .modal-card,
 .modal-leave-active .modal-card {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-enter-from,
@@ -424,78 +329,60 @@ h1, h2, h3, h4, h5, h6 {
 
 .modal-enter-from .modal-card,
 .modal-leave-to .modal-card {
-  transform: scale(0.95);
+  transform: scale(0.97);
 }
 
-/* ──────────────────────────────────────────
-   Text label & display utility
-   ────────────────────────────────────────── */
-
 .text-label {
-  font-family: "Nunito", sans-serif;
-  letter-spacing: 0.05em;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.01em;
 }
 
 .text-display {
-  font-family: "Nunito", sans-serif;
-  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
 }
 
-/* ──────────────────────────────────────────
-   Format card states
-   ────────────────────────────────────────── */
-
 .format-card {
-  background: rgba(22, 20, 42, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1.5px solid var(--color-border);
-  border-radius: 16px;
-  padding: 1rem;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.875rem;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   position: relative;
 }
 
 .format-card:hover {
-  background: rgba(38, 33, 66, 0.75);
-  border-color: rgba(255, 154, 118, 0.4);
-  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.25);
+  background: var(--color-bg-surface2);
+  border-color: #404040;
 }
 
 .format-card-selected {
-  background: rgba(255, 107, 107, 0.18);
+  background: var(--color-bg-surface2);
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3), 0 4px 20px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 0 0 1px var(--color-accent);
 }
 
-/* ──────────────────────────────────────────
-   History badges
-   ────────────────────────────────────────── */
-
 .badge-video {
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-muted);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 4px;
 }
 
 .badge-audio {
-  background: var(--color-purple-soft);
-  color: var(--color-purple);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-muted);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 4px;
 }
 
-/* ──────────────────────────────────────────
-   Misc
-   ────────────────────────────────────────── */
-
 .hint-text {
-  font-family: "Nunito", sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--color-text-muted);
   font-size: 0.75rem;
 }
@@ -503,46 +390,30 @@ h1, h2, h3, h4, h5, h6 {
 .error-box {
   color: var(--color-danger);
   background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
   padding: 0.75rem;
 }
 
-/* ──────────────────────────────────────────
-   Format List Transition (tab switch)
-   ────────────────────────────────────────── */
-
 .format-list-enter-active {
-  animation: format-pop-in 0.3s ease-out both;
+  animation: format-pop-in 0.25s ease-out both;
 }
 
 .format-list-leave-active {
-  animation: format-pop-out 0.2s ease-in both;
+  animation: format-pop-out 0.15s ease-in both;
   position: absolute;
 }
 
 .format-list-move {
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 @keyframes format-pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  0% { opacity: 0; transform: scale(0.95) translateY(6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 @keyframes format-pop-out {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.9) translateY(-8px);
-  }
+  0% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.95) translateY(-4px); }
 }
